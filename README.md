@@ -1,36 +1,135 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ArchBuilder.AI - Official Website
 
-## Getting Started
+A modern, multilingual website for ArchBuilder.AI - the AI-powered architectural design automation platform.
 
-First, run the development server:
+## 🌍 Multilingual Support
+
+**Default Language**: English  
+**Supported Languages**: English (🇺🇸), Turkish (🇹🇷), Russian (🇷🇺), German (🇩🇪), French (🇫🇷), Spanish (🇪🇸), Italian (🇮🇹)
+
+## 🚀 Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Start development server (with Turbopack)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Open http://localhost:3000 in your browser
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎨 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Apple-vari Design**: Clean, minimal, premium aesthetic
+- **Multilingual**: 7 languages with automatic browser detection
+- **Responsive**: Perfect on desktop, tablet, and mobile
+- **Dark/Light Mode**: Theme switching with persistence
+- **Modern Tech Stack**: Next.js 15.5.3, React 19, TypeScript, Tailwind CSS 4
+- **Glass Morphism**: Beautiful frosted glass UI effects
+- **SEO Optimized**: Proper meta tags and language attributes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+- **Framework**: Next.js 15.5.3 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 4
+- **Icons**: Heroicons
+- **Animations**: Framer Motion
+- **Theme**: next-themes
+- **Development**: Turbopack (ultra-fast bundling)
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── globals.css        # Global styles
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Home page
+├── components/
+│   ├── layout/            # Header, Footer
+│   ├── sections/          # Hero, Features, CTA, etc.
+│   └── ui/                # Reusable components
+├── lib/
+│   └── i18n/              # Internationalization
+│       ├── config.ts      # Language configuration
+│       ├── context.tsx    # React Context provider
+│       └── locales/       # Translation files
+└── types/                 # TypeScript definitions
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🌐 Internationalization
 
-## Deploy on Vercel
+The website uses a custom i18n system built with React Context:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Browser Detection**: Automatically detects user's language
+- **Local Storage**: Remembers language preference
+- **Language Selector**: Dropdown with flags and native names
+- **Type-Safe**: TypeScript support for all translation keys
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Adding New Languages
+
+1. Add locale to `src/lib/i18n/config.ts`
+2. Create translation file in `src/lib/i18n/locales/`
+3. Add flag emoji and native name to config
+
+## 🎯 Pages & Sections
+
+- **Hero**: AI-powered architecture introduction
+- **Features**: Key platform capabilities
+- **Technology**: Technical infrastructure details
+- **Pricing**: Subscription plans and pricing
+- **CTA**: Call-to-action for user engagement
+- **Footer**: Links, contact info, language selector
+
+## 📱 Navigation Menu
+
+- Overview
+- Use Cases  
+- Features
+- Technology
+- Pricing
+- Contact
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+1. Push code to GitHub
+2. Connect repository to Vercel
+3. Deploy automatically
+
+### Manual Deployment
+
+```bash
+# Build for production
+npm run build
+
+# Export static files (if needed)
+npm run export
+
+# Start production server
+npm start
+```
+
+## 🔧 Development
+
+```bash
+# Start with Turbopack (faster)
+npm run dev
+
+# Build for production
+npm run build
+
+# Lint code
+npm run lint
+```
+
+## 📄 License
+
+Private and proprietary to ArchBuilder.AI.
+
+---
+
+Built with ❤️ by the ArchBuilder.AI team
