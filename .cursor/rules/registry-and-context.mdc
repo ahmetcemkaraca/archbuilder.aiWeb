@@ -1,0 +1,12 @@
+name: registry-and-context
+globs: ["docs/registry/**/*.json", ".mds/context/**/*.md", ".mds/context/**/*.json"]
+description: Enforce registry/context governance in Cursor
+---
+# Registry & Context Governance (Cursor)
+
+- After changes to public contracts/identifiers, update:
+  - docs/registry/identifiers.json
+  - docs/registry/endpoints.json
+  - docs/registry/schemas.json
+- Run: `pwsh -File scripts/validate-registry.ps1` and `pwsh -File scripts/rehydrate-context.ps1`.
+- Append `version.md` every 2 prompts (cadence).

@@ -1,0 +1,54 @@
+{
+  "schemas": [
+    {
+      "name": "Locale",
+      "version": "1.0.0",
+      "type": "type",
+      "definition": "'en' | 'tr' | 'ru' | 'de' | 'fr' | 'es' | 'it'",
+      "description": "Supported locale codes for i18n system"
+    },
+    {
+      "name": "TranslationKey", 
+      "version": "1.0.0",
+      "type": "type",
+      "definition": "keyof typeof en",
+      "description": "Type-safe translation keys from English locale file"
+    },
+    {
+      "name": "User",
+      "version": "1.0.0", 
+      "type": "interface",
+      "fields": ["id: string", "email: string", "full_name: string", "created_at: string", "is_active: boolean"],
+      "description": "User account data structure"
+    },
+    {
+      "name": "Subscription",
+      "version": "1.0.0",
+      "type": "interface", 
+      "fields": ["id: string", "user_id: string", "plan_id: string", "status: 'active' | 'canceled' | 'past_due' | 'unpaid'", "current_period_start: string", "current_period_end: string", "plan: SubscriptionPlan"],
+      "description": "User subscription data structure"
+    },
+    {
+      "name": "SubscriptionPlan",
+      "version": "1.0.0",
+      "type": "interface",
+      "fields": ["id: string", "name: string", "description: string", "price: number", "currency: string", "interval: 'month' | 'year'", "features: string[]", "limits: PlanLimits"],
+      "description": "Subscription plan configuration"
+    },
+    {
+      "name": "PlanLimits", 
+      "version": "1.0.0",
+      "type": "interface",
+      "fields": ["projects: number", "ai_requests: number", "file_uploads: number", "storage_mb: number"],
+      "description": "Usage limits for subscription plans"
+    },
+    {
+      "name": "Project",
+      "version": "1.0.0",
+      "type": "interface", 
+      "fields": ["id: string", "name: string", "description: string", "user_id: string", "created_at: string", "updated_at: string", "status: 'active' | 'completed' | 'archived'"],
+      "description": "Project data structure"
+    }
+  ]
+}
+

@@ -1,0 +1,26 @@
+﻿name: instructions-dotnet-backend
+globs: ["src/desktop-app/**/*.cs", "src/revit-plugin/**/*.cs", "**/*.xaml"]
+description: .NET Desktop & Revit Plugin ” WPF MVVM patterns, Revit API transactions, and secure client calls.
+---
+# Attached Instruction Copy
+(Source: C:\Users\ahmet\Desktop\app\archbuilder.aiV2\.github\instructions\dotnet-backend.instructions.md)
+
+As .NET Desktop/Plugin Developer:
+- Desktop (WPF): MVVM (CommunityToolkit.Mvvm/Prism), i18n via resource files, no hardcoded UI strings.
+- HTTP Client: resilient calls (Polly), `X-API-Key` and `X-Correlation-ID` baÅŸlÄ±klarÄ±; timeout ve retry politikalarÄ±.
+- WebSocket: ilerleme gÃ¼ncellemeleri iÃ§in yeniden baÄŸlanma ve geri-off stratejisi.
+- Revit API: tÃ¼m element iÅŸlemleri Transaction iÃ§inde; hata durumunda rollback; duplicate Ã¶nleme.
+- Logging: Serilog ile yapÄ±landÄ±rÄ±lmÄ±ÅŸ log; korelasyon kimliÄŸi UI™den isteÄŸe taÅŸÄ±nÄ±r.
+- Tests: ViewModel birim testleri ve yardÄ±mcÄ± sÄ±nÄ±flar; Revit API iÃ§in soyutlanmÄ±ÅŸ test arabirimleri.
+- Performance: bÃ¼yÃ¼k koleksiyonlarda bellek ve UI thread dengesi; async/await doÄŸru kullanÄ±mÄ±.
+- Security: secrets hiÃ§bir zaman koda yazÄ±lmaz; kullanÄ±cÄ± profiline Ã¶zel gÃ¼venli saklama.
+
+Client API Patterns
+- `RevitAutoPlanApiClient` benzeri istemcilerde tek sorumluluk, hatalarda anlamlÄ± istisnalar.
+- JSON (camelCase) sÃ¶zleÅŸmesine uy; 401/403/429/5xx durumlarÄ±nÄ± ayÄ±rt et ve kullanÄ±cÄ±ya anlaÅŸÄ±lÄ±r mesajlar gÃ¶ster.
+
+Revit Transactions
+- Gruplu iÅŸlemleri tek Transaction™da topla; baÅŸarÄ±sÄ±zlÄ±kta `Transaction.RollBack()` uygula.
+- Element aramada FilteredElementCollector kullan; performans iÃ§in kategorileri daralt.
+
+

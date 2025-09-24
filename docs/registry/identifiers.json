@@ -1,0 +1,109 @@
+{
+  "modules": [
+    {
+      "name": "lib.i18n.config",
+      "exports": ["locales", "defaultLocale", "localeNames", "localeFlags", "Locale"],
+      "variables": ["locales", "defaultLocale", "localeNames", "localeFlags"],
+      "configKeys": []
+    },
+    {
+      "name": "lib.i18n.context",
+      "exports": ["useI18n", "I18nProvider"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "lib.i18n.translations",
+      "exports": ["translations", "TranslationKey", "getTranslation"],
+      "variables": ["translations"],
+      "configKeys": []
+    },
+    {
+      "name": "components.sections.hero",
+      "exports": ["Hero"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.sections.features",
+      "exports": ["Features"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.sections.cta",
+      "exports": ["CTA"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.sections.technology",
+      "exports": ["Technology"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.sections.pricing",
+      "exports": ["Pricing"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.layout.header",
+      "exports": ["Header"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.layout.footer",
+      "exports": ["Footer"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.ui.language-selector",
+      "exports": ["LanguageSelector"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.providers.theme-provider",
+      "exports": ["ThemeProvider"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "lib.api",
+      "exports": [],
+      "variables": [],
+      "configKeys": ["NEXT_PUBLIC_API_URL"]
+    }
+  ],
+  "globalConfig": [
+    "NEXT_PUBLIC_DOMAIN",
+    "NEXT_PUBLIC_API_URL",
+    "NEXT_PUBLIC_GOOGLE_ANALYTICS_ID",
+    "NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID",
+    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+    "NEXT_PUBLIC_GITHUB_URL",
+    "NEXT_PUBLIC_LINKEDIN_URL",
+    "NEXT_PUBLIC_TWITTER_URL",
+    "NEXT_PUBLIC_ENABLE_ANALYTICS",
+    "NEXT_PUBLIC_ENABLE_NEWSLETTER",
+    "NEXT_PUBLIC_ENABLE_CONTACT_FORM",
+    "NEXT_PUBLIC_ENABLE_DEMO_VIDEO",
+    "NEXT_PUBLIC_DEBUG_MODE",
+    "NEXT_PUBLIC_BUILD_TIME",
+    "NEXT_PUBLIC_DEFAULT_LOCALE",
+    "NEXT_PUBLIC_SUPPORTED_LOCALES",
+    "NEXT_PUBLIC_DEMO_VIDEO_URL",
+    "NEXT_PUBLIC_DOCUMENTATION_URL",
+    "NEXT_PUBLIC_SUPPORT_EMAIL",
+    "NEXT_PUBLIC_SALES_EMAIL",
+    "NEXT_PUBLIC_CONTACT_PHONE",
+    "NEXT_PUBLIC_PRIVACY_POLICY_URL",
+    "NEXT_PUBLIC_TERMS_OF_SERVICE_URL",
+    "NEXT_PUBLIC_COOKIE_POLICY_URL"
+  ]
+}
+

@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate registry
+        shell: pwsh
+        run: |
+          pwsh -File scripts/validate-registry.ps1
+      - name: Rehydrate context
+        shell: pwsh
+        run: |
+          pwsh -File scripts/rehydrate-context.ps1
+
+  test-cloud-server:
+    runs-on: ubuntu-latest
+    name: Test Cloud Server (Python)
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('src/cloud-server/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install dependencies
+        working-directory: src/cloud-server
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov pytest-asyncio
+      - name: Run tests with coverage
+        working-directory: src/cloud-server
+        run: |
+          pytest tests/ --cov=app --cov-report=xml --cov-report=term-missing
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: src/cloud-server/coverage.xml
+          flags: cloud-server
+          name: cloud-server-coverage
+
+  code-quality:
+    runs-on: ubuntu-latest
+    name: Code Quality (Python)
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install quality tools
+        run: |
+          pip install black flake8 mypy
+      - name: Check code formatting (Black)
+        working-directory: src/cloud-server
+        run: black --check app/
+      - name: Run linting (Flake8)
+        working-directory: src/cloud-server
+        run: flake8 app/ --max-line-length=88 --extend-ignore=E203,W503
+      - name: Run type checking (MyPy)
+        working-directory: src/cloud-server
+        run: mypy app/ --ignore-missing-imports
+
