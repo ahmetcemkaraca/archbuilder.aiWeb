@@ -48,6 +48,27 @@
       "type": "interface", 
       "fields": ["id: string", "name: string", "description: string", "user_id: string", "created_at: string", "updated_at: string", "status: 'active' | 'completed' | 'archived'"],
       "description": "Project data structure"
+    },
+    {
+      "name": "ContactSubmission",
+      "version": "1.0.0",
+      "type": "interface",
+      "fields": ["id: string", "firstName: string", "lastName: string", "email: string", "phone?: string", "company?: string", "jobTitle?: string", "message: string", "inquiryType: string", "submittedAt: any", "status: 'pending' | 'reviewed' | 'responded'", "source: string", "ipAddress?: string", "userAgent?: string"],
+      "description": "Contact form submission data structure"
+    },
+    {
+      "name": "NewsletterSubscription",
+      "version": "1.0.0",
+      "type": "interface",
+      "fields": ["id: string", "email: string", "firstName?: string", "preferences: string[]", "subscribedAt: any", "status: 'active' | 'unsubscribed'", "confirmed: boolean", "confirmationToken: string", "source: string"],
+      "description": "Newsletter subscription data structure"
+    },
+    {
+      "name": "DemoRequest",
+      "version": "1.0.0",
+      "type": "interface",
+      "fields": ["id: string", "firstName: string", "lastName: string", "email: string", "company?: string", "jobTitle?: string", "message?: string", "requestedAt: any", "status: 'pending' | 'scheduled' | 'completed'", "source: string", "priority: 'low' | 'normal' | 'high'"],
+      "description": "Demo request data structure"
     }
   ]
 }

@@ -81,6 +81,12 @@ export const en = {
   enterpriseContact: 'Contact Us',
   choosePlan: 'Choose Plan',
   mostPopular: 'Most Popular',
+  plans: {
+    personal: 'Personal',
+    team: 'Team',
+    enterprise: 'Enterprise',
+    student: 'Student',
+  },
   
   // Pricing Features
   projectsUnlimited: 'Unlimited Projects',

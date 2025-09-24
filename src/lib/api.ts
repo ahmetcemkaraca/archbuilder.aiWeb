@@ -1,5 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "./firebase-config";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -148,5 +150,70 @@ export const documentsAPI = {
     return response.data;
   },
 };
+
+// Kayıt toplama API'leri
+export async function addContactSubmission(data: any) {
+  try {
+    const docRef = await addDoc(collection(db, "contact_submissions"), {
+      ...data,
+      submittedAt: serverTimestamp(),
+      status: 'pending',
+      source: 'website_contact_form',
+      ipAddress: data.ipAddress || null,
+      userAgent: data.userAgent || null,
+    });
+    return { success: true, id: docRef.id };
+  } catch (error) {
+    console.error("Kayıt gönderme hatası: ", error);
+    if (error instanceof Error) {
+      return { success: false, error: error.message };
+    }
+    return { success: false, error: 'Bilinmeyen bir hata oluştu' };
+  }
+}
+
+export async function addNewsletterSubscription(data: any) {
+  try {
+    const docRef = await addDoc(collection(db, "newsletter_subscriptions"), {
+      ...data,
+      subscribedAt: serverTimestamp(),
+      status: 'active',
+      source: 'website_newsletter_form',
+      confirmed: false,
+      confirmationToken: generateConfirmationToken(),
+    });
+    return { success: true, id: docRef.id };
+  } catch (error) {
+    console.error("Newsletter kayıt hatası: ", error);
+    if (error instanceof Error) {
+      return { success: false, error: error.message };
+    }
+    return { success: false, error: 'Newsletter kaydında hata oluştu' };
+  }
+}
+
+export async function addDemoRequest(data: any) {
+  try {
+    const docRef = await addDoc(collection(db, "demo_requests"), {
+      ...data,
+      requestedAt: serverTimestamp(),
+      status: 'pending',
+      source: 'website_demo_form',
+      priority: 'normal',
+    });
+    return { success: true, id: docRef.id };
+  } catch (error) {
+    console.error("Demo talep hatası: ", error);
+    if (error instanceof Error) {
+      return { success: false, error: error.message };
+    }
+    return { success: false, error: 'Demo talebinde hata oluştu' };
+  }
+}
+
+// Yardımcı fonksiyonlar
+function generateConfirmationToken(): string {
+  return Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+}
 
 export default api;

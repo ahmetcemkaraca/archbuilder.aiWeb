@@ -28,6 +28,10 @@ npm run dev
 - **Modern Tech Stack**: Next.js 15.5.3, React 19, TypeScript, Tailwind CSS 4
 - **Glass Morphism**: Beautiful frosted glass UI effects
 - **SEO Optimized**: Proper meta tags and language attributes
+- **📊 Data Collection**: Firebase Firestore integration for forms
+- **🛡️ Admin Panel**: Secure admin dashboard for managing submissions
+- **📧 Contact Forms**: Working contact and newsletter subscription forms
+- **🔥 Firebase Hosting**: Deployed on Firebase with custom domain support
 
 ## 🛠️ Tech Stack
 
@@ -38,6 +42,10 @@ npm run dev
 - **Animations**: Framer Motion
 - **Theme**: next-themes
 - **Development**: Turbopack (ultra-fast bundling)
+- **Database**: Firebase Firestore
+- **Authentication**: Firebase Auth (Admin Panel)
+- **Hosting**: Firebase Hosting
+- **Forms**: React Hook Form + Firebase integration
 
 ## 📁 Project Structure
 

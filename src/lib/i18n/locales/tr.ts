@@ -533,6 +533,7 @@ export const tr = {
   signupPlanStarter: 'Başlangıç',
   signupPlanProfessional: 'Profesyonel',
   signupPlanEnterprise: 'Kurumsal',
+  signupPlanStudent: 'Öğrenci',
   signupPrivacyAcceptance: 'okudum ve kabul ediyorum.',
   signupStartFree: 'Ücretsiz Başla',
   signupAlreadyHaveAccount: 'Zaten hesabınız var mı?',

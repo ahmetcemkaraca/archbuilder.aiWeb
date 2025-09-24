@@ -6,6 +6,13 @@ import { ArrowRightIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { useI18n } from '@/lib/i18n';
 import { LanguageSelector } from '@/components/ui/language-selector';
 
+const plans = [
+  { id: 'personal', labelKey: 'signup.plans.personal' },
+  { id: 'team', labelKey: 'signup.plans.team' },
+  { id: 'enterprise', labelKey: 'signup.plans.enterprise' },
+  { id: 'student', labelKey: 'signup.plans.student' },
+];
+
 export default function SignupPage() {
   const { t } = useI18n();
   const [formData, setFormData] = useState({
@@ -134,6 +141,7 @@ export default function SignupPage() {
                   <option value="starter">{isMounted ? t('signupPlanStarter') : 'Başlangıç'}</option>
                   <option value="professional">{isMounted ? t('signupPlanProfessional') : 'Profesyonel'}</option>
                   <option value="enterprise">{isMounted ? t('signupPlanEnterprise') : 'Kurumsal'}</option>
+                  <option value="student">{isMounted ? t('signupPlanStudent') : 'Öğrenci'}</option>
                 </select>
               </div>
 

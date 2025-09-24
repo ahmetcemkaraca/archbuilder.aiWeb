@@ -86,17 +86,43 @@ export function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Firebase Firestore'a veri gönder
+      const { addContactSubmission } = await import('@/lib/api');
       
-      // Here you would make actual API call
-      console.log('Form submitted:', formData);
+      const submissionData = {
+        ...formData,
+        ipAddress: await getClientIP(),
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        referrer: document.referrer || null,
+      };
+
+      const result = await addContactSubmission(submissionData);
       
-      setIsSubmitted(true);
+      if (result.success) {
+        setIsSubmitted(true);
+        console.log('Form başarıyla gönderildi:', result.id);
+      } else {
+        console.error('Form gönderme hatası:', result.error);
+        // Kullanıcıya hata mesajı göster (şu an sadece console'da)
+      }
     } catch (error) {
-      console.error('Form submission error:', error);
+      console.error('Form gönderme hatası:', error);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // İstemci IP adresini al (basit yöntem)
+  const getClientIP = async (): Promise<string | null> => {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json');
+      const data = await response.json();
+      return data.ip;
+    } catch (error) {
+      console.log('IP alınamadı:', error);
+      return null;
     }
   };
 

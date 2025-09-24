@@ -75,28 +75,41 @@ export function NewsletterSubscription() {
     setError('');
 
     if (!formData.email.trim()) {
-      setError(t('newsletterEmailRequired'));
+      setError(mounted ? t('newsletterEmailRequired') : 'E-posta adresi gerekli');
       return;
     }
 
     if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      setError(t('newsletterValidEmailRequired'));
+      setError(mounted ? t('newsletterValidEmailRequired') : 'Geçerli bir e-posta adresi girin');
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Firebase Firestore'a newsletter kaydı gönder
+      const { addNewsletterSubscription } = await import('@/lib/api');
       
-      // Here you would make actual API call to your newsletter service
-      console.log('Newsletter subscription:', formData);
+      const subscriptionData = {
+        ...formData,
+        language: navigator.language,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        referrer: document.referrer || null,
+        userAgent: navigator.userAgent,
+      };
+
+      const result = await addNewsletterSubscription(subscriptionData);
       
-      setIsSubscribed(true);
+      if (result.success) {
+        setIsSubscribed(true);
+        console.log('Newsletter aboneliği başarılı:', result.id);
+      } else {
+        setError(mounted ? t('errorOccurred') : 'Bir hata oluştu');
+        console.error('Newsletter kayıt hatası:', result.error);
+      }
     } catch (error) {
-      setError(t('errorOccurred'));
-      console.error('Newsletter subscription error:', error);
+      setError(mounted ? t('errorOccurred') : 'Bir hata oluştu');
+      console.error('Newsletter kayıt hatası:', error);
     } finally {
       setIsSubmitting(false);
     }

@@ -1,0 +1,46 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- KULLANICI PROFİLLERİ ---
+    // Her kullanıcı kendi profilini okuyabilir ve güncelleyebilir.
+    // Kimse başka bir kullanıcının profilini okuyamaz veya silemez.
+    match /users/{userId} {
+      allow read, update: if request.auth != null && request.auth.uid == userId;
+      allow create, delete: if false; // Kullanıcılar kendi profilini oluşturamaz/silemez (genellikle sunucu tarafında yapılır)
+    }
+
+    // --- İLETİŞİM FORMU GÖNDERİMLERİ ---
+    // Herkes yeni bir iletişim mesajı oluşturabilir.
+    // Sadece admin'ler mesajları okuyabilir ve güncelleyebilir.
+    match /contact_submissions/{submissionId} {
+      allow create: if true;
+      allow read, update: if request.auth != null && request.auth.token.admin == true;
+      allow delete: if false; // Mesajları silmeyi engelle
+    }
+
+    // --- NEWSLETTER ABONELİKLERİ ---
+    // Herkes newsletter aboneliği oluşturabilir.
+    // Sadece admin'ler abonelikleri okuyabilir ve güncelleyebilir.
+    match /newsletter_subscriptions/{subscriptionId} {
+      allow create: if true;
+      allow read, update: if request.auth != null && request.auth.token.admin == true;
+      allow delete: if false; // Abonelikleri silmeyi engelle
+    }
+
+    // --- DEMO TALEPLERİ ---
+    // Herkes demo talebi oluşturabilir.
+    // Sadece admin'ler talepleri okuyabilir ve güncelleyebilir.
+    match /demo_requests/{requestId} {
+      allow create: if true;
+      allow read, update: if request.auth != null && request.auth.token.admin == true;
+      allow delete: if false; // Talepleri silmeyi engelle
+    }
+
+    // Yukarıda belirtilenler dışındaki tüm erişimleri engelle.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
