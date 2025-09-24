@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { AnalyticsProvider, AnalyticsDebug } from "@/components/providers/analytics-provider";
 import { I18nProvider } from "@/lib/i18n";
 import { Toaster } from "react-hot-toast";
 import { StructuredData } from "@/components/seo/structured-data";
@@ -148,9 +149,9 @@ export default function RootLayout({
         <meta httpEquiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
       </head>
       <body className={`${inter.className} antialiased`}>
-        {/* Google Analytics 4 */}
+        {/* Google Analytics 4 - GA4 Tag */}
         <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+          src="https://www.googletagmanager.com/gtag/js?id=G-Q04NTQS1Q9"
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -158,12 +159,17 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}', {
+            gtag('config', 'G-Q04NTQS1Q9', {
               page_title: document.title,
               page_location: window.location.href,
+              send_page_view: true,
+              anonymize_ip: true,
+              cookie_flags: 'SameSite=Strict;Secure'
             });
           `}
         </Script>
+
+
 
         <ErrorBoundary>
           <I18nProvider>
@@ -173,18 +179,21 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              {children}
-              <CookieBanner />
-              <Toaster
-                position="top-right"
-                toastOptions={{
-                  duration: 4000,
-                  style: {
-                    background: '#363636',
-                    color: '#fff',
-                  },
-                }}
-              />
+              <AnalyticsProvider>
+                {children}
+                <CookieBanner />
+                <Toaster
+                  position="top-right"
+                  toastOptions={{
+                    duration: 4000,
+                    style: {
+                      background: '#363636',
+                      color: '#fff',
+                    },
+                  }}
+                />
+                <AnalyticsDebug />
+              </AnalyticsProvider>
             </ThemeProvider>
           </I18nProvider>
         </ErrorBoundary>

@@ -102,13 +102,29 @@ export function ContactForm() {
       
       if (result.success) {
         setIsSubmitted(true);
-        console.log('Form başarıyla gönderildi:', result.id);
+        console.log('✅ Contact form başarıyla gönderildi:', result.id);
+        
+        // Google Analytics tracking
+        const { trackEvent } = await import('@/lib/firebase-analytics');
+        trackEvent.contactFormSubmit('contact', true);
+        
       } else {
-        console.error('Form gönderme hatası:', result.error);
-        // Kullanıcıya hata mesajı göster (şu an sadece console'da)
+        console.error('❌ Contact form gönderme hatası:', result.error);
+        
+        // Error tracking
+        const { trackEvent } = await import('@/lib/firebase-analytics');
+        trackEvent.contactFormSubmit('contact', false);
       }
     } catch (error) {
-      console.error('Form gönderme hatası:', error);
+      console.error('❌ Contact form gönderme hatası:', error);
+      
+      // Error tracking
+      try {
+        const { trackEvent } = await import('@/lib/firebase-analytics');
+        trackEvent.contactFormSubmit('contact', false);
+      } catch (analyticsError) {
+        console.log('Analytics error:', analyticsError);
+      }
     } finally {
       setIsSubmitting(false);
     }

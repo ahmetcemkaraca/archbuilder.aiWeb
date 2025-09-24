@@ -24,15 +24,27 @@ let db: Firestore;
 let auth: Auth;
 
 // Firebase'i başlat (çoklu instance'dan kaçın)
-if (!getApps().length) {
-  app = initializeApp(firebaseConfig);
-} else {
-  app = getApps()[0];
-}
+try {
+  if (!getApps().length) {
+    console.log('🔥 Firebase başlatılıyor...');
+    app = initializeApp(firebaseConfig);
+    console.log('✅ Firebase başarıyla başlatıldı');
+  } else {
+    app = getApps()[0];
+    console.log('♻️  Mevcut Firebase instance kullanılıyor');
+  }
 
-// Firestore ve Auth'u başlat
-db = getFirestore(app);
-auth = getAuth(app);
+  // Firestore ve Auth'u başlat
+  db = getFirestore(app);
+  auth = getAuth(app);
+  
+  // Bağlantı ayarları
+  auth.settings.appVerificationDisabledForTesting = false;
+  
+} catch (error) {
+  console.error('❌ Firebase başlatma hatası:', error);
+  throw new Error(`Firebase başlatılamadı: ${error}`);
+}
 
 // Firebase bağlantısının geçerli olup olmadığını kontrol et
 export const checkFirebaseConnection = (): boolean => {

@@ -68,6 +68,14 @@ export default function SignupPage() {
           },
           error: null
         });
+        
+        // Successful promo code tracking
+        try {
+          const { trackEvent } = await import('@/lib/firebase-analytics');
+          trackEvent.promoCodeUsage(code, true);
+        } catch (analyticsError) {
+          console.log('Analytics error:', analyticsError);
+        }
       } else {
         setPromoCodeState({
           isValidating: false,
@@ -75,6 +83,14 @@ export default function SignupPage() {
           discount: null,
           error: result.error || 'Geçersiz promo kodu'
         });
+        
+        // Failed promo code tracking
+        try {
+          const { trackEvent } = await import('@/lib/firebase-analytics');
+          trackEvent.promoCodeUsage(code, false);
+        } catch (analyticsError) {
+          console.log('Analytics error:', analyticsError);
+        }
       }
     } catch (error) {
       setPromoCodeState({
@@ -119,12 +135,34 @@ export default function SignupPage() {
       
       if (result.success) {
         alert(isMounted ? t('signupRegistrationReceived') : 'Kayıt talebiniz alındı! Size en kısa sürede dönüş yapacağız.');
+        
+        // Google Analytics tracking
+        const { trackEvent } = await import('@/lib/firebase-analytics');
+        trackEvent.contactFormSubmit('signup', true);
+        
+        // Promo code tracking
+        if (promoCodeState.isValid && formData.promoCode) {
+          trackEvent.promoCodeUsage(formData.promoCode, true, formData.email);
+        }
+        
       } else {
         alert('Kayıt sırasında bir hata oluştu: ' + result.error);
+        
+        // Error tracking
+        const { trackEvent } = await import('@/lib/firebase-analytics');
+        trackEvent.contactFormSubmit('signup', false);
       }
     } catch (error) {
-      console.error('Signup hatası:', error);
+      console.error('❌ Signup hatası:', error);
       alert('Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+      
+      // Error tracking
+      try {
+        const { trackEvent } = await import('@/lib/firebase-analytics');
+        trackEvent.contactFormSubmit('signup', false);
+      } catch (analyticsError) {
+        console.log('Analytics error:', analyticsError);
+      }
     } finally {
       setIsLoading(false);
     }

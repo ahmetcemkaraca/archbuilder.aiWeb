@@ -102,14 +102,31 @@ export function NewsletterSubscription() {
       
       if (result.success) {
         setIsSubscribed(true);
-        console.log('Newsletter aboneliği başarılı:', result.id);
+        console.log('✅ Newsletter aboneliği başarılı:', result.id);
+        
+        // Google Analytics tracking
+        const { trackEvent } = await import('@/lib/firebase-analytics');
+        trackEvent.contactFormSubmit('newsletter', true);
+        
       } else {
         setError(mounted ? t('errorOccurred') : 'Bir hata oluştu');
-        console.error('Newsletter kayıt hatası:', result.error);
+        console.error('❌ Newsletter kayıt hatası:', result.error);
+        
+        // Error tracking
+        const { trackEvent } = await import('@/lib/firebase-analytics');
+        trackEvent.contactFormSubmit('newsletter', false);
       }
     } catch (error) {
       setError(mounted ? t('errorOccurred') : 'Bir hata oluştu');
-      console.error('Newsletter kayıt hatası:', error);
+      console.error('❌ Newsletter kayıt hatası:', error);
+      
+      // Error tracking
+      try {
+        const { trackEvent } = await import('@/lib/firebase-analytics');
+        trackEvent.contactFormSubmit('newsletter', false);
+      } catch (analyticsError) {
+        console.log('Analytics error:', analyticsError);
+      }
     } finally {
       setIsSubmitting(false);
     }

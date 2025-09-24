@@ -1,0 +1,43 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- GEÇİCİ ADMIN ERİŞİMİ (TEST İÇİN) ---
+    // Bu kuralı production'da ASLA kullanmayın!
+    match /contact_submissions/{submissionId} {
+      allow create: if true;
+      allow read, update: if request.auth != null; // Herhangi bir giriş yapmış kullanıcı
+      allow delete: if false;
+    }
+
+    match /newsletter_subscriptions/{subscriptionId} {
+      allow create: if true;
+      allow read, update: if request.auth != null; // Herhangi bir giriş yapmış kullanıcı
+      allow delete: if false;
+    }
+
+    match /signup_submissions/{submissionId} {
+      allow create: if true;
+      allow read, update: if request.auth != null; // Herhangi bir giriş yapmış kullanıcı
+      allow delete: if false;
+    }
+
+    match /demo_requests/{requestId} {
+      allow create: if true;
+      allow read, update: if request.auth != null; // Herhangi bir giriş yapmış kullanıcı
+      allow delete: if false;
+    }
+
+    match /promo_code_usage/{usageId} {
+      allow create: if true;
+      allow read: if request.auth != null; // Herhangi bir giriş yapmış kullanıcı
+      allow update, delete: if false;
+    }
+
+    // Yukarıda belirtilenler dışındaki tüm erişimleri engelle.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

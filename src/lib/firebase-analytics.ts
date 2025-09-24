@@ -1,10 +1,12 @@
 /**
- * Firebase Cost-Optimized Analytics
- * Lightweight tracking implementation for ArchBuilder.AI
- * Minimal bandwidth usage, maximum insight
+ * Firebase Analytics + Google Analytics 4 Integration
+ * Production-ready tracking for ArchBuilder.AI
+ * Real data collection with GA4 integration
  */
 
 import React from 'react';
+import { getAnalytics, logEvent, setUserProperties, setUserId, Analytics } from 'firebase/analytics';
+import { app } from './firebase-config';
 
 // Configuration
 interface FirebaseConfig {
@@ -18,81 +20,77 @@ const config: FirebaseConfig = {
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || '',
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || '',
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || '',
-  enabled: process.env.NODE_ENV === 'production' && !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+  enabled: typeof window !== 'undefined' && !!process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
+
+// Analytics instance
+export let analytics: Analytics | null = null;
 
 // Analytics state
 let clientId: string | null = null;
 let sessionId: string | null = null;
 
 /**
- * Initialize lightweight Firebase Analytics
+ * Initialize Firebase Analytics with GA4
  */
 export const initializeFirebase = (): boolean => {
   if (typeof window === 'undefined' || !config.enabled) return false;
   
-  // Generate client ID (persistent)
-  clientId = localStorage.getItem('firebase_client_id');
-  if (!clientId) {
-    clientId = 'client_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
-    localStorage.setItem('firebase_client_id', clientId);
+  try {
+    // Firebase Analytics'i başlat
+    analytics = getAnalytics(app);
+    
+    // Client ID'yi oluştur (persistent)
+    clientId = localStorage.getItem('firebase_client_id');
+    if (!clientId) {
+      clientId = 'client_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+      localStorage.setItem('firebase_client_id', clientId);
+    }
+    
+    // Session ID (per session)
+    sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+    
+    // User properties ayarla
+    if (analytics) {
+      setUserProperties(analytics, {
+        'client_type': 'website_visitor',
+        'visit_timestamp': new Date().toISOString(),
+        'user_language': navigator.language || 'en',
+        'screen_resolution': `${screen.width}x${screen.height}`
+      });
+    }
+    
+    console.log('✅ Firebase Analytics initialized with GA4');
+    return true;
+    
+  } catch (error) {
+    console.error('❌ Firebase Analytics initialization failed:', error);
+    return false;
   }
-  
-  // Generate session ID (per session)
-  sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-  
-  return true;
 };
 
 /**
- * Send event to Firebase via Measurement Protocol
- * Cost-optimized: batched, minimal payload
+ * Send event to Firebase Analytics & GA4
+ * Production-ready event tracking
  */
 const sendEvent = async (eventName: string, parameters: Record<string, any>) => {
-  if (!config.enabled || !clientId || !config.measurementId) return;
-  
-  // Rate limiting - max 10 events per minute
-  const rateLimitKey = 'firebase_rate_limit';
-  const now = Date.now();
-  const rateLimitData = JSON.parse(localStorage.getItem(rateLimitKey) || '{"count": 0, "resetTime": 0}');
-  
-  if (now > rateLimitData.resetTime) {
-    rateLimitData.count = 0;
-    rateLimitData.resetTime = now + 60000; // 1 minute
-  }
-  
-  if (rateLimitData.count >= 10) {
-    console.warn('Firebase Analytics: Rate limit exceeded');
-    return;
-  }
-  
-  rateLimitData.count++;
-  localStorage.setItem(rateLimitKey, JSON.stringify(rateLimitData));
-  
-  // Prepare minimal payload
-  const payload = {
-    client_id: clientId,
-    session_id: sessionId,
-    timestamp_micros: (now * 1000).toString(),
-    events: [{
-      name: eventName,
-      params: {
-        ...parameters,
-        engagement_time_msec: 1000,
-        session_id: sessionId
-      }
-    }]
-  };
+  if (!config.enabled || !analytics) return;
   
   try {
-    // Use Measurement Protocol v2 (more efficient)
-    await fetch(`https://www.google-analytics.com/mp/collect?measurement_id=${config.measurementId}&api_secret=${config.apiKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+    // Firebase Analytics event'i gönder
+    await logEvent(analytics, eventName, {
+      ...parameters,
+      session_id: sessionId,
+      client_id: clientId,
+      timestamp: Date.now(),
+      page_location: window.location.href,
+      page_title: document.title
     });
+    
+    console.log(`🔥 GA4 Event: ${eventName}`, parameters);
+    
   } catch (error) {
-    console.warn('Firebase Analytics: Network error', error);
+    console.error('❌ Firebase Analytics event error:', error);
   }
 };
 
@@ -110,12 +108,52 @@ export const trackEvent = {
   },
 
   // High-value events - business critical
-  contactFormSubmit: (formType: 'contact' | 'newsletter' | 'demo') => {
-    sendEvent('generate_lead', {
-      form_type: formType,
-      value: formType === 'demo' ? 100 : 10,
-      currency: 'USD'
+  contactFormSubmit: (formType: 'contact' | 'newsletter' | 'demo' | 'signup', success: boolean = true) => {
+    const eventValue = {
+      contact: 25,
+      newsletter: 10,
+      demo: 100,
+      signup: 50
+    };
+    
+    if (success) {
+      sendEvent('generate_lead', {
+        form_type: formType,
+        value: eventValue[formType],
+        currency: 'USD',
+        success: true
+      });
+      
+      // Conversion event de gönder
+      sendEvent('conversion', {
+        conversion_type: `${formType}_submit`,
+        value: eventValue[formType],
+        currency: 'USD'
+      });
+    } else {
+      sendEvent('form_error', {
+        form_type: formType,
+        error_type: 'submission_failed'
+      });
+    }
+  },
+
+  // Promo code usage tracking
+  promoCodeUsage: (promoCode: string, success: boolean, email?: string) => {
+    sendEvent('promo_code_used', {
+      promo_code: promoCode,
+      success: success,
+      user_email_hash: email ? btoa(email).substring(0, 8) : null
     });
+    
+    if (success) {
+      sendEvent('conversion', {
+        conversion_type: 'promo_code_success',
+        value: 25,
+        currency: 'USD',
+        promo_code: promoCode
+      });
+    }
   },
 
   // User engagement - sampled (20%)
