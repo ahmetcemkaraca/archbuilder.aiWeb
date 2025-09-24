@@ -38,6 +38,24 @@ service cloud.firestore {
       allow delete: if false; // Talepleri silmeyi engelle
     }
 
+    // --- SIGNUP KAYITLARI ---
+    // Herkes signup kaydı oluşturabilir.
+    // Sadece admin'ler kayıtları okuyabilir ve güncelleyebilir.
+    match /signup_submissions/{submissionId} {
+      allow create: if true;
+      allow read, update: if request.auth != null && request.auth.token.admin == true;
+      allow delete: if false; // Kayıtları silmeyi engelle
+    }
+
+    // --- PROMO KOD KULLANIMI ---
+    // Herkes promo kod kullanımı kaydı oluşturabilir.
+    // Sadece admin'ler kayıtları okuyabilir.
+    match /promo_code_usage/{usageId} {
+      allow create: if true;
+      allow read: if request.auth != null && request.auth.token.admin == true;
+      allow update, delete: if false; // Promo kod kayıtları değiştirilemez
+    }
+
     // Yukarıda belirtilenler dışındaki tüm erişimleri engelle.
     match /{document=**} {
       allow read, write: if false;

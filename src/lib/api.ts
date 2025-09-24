@@ -211,6 +211,77 @@ export async function addDemoRequest(data: any) {
   }
 }
 
+// Promo kod API'leri
+export async function validatePromoCode(code: string) {
+  try {
+    // Promo kodunu doğrula (şimdilik simülasyon)
+    const promoCode = code.toUpperCase().trim();
+    
+    // Geçerli promo kodları listesi (gerçek uygulamada veritabanından gelecek)
+    const validPromoCodes = {
+      'WELCOME2025': { discount: 20, type: 'percentage', description: 'Hoş geldin indirimi' },
+      'STUDENT50': { discount: 50, type: 'percentage', description: 'Öğrenci indirimi' },
+      'EARLYBIRD': { discount: 30, type: 'percentage', description: 'Erken kayıt indirimi' },
+      'ARCHITECT25': { discount: 25, type: 'percentage', description: 'Mimar indirimi' },
+      'FIRST100': { discount: 100, type: 'fixed', description: 'İlk 100 kullanıcı ücretsiz' },
+      'TRIAL30': { discount: 30, type: 'days', description: '30 gün ücretsiz deneme' }
+    };
+
+    if (validPromoCodes[promoCode as keyof typeof validPromoCodes]) {
+      const promo = validPromoCodes[promoCode as keyof typeof validPromoCodes];
+      
+      // Promo kod kullanımını Firebase'e kaydet
+      const docRef = await addDoc(collection(db, "promo_code_usage"), {
+        code: promoCode,
+        usedAt: serverTimestamp(),
+        discount: promo.discount,
+        type: promo.type,
+        description: promo.description,
+        status: 'valid'
+      });
+
+      return { 
+        success: true, 
+        promo: {
+          code: promoCode,
+          discount: promo.discount,
+          type: promo.type,
+          description: promo.description
+        }
+      };
+    } else {
+      return { 
+        success: false, 
+        error: 'Geçersiz promo kodu' 
+      };
+    }
+  } catch (error) {
+    console.error("Promo kod doğrulama hatası: ", error);
+    return { 
+      success: false, 
+      error: 'Promo kod doğrulanamadı' 
+    };
+  }
+}
+
+export async function addSignupSubmission(data: any) {
+  try {
+    const docRef = await addDoc(collection(db, "signup_submissions"), {
+      ...data,
+      submittedAt: serverTimestamp(),
+      status: 'pending',
+      source: 'website_signup_form',
+    });
+    return { success: true, id: docRef.id };
+  } catch (error) {
+    console.error("Signup kayıt hatası: ", error);
+    if (error instanceof Error) {
+      return { success: false, error: error.message };
+    }
+    return { success: false, error: 'Signup kaydında hata oluştu' };
+  }
+}
+
 // Yardımcı fonksiyonlar
 function generateConfirmationToken(): string {
   return Math.random().toString(36).substr(2, 9) + Date.now().toString(36);

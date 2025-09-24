@@ -19,24 +19,115 @@ export default function SignupPage() {
     fullName: '',
     email: '',
     company: '',
-    plan: 'professional'
+    plan: 'professional',
+    promoCode: ''
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [promoCodeState, setPromoCodeState] = useState<{
+    isValidating: boolean;
+    isValid: boolean | null;
+    discount: { amount: number; type: string; description: string } | null;
+    error: string | null;
+  }>({
+    isValidating: false,
+    isValid: null,
+    discount: null,
+    error: null
+  });
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
+  const validatePromoCode = async (code: string) => {
+    if (!code.trim()) {
+      setPromoCodeState({
+        isValidating: false,
+        isValid: null,
+        discount: null,
+        error: null
+      });
+      return;
+    }
+
+    setPromoCodeState(prev => ({ ...prev, isValidating: true, error: null }));
+
+    try {
+      const { validatePromoCode } = await import('@/lib/api');
+      const result = await validatePromoCode(code);
+
+      if (result.success && result.promo) {
+        setPromoCodeState({
+          isValidating: false,
+          isValid: true,
+          discount: {
+            amount: result.promo.discount,
+            type: result.promo.type,
+            description: result.promo.description
+          },
+          error: null
+        });
+      } else {
+        setPromoCodeState({
+          isValidating: false,
+          isValid: false,
+          discount: null,
+          error: result.error || 'Geçersiz promo kodu'
+        });
+      }
+    } catch (error) {
+      setPromoCodeState({
+        isValidating: false,
+        isValid: false,
+        discount: null,
+        error: 'Promo kod doğrulanamadı'
+      });
+    }
+  };
+
+  const handlePromoCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData({ ...formData, promoCode: value });
+    
+    // Debounce validation
+    const timeoutId = setTimeout(() => {
+      validatePromoCode(value);
+    }, 800);
+
+    return () => clearTimeout(timeoutId);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const { addSignupSubmission } = await import('@/lib/api');
+      
+      const submissionData = {
+        ...formData,
+        promoCode: promoCodeState.isValid ? formData.promoCode : '',
+        promoDiscount: promoCodeState.discount,
+        language: navigator.language,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        referrer: document.referrer || null,
+        userAgent: navigator.userAgent,
+      };
+
+      const result = await addSignupSubmission(submissionData);
+      
+      if (result.success) {
+        alert(isMounted ? t('signupRegistrationReceived') : 'Kayıt talebiniz alındı! Size en kısa sürede dönüş yapacağız.');
+      } else {
+        alert('Kayıt sırasında bir hata oluştu: ' + result.error);
+      }
+    } catch (error) {
+      console.error('Signup hatası:', error);
+      alert('Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+    } finally {
       setIsLoading(false);
-      alert(isMounted ? t('signupRegistrationReceived') : 'Kayıt talebiniz alındı! Size en kısa sürede dönüş yapacağız.');
-    }, 2000);
+    }
   };
 
   const benefits = isMounted ? [
@@ -143,6 +234,107 @@ export default function SignupPage() {
                   <option value="enterprise">{isMounted ? t('signupPlanEnterprise') : 'Kurumsal'}</option>
                   <option value="student">{isMounted ? t('signupPlanStudent') : 'Öğrenci'}</option>
                 </select>
+              </div>
+
+              {/* Promo Code Section */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {isMounted ? t('signupPromoCode') : 'Promo Kodu'} 
+                  <span className="text-gray-500 text-xs ml-1">({isMounted ? t('signupPromoCodeOptional') : 'opsiyonel'})</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={formData.promoCode}
+                    onChange={handlePromoCodeChange}
+                    className={`w-full px-4 py-3 pr-12 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white ${
+                      promoCodeState.isValid === true 
+                        ? 'border-green-500 bg-green-50 dark:bg-green-900/20' 
+                        : promoCodeState.isValid === false 
+                        ? 'border-red-500 bg-red-50 dark:bg-red-900/20'
+                        : 'border-gray-300 dark:border-gray-600'
+                    }`}
+                    placeholder={isMounted ? t('signupPromoCodePlaceholder') : 'WELCOME2025'}
+                  />
+                  
+                  {/* Loading Spinner */}
+                  {promoCodeState.isValidating && (
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
+                    </div>
+                  )}
+                  
+                  {/* Success Icon */}
+                  {promoCodeState.isValid === true && (
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      <CheckIcon className="w-5 h-5 text-green-500" />
+                    </div>
+                  )}
+                  
+                  {/* Error Icon */}
+                  {promoCodeState.isValid === false && (
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Promo Code Status Messages */}
+                {promoCodeState.isValid === true && promoCodeState.discount && (
+                  <div className="mt-2 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
+                    <div className="flex items-center space-x-2">
+                      <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                          {isMounted ? t('signupPromoCodeValid') : 'Promo kodu geçerli!'}
+                        </p>
+                        <p className="text-xs text-green-600 dark:text-green-300">
+                          {promoCodeState.discount.description} - 
+                          {promoCodeState.discount.type === 'percentage' 
+                            ? ` %${promoCodeState.discount.amount} indirim`
+                            : promoCodeState.discount.type === 'fixed'
+                            ? ` ${promoCodeState.discount.amount}₺ indirim`
+                            : ` ${promoCodeState.discount.amount} gün ücretsiz`
+                          }
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {promoCodeState.error && (
+                  <div className="mt-2 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg">
+                    <p className="text-sm text-red-600 dark:text-red-400">
+                      {promoCodeState.error}
+                    </p>
+                  </div>
+                )}
+                
+                {/* Popular Promo Codes */}
+                {!formData.promoCode && (
+                  <div className="mt-3">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                      {isMounted ? t('signupPopularPromoCodes') : 'Popüler promo kodları:'}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {['WELCOME2025', 'STUDENT50', 'EARLYBIRD'].map((code) => (
+                        <button
+                          key={code}
+                          type="button"
+                          onClick={() => {
+                            setFormData({ ...formData, promoCode: code });
+                            validatePromoCode(code);
+                          }}
+                          className="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+                        >
+                          {code}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="flex items-start space-x-3">

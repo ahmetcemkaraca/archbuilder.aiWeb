@@ -104,7 +104,7 @@
     },
     {
       "name": "lib.api",
-      "exports": ["authAPI", "subscriptionAPI", "projectsAPI", "documentsAPI", "addContactSubmission", "addNewsletterSubscription", "addDemoRequest"],
+      "exports": ["authAPI", "subscriptionAPI", "projectsAPI", "documentsAPI", "addContactSubmission", "addNewsletterSubscription", "addDemoRequest", "validatePromoCode", "addSignupSubmission"],
       "variables": ["API_URL"],
       "configKeys": ["NEXT_PUBLIC_API_URL"]
     },

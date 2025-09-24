@@ -692,6 +692,13 @@ export const tr = {
   needCustomSolution: "Özel Çözüm mü Gerekiyor?",
   customSolutionDescription: "Kurumsal ihtiyaçlarınız için özel fiyatlandırma ve özelleştirmeler sunuyoruz.",
 
+  // Signup promo code features
+  signupPromoCode: "Promo Kodu",
+  signupPromoCodeOptional: "opsiyonel",
+  signupPromoCodePlaceholder: "WELCOME2025",
+  signupPromoCodeValid: "Promo kodu geçerli!",
+  signupPopularPromoCodes: "Popüler promo kodları:",
+
   // Forgot Password Page
   forgotPasswordTitle: "Şifremi Unuttum",
   forgotPasswordSubtitle: "E-posta adresinizi girin, şifre sıfırlama bağlantısını gönderelim",

@@ -697,6 +697,13 @@ export const en = {
   needCustomSolution: "Need a Custom Solution?",
   customSolutionDescription: "We offer custom pricing and customizations for your enterprise needs.",
 
+  // Signup promo code features
+  signupPromoCode: "Promo Code",
+  signupPromoCodeOptional: "optional",
+  signupPromoCodePlaceholder: "WELCOME2025",
+  signupPromoCodeValid: "Promo code is valid!",
+  signupPopularPromoCodes: "Popular promo codes:",
+
   // Forgot Password Page
   forgotPasswordTitle: "Forgot Password",
   forgotPasswordSubtitle: "Enter your email address and we'll send you a password reset link",

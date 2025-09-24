@@ -69,6 +69,20 @@
       "type": "interface",
       "fields": ["id: string", "firstName: string", "lastName: string", "email: string", "company?: string", "jobTitle?: string", "message?: string", "requestedAt: any", "status: 'pending' | 'scheduled' | 'completed'", "source: string", "priority: 'low' | 'normal' | 'high'"],
       "description": "Demo request data structure"
+    },
+    {
+      "name": "SignupSubmission",
+      "version": "1.0.0",
+      "type": "interface",
+      "fields": ["id: string", "fullName: string", "email: string", "company?: string", "plan: string", "promoCode?: string", "promoDiscount?: any", "submittedAt: any", "status: 'pending' | 'processed' | 'converted'"],
+      "description": "Signup form submission data structure"
+    },
+    {
+      "name": "PromoCodeUsage",
+      "version": "1.0.0",
+      "type": "interface",
+      "fields": ["id: string", "code: string", "usedAt: any", "discount: number", "type: string", "description: string", "status: string"],
+      "description": "Promo code usage tracking data structure"
     }
   ]
 }

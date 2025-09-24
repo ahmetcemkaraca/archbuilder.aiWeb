@@ -13,7 +13,9 @@ import {
   ArrowRightOnRectangleIcon,
   CheckCircleIcon,
   ClockIcon,
-  ExclamationTriangleIcon
+  ExclamationTriangleIcon,
+  UserPlusIcon,
+  GiftIcon
 } from '@heroicons/react/24/outline';
 
 interface ContactSubmission {
@@ -41,11 +43,36 @@ interface NewsletterSubscription {
   confirmed: boolean;
 }
 
+interface SignupSubmission {
+  id: string;
+  fullName: string;
+  email: string;
+  company?: string;
+  plan: string;
+  promoCode?: string;
+  promoDiscount?: any;
+  submittedAt: any;
+  status: 'pending' | 'processed' | 'converted';
+}
+
+interface PromoCodeUsage {
+  id: string;
+  code: string;
+  usedAt: any;
+  discount: number;
+  type: string;
+  description: string;
+  status: string;
+}
+
 interface Stats {
   totalContacts: number;
   totalNewsletterSubs: number;
+  totalSignups: number;
+  totalPromoUsage: number;
   todayContacts: number;
   todayNewsletterSubs: number;
+  todaySignups: number;
   pendingContacts: number;
 }
 
@@ -55,16 +82,21 @@ export default function AdminDashboard() {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [activeTab, setActiveTab] = useState<'overview' | 'contacts' | 'newsletter'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'contacts' | 'newsletter' | 'signups' | 'promos'>('overview');
   
   // Veri durumları
   const [contacts, setContacts] = useState<ContactSubmission[]>([]);
   const [newsletters, setNewsletters] = useState<NewsletterSubscription[]>([]);
+  const [signups, setSignups] = useState<SignupSubmission[]>([]);
+  const [promoUsage, setPromoUsage] = useState<PromoCodeUsage[]>([]);
   const [stats, setStats] = useState<Stats>({
     totalContacts: 0,
     totalNewsletterSubs: 0,
+    totalSignups: 0,
+    totalPromoUsage: 0,
     todayContacts: 0,
     todayNewsletterSubs: 0,
+    todaySignups: 0,
     pendingContacts: 0,
   });
 
@@ -126,6 +158,26 @@ export default function AdminDashboard() {
       })) as NewsletterSubscription[];
       setNewsletters(newslettersData);
 
+      // Signup kayıtları
+      const signupsRef = collection(db, 'signup_submissions');
+      const signupsQuery = query(signupsRef, orderBy('submittedAt', 'desc'), limit(100));
+      const signupsSnapshot = await getDocs(signupsQuery);
+      const signupsData = signupsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as SignupSubmission[];
+      setSignups(signupsData);
+
+      // Promo kod kullanımları
+      const promoRef = collection(db, 'promo_code_usage');
+      const promoQuery = query(promoRef, orderBy('usedAt', 'desc'), limit(100));
+      const promoSnapshot = await getDocs(promoQuery);
+      const promoData = promoSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as PromoCodeUsage[];
+      setPromoUsage(promoData);
+
       // İstatistikleri hesapla
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -142,6 +194,12 @@ export default function AdminDashboard() {
       );
       const todayNewsletterSnapshot = await getDocs(todayNewsletterQuery);
 
+      const todaySignupsQuery = query(
+        collection(db, 'signup_submissions'),
+        where('submittedAt', '>=', today)
+      );
+      const todaySignupsSnapshot = await getDocs(todaySignupsQuery);
+
       const pendingContactsQuery = query(
         collection(db, 'contact_submissions'),
         where('status', '==', 'pending')
@@ -151,8 +209,11 @@ export default function AdminDashboard() {
       setStats({
         totalContacts: contactsData.length,
         totalNewsletterSubs: newslettersData.length,
+        totalSignups: signupsData.length,
+        totalPromoUsage: promoData.length,
         todayContacts: todayContactsSnapshot.size,
         todayNewsletterSubs: todayNewsletterSnapshot.size,
+        todaySignups: todaySignupsSnapshot.size,
         pendingContacts: pendingContactsSnapshot.size,
       });
 
@@ -278,6 +339,8 @@ export default function AdminDashboard() {
               { id: 'overview', name: 'Genel Bakış', icon: ChartBarIcon },
               { id: 'contacts', name: 'İletişim Formları', icon: EnvelopeIcon },
               { id: 'newsletter', name: 'Newsletter', icon: UserGroupIcon },
+              { id: 'signups', name: 'Kayıtlar', icon: UserPlusIcon },
+              { id: 'promos', name: 'Promo Kodları', icon: GiftIcon },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -344,13 +407,41 @@ export default function AdminDashboard() {
 
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <div className="flex items-center">
+                  <UserPlusIcon className="w-8 h-8 text-indigo-600" />
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                      Toplam Kayıt
+                    </p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {stats.totalSignups}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <div className="flex items-center">
+                  <GiftIcon className="w-8 h-8 text-orange-600" />
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                      Promo Kullanımı
+                    </p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {stats.totalPromoUsage}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <div className="flex items-center">
                   <ChartBarIcon className="w-8 h-8 text-purple-600" />
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                       Bugün Toplam
                     </p>
                     <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {stats.todayContacts + stats.todayNewsletterSubs}
+                      {stats.todayContacts + stats.todayNewsletterSubs + stats.todaySignups}
                     </p>
                   </div>
                 </div>
@@ -514,6 +605,134 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* Signups Tab */}
+        {activeTab === 'signups' && (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+            <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                Kayıt Talepleri ({signups.length})
+              </h3>
+            </div>
+            <div className="divide-y divide-gray-200 dark:divide-gray-700">
+              {signups.map((signup) => (
+                <div key={signup.id} className="px-6 py-6">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <h4 className="font-medium text-gray-900 dark:text-white">
+                          {signup.fullName}
+                        </h4>
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          signup.status === 'pending' 
+                            ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+                            : signup.status === 'processed'
+                            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'
+                            : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                        }`}>
+                          {signup.status === 'pending' ? 'Bekliyor' : signup.status === 'processed' ? 'İşlendi' : 'Dönüştürüldü'}
+                        </span>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">E-posta:</p>
+                          <p className="font-medium text-gray-900 dark:text-white">{signup.email}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Plan:</p>
+                          <p className="font-medium text-gray-900 dark:text-white capitalize">{signup.plan}</p>
+                        </div>
+                        {signup.company && (
+                          <div>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Şirket:</p>
+                            <p className="font-medium text-gray-900 dark:text-white">{signup.company}</p>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {signup.promoCode && (
+                        <div className="mb-2">
+                          <div className="inline-flex items-center px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-full text-sm">
+                            <GiftIcon className="w-4 h-4 mr-1" />
+                            Promo: {signup.promoCode}
+                            {signup.promoDiscount && (
+                              <span className="ml-2 text-xs">
+                                ({signup.promoDiscount.type === 'percentage' 
+                                  ? `%${signup.promoDiscount.amount}` 
+                                  : `${signup.promoDiscount.amount}₺`} indirim)
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="text-right ml-4">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                        {formatDate(signup.submittedAt)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Promo Codes Tab */}
+        {activeTab === 'promos' && (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+            <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                Promo Kod Kullanımları ({promoUsage.length})
+              </h3>
+            </div>
+            <div className="divide-y divide-gray-200 dark:divide-gray-700">
+              {promoUsage.map((promo) => (
+                <div key={promo.id} className="px-6 py-4 flex items-center justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3">
+                      <GiftIcon className="w-6 h-6 text-orange-500" />
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">
+                          {promo.code}
+                        </p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          {promo.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                      {formatDate(promo.usedAt)}
+                    </p>
+                    <div className="flex items-center space-x-2">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                        {promo.type === 'percentage' 
+                          ? `%${promo.discount} İndirim`
+                          : promo.type === 'fixed'
+                          ? `${promo.discount}₺ İndirim`
+                          : `${promo.discount} Gün Ücretsiz`
+                        }
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              
+              {promoUsage.length === 0 && (
+                <div className="px-6 py-12 text-center">
+                  <GiftIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-500 dark:text-gray-400">
+                    Henüz promo kod kullanımı bulunmuyor.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         )}
