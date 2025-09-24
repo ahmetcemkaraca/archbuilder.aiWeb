@@ -3,6 +3,7 @@
 import { ArrowRightIcon, PlayIcon } from '@heroicons/react/24/outline';
 import { SparklesIcon } from '@heroicons/react/24/solid';
 import { useI18n } from '@/lib/i18n';
+import { AnimatedSection, StaggeredList, StaggeredItem } from '@/components/ui/animated-section';
 
 export function Hero() {
   const { t } = useI18n();
@@ -22,72 +23,100 @@ export function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
         <div className="text-center">
           {/* Badge */}
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 border border-blue-200 dark:border-blue-700 rounded-full px-4 py-2 text-sm font-medium text-blue-700 dark:text-blue-300 mb-8">
+          <AnimatedSection 
+            animation="fadeInUp"
+            delay={0.2}
+            className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 border border-blue-200 dark:border-blue-700 rounded-full px-4 py-2 text-sm font-medium text-blue-700 dark:text-blue-300 mb-8"
+          >
             <SparklesIcon className="w-4 h-4" />
             <span>{t('aiRevolution')}</span>
-          </div>
+          </AnimatedSection>
 
           {/* Main heading */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-8 leading-tight">
-            <span className="block">{t('heroTitle1')}</span>
-            <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <AnimatedSection 
+            animation="fadeInUp"
+            delay={0.4}
+            className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-8 leading-tight"
+          >
+            <div className="animate-slide-in-left">
+              {t('heroTitle1')}
+            </div>
+            <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-scale-in">
               {t('heroTitle2')}
-            </span>
-            <span className="block">{t('heroTitle3')}</span>
-          </h1>
+            </div>
+            <div className="animate-slide-in-right">
+              {t('heroTitle3')}
+            </div>
+          </AnimatedSection>
 
           {/* Subtitle */}
-          <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+          <AnimatedSection 
+            animation="fadeInUp"
+            delay={0.6}
+            className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
+          >
             {t('heroSubtitle')}
-          </p>
+          </AnimatedSection>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
-            <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg">
+          <AnimatedSection 
+            animation="fadeInUp"
+            delay={0.8}
+            className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16"
+          >
+            <a 
+              href="/signup"
+              className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center space-x-2 shadow-lg"
+            >
               <span>{t('startFree')}</span>
-              <ArrowRightIcon className="w-5 h-5" />
-            </button>
-            
-            <button className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-semibold text-lg">
-              <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300">
-                <PlayIcon className="w-5 h-5 ml-1" />
-              </div>
-              <span>{t('watchDemo')}</span>
-            </button>
-          </div>
+              <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </a>
+          </AnimatedSection>
 
           {/* Features preview */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🏗️</span>
+          <StaggeredList className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto" staggerDelay={0.15}>
+            <StaggeredItem>
+              <div className="text-center group cursor-pointer">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                  <span className="text-2xl">🏗️</span>
+                </div>
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {t('heroFeature1Title')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  {t('heroFeature1Description')}
+                </p>
               </div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">AI Proje Oluşturma</h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Doğal dille tarif edin, AI otomatik Revit projeleri oluştursun
-              </p>
-            </div>
+            </StaggeredItem>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">📐</span>
+            <StaggeredItem>
+              <div className="text-center group cursor-pointer">
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                  <span className="text-2xl">📐</span>
+                </div>
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                  {t('heroFeature2Title')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  {t('heroFeature2Description')}
+                </p>
               </div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Çoklu Format Desteği</h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                DWG, DXF, IFC, PDF yönetmelikleri ile çalışın
-              </p>
-            </div>
+            </StaggeredItem>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">⚡</span>
+            <StaggeredItem>
+              <div className="text-center group cursor-pointer">
+                <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                  <span className="text-2xl">⚡</span>
+                </div>
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">
+                  {t('heroFeature3Title')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  {t('heroFeature3Description')}
+                </p>
               </div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Anlık Onay Sistemi</h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Her adımı kontrol edin, onaylayarak ilerleyin
-              </p>
-            </div>
-          </div>
+            </StaggeredItem>
+          </StaggeredList>
         </div>
       </div>
 

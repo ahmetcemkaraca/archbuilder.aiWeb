@@ -20,5 +20,21 @@ export const translations = {
 export type TranslationKey = keyof typeof tr;
 
 export function getTranslation(locale: Locale, key: TranslationKey): string {
-  return translations[locale][key] || translations.tr[key] || key;
+  try {
+    const translation = translations[locale] as any;
+    const fallback = translations.tr as any;
+    
+    let result = translation?.[key] || fallback?.[key] || key;
+    
+    // Ensure we return a string, not an object
+    if (typeof result === 'object' && result !== null) {
+      console.warn(`Translation key '${key}' returned object instead of string:`, result);
+      return key; // Return the key itself as fallback
+    }
+    
+    return String(result);
+  } catch (error) {
+    console.error(`Translation error for key '${key}':`, error);
+    return key;
+  }
 }

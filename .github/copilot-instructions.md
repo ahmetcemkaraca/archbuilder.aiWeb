@@ -241,7 +241,7 @@ function MyComponent(props) { } // ❌
 
 ## Versioning & Context
 
-- Update `version.md` every 2 development cycles
+- Update `version.md` every prompt cycles
 - Use PowerShell for timestamps: `Get-Date -Format 'yyyy-MM-dd HH:mm:ss'`
 - Document key changes, features, and bug fixes
 - Never delete previous version entries

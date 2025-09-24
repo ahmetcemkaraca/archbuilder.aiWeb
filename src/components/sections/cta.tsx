@@ -1,11 +1,18 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { ArrowRightIcon, PlayIcon } from '@heroicons/react/24/outline';
 import { SparklesIcon, RocketLaunchIcon } from '@heroicons/react/24/solid';
 import { useI18n } from '@/lib/i18n';
+import { AnimatedSection, StaggeredList, StaggeredItem } from '@/components/ui/animated-section';
 
 export function CTA() {
   const { t } = useI18n();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <section className="py-24 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
@@ -24,50 +31,62 @@ export function CTA() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center text-white">
           {/* Badge */}
-          <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-6 py-3 text-sm font-medium mb-8">
-            <RocketLaunchIcon className="w-5 h-5" />
-            <span>Mimarlığın Geleceği Burada</span>
-          </div>
+          <AnimatedSection animation="fadeInUp" delay={0.2}>
+            <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-6 py-3 text-sm font-medium mb-8">
+              <RocketLaunchIcon className="w-5 h-5" />
+              <span>{mounted ? t('futureMarchitecture') : 'Mimarlığın Geleceği Burada'}</span>
+            </div>
+          </AnimatedSection>
 
           {/* Main Headline */}
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
-            <span className="block">{t('ctaTitle')}</span>
-          </h2>
+          <AnimatedSection animation="fadeInUp" delay={0.4}>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
+              <span className="block">{mounted ? t('ctaTitle') : 'AI ile Projelerinizi Dönüştürmeye Hazır mısınız?'}</span>
+            </h2>
+          </AnimatedSection>
 
           {/* Subtitle */}
-          <p className="text-xl sm:text-2xl text-blue-100 mb-12 max-w-4xl mx-auto leading-relaxed">
-            {t('ctaSubtitle')}
-          </p>
+          <AnimatedSection animation="fadeInUp" delay={0.6}>
+            <p className="text-xl sm:text-2xl text-blue-100 mb-12 max-w-4xl mx-auto leading-relaxed">
+              {mounted ? t('ctaSubtitle') : 'ArchBuilder.AI ile mimarlık sürecinizi hızlandırın, kaliteyi artırın ve rekabette önde olun. Bugün ücretsiz denemeye başlayın.'}
+            </p>
+          </AnimatedSection>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
-            <button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg">
+          <AnimatedSection animation="fadeInUp" delay={0.8} className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
+            <a 
+              href="/signup"
+              className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg"
+            >
               <SparklesIcon className="w-5 h-5" />
-              <span>{t('freeTrial')}</span>
+              <span>{mounted ? t('freeTrial') : '14 Gün Ücretsiz Deneme'}</span>
               <ArrowRightIcon className="w-5 h-5" />
-            </button>
+            </a>
             
-            <button className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center space-x-2">
+            <a 
+              href="/demo"
+              className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center space-x-2"
+            >
               <PlayIcon className="w-5 h-5" />
-              <span>{t('watchDemo')}</span>
-            </button>
-          </div>
+              <span>{mounted ? t('watchDemo') : 'Demo İzleyin'}</span>
+            </a>
+          </AnimatedSection>
 
           {/* Trust Indicators */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2">{t('freeTrial')}</div>
-              <div className="text-blue-100">{t('freeTrial')}</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2">{t('noCredit')}</div>
-              <div className="text-blue-100">{t('noCredit')}</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2">{t('support247')}</div>
-              <div className="text-blue-100">{t('support247')}</div>
-            </div>
-          </div>
+          <StaggeredList className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <StaggeredItem className="text-center">
+              <div className="text-3xl font-bold mb-2">{mounted ? t('freeDays') : '14 Gün'}</div>
+              <div className="text-blue-100">{mounted ? t('freeTrialLabel') : 'Ücretsiz Deneme'}</div>
+            </StaggeredItem>
+            <StaggeredItem className="text-center">
+              <div className="text-3xl font-bold mb-2">{mounted ? t('noCreditCard') : 'Kredi Kartı'}</div>
+              <div className="text-blue-100">{mounted ? t('notRequired') : 'Gerekmiyor'}</div>
+            </StaggeredItem>
+            <StaggeredItem className="text-center">
+              <div className="text-3xl font-bold mb-2">{mounted ? t('supportAvailable') : '7/24'}</div>
+              <div className="text-blue-100">{mounted ? t('supportLabel') : 'Destek'}</div>
+            </StaggeredItem>
+          </StaggeredList>
         </div>
       </div>
 

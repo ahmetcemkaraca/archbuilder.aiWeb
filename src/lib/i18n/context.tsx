@@ -18,8 +18,11 @@ interface I18nProviderProps {
 
 export function I18nProvider({ children }: I18nProviderProps) {
   const [locale, setLocaleState] = useState<Locale>(defaultLocale);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    
     // Load locale from localStorage
     const savedLocale = localStorage.getItem('locale') as Locale;
     if (savedLocale && ['tr', 'en', 'ru', 'de', 'fr', 'es', 'it'].includes(savedLocale)) {
@@ -41,11 +44,15 @@ export function I18nProvider({ children }: I18nProviderProps) {
   };
 
   const t = (key: TranslationKey): string => {
+    // During SSR or before hydration, always return Turkish fallback
+    if (!mounted) {
+      return getTranslation('tr', key);
+    }
     return getTranslation(locale, key);
   };
 
   const value: I18nContextType = {
-    locale,
+    locale: mounted ? locale : defaultLocale,
     setLocale,
     t
   };

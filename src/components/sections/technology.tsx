@@ -1,48 +1,39 @@
 'use client';
 
-import { CloudIcon, CpuChipIcon, ShieldCheckIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
+import { CloudIcon, CpuChipIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 import { useI18n } from '@/lib/i18n';
+import { AnimatedSection, StaggeredList, StaggeredItem } from '@/components/ui/animated-section';
 
 export function Technology() {
   const { t } = useI18n();
   const techStack = [
     {
-      category: 'Desktop Uygulaması',
+      category: t('desktopAppCategory'),
       icon: '💻',
       technologies: [
-        { name: 'Windows WPF', description: '.NET Framework ile Apple-vari tasarım' },
-        { name: 'C# .NET', description: 'Revit API entegrasyonu' },
-        { name: 'Revit 2026', description: 'BIM modelleme ve otomasyonu' }
+        { name: t('windowsWPF'), description: t('windowsWPFDesc') },
+        { name: t('csharpNet'), description: t('csharpNetDesc') },
+        { name: t('revit2026'), description: t('revit2026Desc') }
       ],
       color: 'from-blue-500 to-blue-600'
     },
     {
-      category: 'Cloud AI Platformu',
+      category: t('cloudPlatformCategory'),
       icon: '☁️',
       technologies: [
-        { name: 'Python FastAPI', description: 'Yüksek performanslı API servisleri' },
-        { name: 'Vertex AI Gemini-2.5', description: 'Google\'ın ileri AI modeli' },
-        { name: 'GitHub Models GPT-4.1', description: 'OpenAI\'ın en güçlü modeli' }
+        { name: t('pythonFastAPI'), description: t('pythonFastAPIDesc') },
+        { name: t('archEngineHigh'), description: t('archEngineHighDesc') },
+        { name: t('archEngineMedium'), description: t('archEngineMediumDesc') }
       ],
       color: 'from-purple-500 to-purple-600'
     },
     {
-      category: 'Veri İşleme',
-      icon: '📊',
-      technologies: [
-        { name: 'PostgreSQL', description: 'Güvenilir ilişkisel veritabanı' },
-        { name: 'Redis', description: 'Yüksek hızlı önbellekleme' },
-        { name: 'Vector Embeddings', description: 'AI tabanlı doküman arama' }
-      ],
-      color: 'from-green-500 to-green-600'
-    },
-    {
-      category: 'Güvenlik & Altyapı',
+      category: t('securityInfraCategory'),
       icon: '🔒',
       technologies: [
-        { name: 'Docker & Kubernetes', description: 'Ölçeklenebilir konteynerizasyon' },
-        { name: 'OAuth2 & JWT', description: 'Güvenli kimlik doğrulama' },
-        { name: 'AES-256 Şifreleme', description: 'Veri güvenliği garantisi' }
+        { name: t('dockerKubernetes'), description: t('dockerKubernetesDesc') },
+        { name: t('oauth2JWT'), description: t('oauth2JWTDesc') },
+        { name: t('aes256Encryption'), description: t('aes256EncryptionDesc') }
       ],
       color: 'from-red-500 to-red-600'
     }
@@ -50,18 +41,18 @@ export function Technology() {
 
   const aiModels = [
     {
-      name: 'Vertex AI Gemini-2.5-Flash-Lite',
-      provider: 'Google Cloud',
-      use_case: 'Hızlı prototipleme ve iteratif tasarım',
-      features: ['Multimodal girdi', 'Düşük gecikme', 'Yüksek verimlilik'],
-      performance: '< 2 saniye yanıt süresi'
+      name: t('archEngineHigh'),
+      provider: t('advancedAI'),
+      use_case: t('complexProblemsUseCase'),
+      features: [t('deepAnalysis'), t('creativeSolutions'), t('codeGeneration')],
+      performance: t('responseTime5to15')
     },
     {
-      name: 'GitHub Models GPT-4.1',
-      provider: 'OpenAI',
-      use_case: 'Karmaşık mimari problemler',
-      features: ['Derinlemesine analiz', 'Yaratıcı çözümler', 'Kod üretimi'],
-      performance: '5-15 saniye yanıt süresi'
+      name: t('archEngineMedium'),
+      provider: t('fastAI'),
+      use_case: t('fastPrototypingUseCase'),
+      features: [t('multimodalInput'), t('lowLatency'), t('highEfficiency')],
+      performance: t('responseTimeLess2')
     }
   ];
 
@@ -69,7 +60,7 @@ export function Technology() {
     <section id="technology" className="py-24 bg-white dark:bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <AnimatedSection className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             <span className="block">{t('technologyTitle1')}</span>
             <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -79,14 +70,14 @@ export function Technology() {
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             {t('technologySubtitle')}
           </p>
-        </div>
+        </AnimatedSection>
 
         {/* Technology Stack */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+        <StaggeredList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
           {techStack.map((stack, index) => (
-            <div 
+            <StaggeredItem 
               key={index}
-              className="bg-gray-50 dark:bg-gray-700 rounded-2xl p-6 hover:shadow-lg transition-all duration-300"
+              className="bg-gray-50 dark:bg-gray-700 rounded-2xl p-6 hover:shadow-lg transition-all duration-300 hover:scale-105"
             >
               {/* Category Header */}
               <div className="text-center mb-6">
@@ -109,26 +100,29 @@ export function Technology() {
                   </div>
                 ))}
               </div>
-            </div>
+            </StaggeredItem>
           ))}
-        </div>
+        </StaggeredList>
 
         {/* AI Models Showcase */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-3xl p-8 mb-20">
+        <AnimatedSection 
+          animation="scaleIn"
+          className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-3xl p-8 mb-20"
+        >
           <div className="text-center mb-12">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Dual AI Engine Sistemi
+              {t('aiSystemTitle')}
             </h3>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              İki farklı AI modeli kullanarak farklı senaryolar için optimize edilmiş performans
+              {t('aiSystemDesc')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <StaggeredList className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {aiModels.map((model, index) => (
-              <div 
+              <StaggeredItem 
                 key={index}
-                className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg"
+                className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform duration-300"
               >
                 <div className="flex items-center mb-4">
                   <CpuChipIcon className="w-8 h-8 text-blue-600 mr-3" />
@@ -144,16 +138,16 @@ export function Technology() {
 
                 <div className="mb-4">
                   <p className="text-gray-700 dark:text-gray-300 mb-3">
-                    <strong>Kullanım Alanı:</strong> {model.use_case}
+                    <strong>{t('useCaseLabel')}:</strong> {model.use_case}
                   </p>
                   <p className="text-gray-700 dark:text-gray-300 mb-3">
-                    <strong>Performans:</strong> {model.performance}
+                    <strong>{t('performanceLabel')}:</strong> {model.performance}
                   </p>
                 </div>
 
                 <div>
                   <p className="text-sm font-medium text-gray-900 dark:text-white mb-2">
-                    Temel Özellikler:
+                    {t('keyFeaturesLabel')}:
                   </p>
                   <ul className="space-y-1">
                     {model.features.map((feature, featureIndex) => (
@@ -164,57 +158,57 @@ export function Technology() {
                     ))}
                   </ul>
                 </div>
-              </div>
+              </StaggeredItem>
             ))}
-          </div>
-        </div>
+          </StaggeredList>
+        </AnimatedSection>
 
         {/* Architecture Overview */}
-        <div className="text-center">
+        <AnimatedSection animation="fadeInUp" className="text-center">
           <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">
-            Hibrit Desktop-Cloud Mimarisi
+            {t('hybridArchitectureTitle')}
           </h3>
           
           <div className="bg-gray-50 dark:bg-gray-700 rounded-2xl p-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <StaggeredList className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <StaggeredItem className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300">
                   <span className="text-2xl">🖥️</span>
                 </div>
                 <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                  Windows Desktop App
+                  {t('windowsDesktopApp')}
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Yerel dosya yönetimi, Revit entegrasyonu, Apple-vari kullanıcı deneyimi
+                  {t('windowsDesktopAppDesc')}
                 </p>
-              </div>
+              </StaggeredItem>
 
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <StaggeredItem className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300">
                   <CloudIcon className="w-8 h-8 text-white" />
                 </div>
                 <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                  Cloud AI Processing
+                  {t('cloudAIProcessing')}
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Python FastAPI, AI model orkestrasyonu, doküman işleme, RAG sistemi
+                  {t('cloudAIProcessingDesc')}
                 </p>
-              </div>
+              </StaggeredItem>
 
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <StaggeredItem className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300">
                   <ShieldCheckIcon className="w-8 h-8 text-white" />
                 </div>
                 <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                  Güvenli Veri İşleme
+                  {t('secureDataProcessing')}
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Şifreli iletişim, GDPR uyumluluğu, multi-tenant izolasyon
+                  {t('secureDataProcessingDesc')}
                 </p>
-              </div>
-            </div>
+              </StaggeredItem>
+            </StaggeredList>
           </div>
-        </div>
+        </AnimatedSection>
       </div>
     </section>
   );

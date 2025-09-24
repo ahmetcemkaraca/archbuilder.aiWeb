@@ -1,13 +1,21 @@
 export const it = {
-  // Header
+  // Site Metadata
+  siteTitle: 'ArchBuilder.AI - Piattaforma di Architettura Potenziata dall\'IA',
+  siteDescription: 'Piattaforma rivoluzionaria di progettazione architettonica potenziata dall\'IA. Trasforma linguaggio naturale e disegni in progetti Revit. La prima soluzione architettonica assistita dall\'IA al mondo.',
+  
+  // Header Navigation
   overview: 'Panoramica',
   useCases: 'Casi d\'Uso',
   features: 'Caratteristiche',
   technology: 'Tecnologia',
   pricing: 'Prezzi',
-  contact: 'Contatto',
+  contactNav: 'Contatto',
   login: 'Accedi',
   getStarted: 'Inizia',
+  dashboard: 'Dashboard',
+  profile: 'Profilo',
+  settings: 'Impostazioni',
+  logout: 'Esci',
   
   // Hero Section
   heroTitle1: 'Il futuro dell\'',
@@ -17,6 +25,7 @@ export const it = {
   startFree: 'Inizia gratis',
   watchDemo: 'Guarda demo',
   aiRevolution: 'Rivoluzione IA in architettura',
+  revolutionDescription: 'Consegna progetti 70% più veloce, 80% meno errori di progettazione',
   
   // Features
   featuresTitle1: 'Caratteristiche',
@@ -57,5 +66,118 @@ export const it = {
   noCreditCard: 'Nessuna Carta di Credito',
   notRequired: 'Richiesta',
   support: '24/7',
-  supportLabel: 'Supporto'
+  supportLabel: 'Supporto',
+
+  // Business Value Propositions
+  valueTitle: 'Valore Aziendale',
+  efficiencyBoost: 'Aumento dell\'Efficienza del 70%',
+  errorReduction: 'Riduzione degli Errori dell\'80%',
+  timeToMarket: 'Tempi di Consegna 3x Più Veloci',
+  clientSatisfaction: '95% Soddisfazione del Cliente',
+
+  // Technical Specifications
+  cloudInfrastructure: 'Infrastruttura Cloud',
+  enterpriseSecurity: 'Sicurezza Aziendale',
+  apiIntegration: 'Integrazione API',
+  realTimeSync: 'Sincronizzazione in Tempo Reale',
+
+  // Footer
+  footer: {
+    company: 'Azienda',
+    aboutUs: 'Chi Siamo',
+    careers: 'Carriere',
+    press: 'Stampa',
+    investors: 'Investitori',
+    
+    product: 'Prodotto',
+    features: 'Caratteristiche',
+    pricing: 'Prezzi',
+    security: 'Sicurezza',
+    documentation: 'Documentazione',
+    
+    resources: 'Risorse',
+    blog: 'Blog',
+    tutorials: 'Tutorial',
+    caseStudies: 'Casi Studio',
+    community: 'Comunità',
+    
+    support: 'Supporto',
+    helpCenter: 'Centro Assistenza',
+    contactUs: 'Contattaci',
+    status: 'Stato del Sistema',
+    
+    legal: 'Legale',
+    privacy: 'Privacy',
+    terms: 'Termini',
+    cookies: 'Cookie',
+    
+    followUs: 'Seguici',
+    newsletter: 'Newsletter',
+    subscribeNewsletter: 'Iscriviti alla nostra newsletter',
+    enterEmail: 'Inserisci la tua email',
+    subscribe: 'Iscriviti',
+    copyright: '© 2024 ArchBuilder.AI. Tutti i diritti riservati.',
+    allRightsReserved: 'Tutti i diritti riservati'
+  },
+
+  // Contact Section
+  contact: {
+    title: 'Contattaci',
+    subtitle: 'Mettiti in contatto con il nostro team per maggiori informazioni',
+    name: 'Nome',
+    email: 'Email',
+    company: 'Azienda',
+    message: 'Messaggio',
+    send: 'Invia Messaggio',
+    office: 'Ufficio',
+    phone: 'Telefono',
+    address: 'Indirizzo',
+    businessHours: 'Orari di Lavoro',
+    mondayFriday: 'Lunedì - Venerdì: 9:00 - 18:00',
+    weekend: 'Weekend: 10:00 - 16:00'
+  },
+
+  // Newsletter
+  newsletter: {
+    title: 'Rimani Aggiornato',
+    description: 'Ricevi le ultime notizie e aggiornamenti su ArchBuilder.AI',
+    placeholder: 'Inserisci il tuo indirizzo email',
+    subscribe: 'Iscriviti',
+    success: 'Grazie per esserti iscritto!',
+    error: 'Errore nell\'iscrizione. Riprova.'
+  },
+
+  // UI Elements
+  ui: {
+    loading: 'Caricamento...',
+    error: 'Errore',
+    success: 'Successo',
+    warning: 'Avviso',
+    info: 'Informazioni',
+    close: 'Chiudi',
+    cancel: 'Annulla',
+    confirm: 'Conferma',
+    save: 'Salva',
+    edit: 'Modifica',
+    delete: 'Elimina',
+    search: 'Cerca',
+    filter: 'Filtra',
+    sort: 'Ordina',
+    previous: 'Precedente',
+    next: 'Successivo',
+    pageOf: 'Pagina {current} di {total}',
+    noResults: 'Nessun risultato trovato',
+    tryAgain: 'Riprova'
+  },
+
+  // Accessibility
+  a11y: {
+    mainNavigation: 'Navigazione principale',
+    skipToContent: 'Salta al contenuto',
+    openMenu: 'Apri menu',
+    closeMenu: 'Chiudi menu',
+    toggleTheme: 'Cambia tema',
+    languageSelector: 'Selettore lingua',
+    searchSite: 'Cerca nel sito'
+  }
 };

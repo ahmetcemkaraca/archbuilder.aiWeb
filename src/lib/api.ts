@@ -109,12 +109,12 @@ export const projectsAPI = {
     return response.data;
   },
 
-  createProject: async (data: any) => {
+  createProject: async (data: Record<string, unknown>) => {
     const response = await api.post('/api/projects', data);
     return response.data;
   },
 
-  updateProject: async (id: string, data: any) => {
+  updateProject: async (id: string, data: Record<string, unknown>) => {
     const response = await api.put(`/api/projects/${id}`, data);
     return response.data;
   },

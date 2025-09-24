@@ -1,5 +1,9 @@
 export const de = {
-  // Header
+  // Site Metadata
+  siteTitle: 'ArchBuilder.AI - KI-gestützte Architekturplattform',
+  siteDescription: 'Revolutionäre KI-gestützte Architektur-Designplattform. Verwandeln Sie natürliche Sprache und Zeichnungen in Revit-Projekte. Die weltweit erste KI-unterstützte Architekturlösung.',
+  
+  // Header Navigation
   overview: 'Überblick',
   useCases: 'Anwendungsfälle',
   features: 'Funktionen',
@@ -8,6 +12,10 @@ export const de = {
   contact: 'Kontakt',
   login: 'Anmelden',
   getStarted: 'Loslegen',
+  dashboard: 'Dashboard',
+  profile: 'Profil',
+  settings: 'Einstellungen',
+  logout: 'Abmelden',
   
   // Hero Section
   heroTitle1: 'Die Zukunft der',
@@ -17,45 +25,164 @@ export const de = {
   startFree: 'Kostenlos starten',
   watchDemo: 'Demo ansehen',
   aiRevolution: 'KI-Revolution in der Architektur',
+  revolutionDescription: '70% schnellere Projektabgabe, 80% weniger Designfehler',
   
-  // Features
+  // Features Section
   featuresTitle1: 'KI-verstärkte',
   featuresTitle2: 'Leistungsstarke Funktionen',
   featuresSubtitle: 'ArchBuilder.AI bietet fortschrittliche Technologiefunktionen, die Ihre Architekturprojekte beschleunigen und die Qualität verbessern',
+  aiDesignTitle: 'KI-gestütztes Design',
+  aiDesignDesc: 'Architekturprojekt-Erstellung und -Optimierung mit Vertex AI Gemini-2.5-Flash-Lite und GPT-4.1',
+  multiFormatTitle: 'Multi-Format-Unterstützung',
+  multiFormatDesc: 'Nahtlose Analyse von DWG, DXF, IFC, PDF-Vorschriften und bestehenden Revit-Projekten',
+  workflowTitle: 'Schritt-für-Schritt-Workflow',
+  workflowDesc: 'Detaillierte Arbeitspläne mit 5-50 Schritten und Fortschrittsverfolgung basierend auf Projektkomplexität',
+  revitIntegrationTitle: 'Revit-Integration',
+  revitIntegrationDesc: 'Nahtlose Integration in Ihren bestehenden Revit-Workflow, einschließlich Plugins und API-Unterstützung',
+  realTimeTitle: 'Echtzeit-Zusammenarbeit',
+  realTimeDesc: 'Sofortiger Austausch mit Teammitgliedern, Kommentarsystem und Versionskontrolle',
+  sustainabilityTitle: 'Nachhaltigkeitsanalyse',
+  sustainabilityDesc: 'Energieeffizienz, LEED/BREEAM-Konformität und Umweltauswirkungsberechnungen',
   
-  // Technology
+  // Technology Section
   technologyTitle1: 'Fortschrittliche',
   technologyTitle2: 'Technologie-Infrastruktur',
   technologySubtitle: 'ArchBuilder.AI bietet zuverlässige und skalierbare Architekturlösungen mit den fortschrittlichsten Technologien der Branche',
+  aiEngineTitle: 'Duale KI-Engine',
+  aiEngineDesc: 'Hybrides KI-System mit Google Vertex AI Gemini und OpenAI GPT-4.1',
+  cloudInfraTitle: 'Cloud-Infrastruktur',
+  cloudInfraDesc: 'Unternehmenssicherheit und Skalierbarkeit auf Microsoft Azure',
+  desktopAppTitle: 'Desktop-Anwendung',
+  desktopAppDesc: 'Native Windows-Anwendung mit WPF, Offline-Arbeitsunterstützung',
+  apiIntegration: 'API-Integration',
+  apiIntegrationDesc: 'Nahtlose Verbindung mit Drittanbieter-Software über RESTful API',
   
-  // Pricing
+  // Pricing Section
   pricingTitle1: 'Transparente und',
   pricingTitle2: 'Faire Preise',
   pricingSubtitle: 'Wählen Sie den Plan, der Ihren Bedürfnissen entspricht. Alle Pläne beinhalten eine 14-tägige kostenlose Testversion.',
+  starterPlan: 'Starter',
+  starterDesc: 'Perfekt für einzelne Architekten und kleine Projekte',
+  starterPrice: '99€',
+  starterPeriod: '/Monat',
+  proPlan: 'Professional',
+  proDesc: 'Erweiterte Funktionen für mittelgroße Unternehmen',
+  proPrice: '299€',
+  proPeriod: '/Monat',
+  enterprisePlan: 'Enterprise',
+  enterpriseDesc: 'Maßgeschneiderte Lösungen für große Organisationen',
+  enterprisePrice: 'Individuelle Preise',
+  enterpriseContact: 'Kontaktieren Sie uns',
+  choosePlan: 'Plan wählen',
+  mostPopular: 'Am beliebtesten',
   
-  // CTA
+  // Pricing Features
+  projectsUnlimited: 'Unbegrenzte Projekte',
+  users: 'Benutzer',
+  storage: 'Speicher',
+  supportSection: 'Support',
+  aiCredits: 'KI-Credits',
+  revitPlugin: 'Revit-Plugin',
+  apiAccess: 'API-Zugang',
+  customization: 'Anpassung',
+  training: 'Schulung',
+  sla: 'SLA-Garantie',
+  
+  // CTA Section
   ctaTitle: 'Bereit, Ihre Projekte mit KI zu transformieren?',
   ctaSubtitle: 'Beschleunigen Sie Ihren Architekturprozess, verbessern Sie die Qualität und bleiben Sie der Konkurrenz voraus mit ArchBuilder.AI. Starten Sie noch heute Ihre kostenlose Testversion.',
   
-  // Common
+  // Contact Section
+  contactTitle: 'Kontaktieren Sie uns',
+  contactSubtitle: 'Haben Sie Fragen? Unser Team ist hier, um Ihnen zum Erfolg zu verhelfen.',
+  fullName: 'Vollständiger Name',
+  emailAddress: 'E-Mail-Adresse',
+  companyName: 'Firmenname',
+  message: 'Ihre Nachricht',
+  sendMessage: 'Nachricht senden',
+  phoneNumber: 'Telefon',
+  officeHours: 'Bürozeiten',
+  mondayFriday: 'Montag - Freitag, 9:00 - 18:00',
+  
+  // Newsletter Section
+  newsletterTitle: 'Bleiben Sie auf dem Laufenden',
+  newsletterSubtitle: 'Verpassen Sie keine KI-Entwicklungen in der Architektur und Produktupdates',
+  subscribeNewsletter: 'Newsletter abonnieren',
+  emailPlaceholder: 'Geben Sie Ihre E-Mail-Adresse ein',
+  subscribe: 'Abonnieren',
+  subscribeSuccess: 'Erfolgreich abonniert!',
+  
+  // Footer
+  footerDescription: 'Transformieren Sie Ihre Projekte mit der KI-gestützten Architektur-Designplattform.',
+  quickLinks: 'Schnelle Links',
+  solutions: 'Lösungen',
+  company: 'Unternehmen',
+  about: 'Über uns',
+  careers: 'Karriere',
+  blog: 'Blog',
+  helpCenter: 'Hilfezentrum',
+  documentation: 'Dokumentation',
+  apiDocs: 'API-Dokumentation',
+  privacy: 'Datenschutzrichtlinie',
+  terms: 'Nutzungsbedingungen',
+  cookies: 'Cookie-Richtlinie',
+  allRightsReserved: 'Alle Rechte vorbehalten.',
+  
+  // Common UI Elements
   learnMore: 'Mehr erfahren',
   freeTrial: '14 Tage kostenlos',
   noCredit: 'Keine Kreditkarte erforderlich',
   support247: '24/7 Support',
-  
-  // Feature Cards
-  aiDesignTitle: 'KI-gestütztes Design',
-  aiDesignDesc: 'Architekturprojekt-Erstellung mit Vertex AI Gemini-2.5-Flash-Lite und GPT-4.1',
-  multiFormatTitle: 'Multi-Format-Unterstützung',
-  multiFormatDesc: 'Analyse von DWG, DXF, IFC, PDF-Vorschriften und bestehenden Revit-Projekten',
-  workflowTitle: 'Schritt-für-Schritt-Workflow',
-  workflowDesc: 'Detaillierte Arbeitspläne mit 5-50 Schritten basierend auf Projektkomplexität',
+  close: 'Schließen',
+  cancel: 'Abbrechen',
+  confirm: 'Bestätigen',
+  save: 'Speichern',
+  edit: 'Bearbeiten',
+  delete: 'Löschen',
+  loading: 'Laden...',
+  error: 'Fehler',
+  success: 'Erfolg',
+  warning: 'Warnung',
   
   // Trust Indicators
   freeDays: '14 Tage',
   freeTrialLabel: 'Kostenlose Testversion',
   noCreditCard: 'Keine Kreditkarte',
   notRequired: 'Erforderlich',
-  support: '24/7',
-  supportLabel: 'Support'
+  supportAvailable: '24/7',
+  supportLabel: 'Support',
+  
+  // Signup Page
+  signupJoinArchBuilder: 'ArchBuilder.AI beitreten',
+  signupTransformProjects: 'Beginnen Sie, Ihre Architekturprojekte mit KI zu transformieren',
+  signupCreateFreeAccount: 'Kostenloses Konto erstellen',
+  signupFullName: 'Vollständiger Name',
+  signupEmailAddress: 'E-Mail-Adresse',
+  signupCompanyOrganization: 'Unternehmen/Organisation',
+  signupInterestedPlan: 'Interessierter Plan',
+  signupFullNamePlaceholder: 'Ihr Vor- und Nachname',
+  signupEmailPlaceholder: 'beispiel@email.com',
+  signupCompanyPlaceholder: 'Firmenname (optional)',
+  signupPlanStarter: 'Starter',
+  signupPlanProfessional: 'Professionell',
+  signupPlanEnterprise: 'Unternehmen',
+  signupPrivacyAcceptance: 'Ich habe gelesen und akzeptiert.',
+  signupStartFree: 'Kostenlos starten',
+  signupAlreadyHaveAccount: 'Haben Sie bereits ein Konto?',
+  signupLoginLink: 'Anmelden',
+  signupRegistrationReceived: 'Ihre Registrierungsanfrage wurde erhalten! Wir werden uns so schnell wie möglich bei Ihnen melden.',
+  signupWhyArchBuilder: 'Warum ArchBuilder.AI?',
+  signupBenefit1: '1 Gebäude kostenlose Testversion',
+  signupBenefit2: 'Zugang zu allen KI-Funktionen',
+  signupBenefit3: 'DWG/DXF/IFC/PDF-Unterstützung',
+  signupBenefit4: '24/7 E-Mail-Support',
+  signupBenefit5: 'Revit-Integration',
+  signupBenefit6: 'Keine Kreditkarte erforderlich',
+  signupGetStarted: '🚀 Jetzt loslegen',
+  signupInstantActivation: '✅ Sofortige Kontoaktivierung',
+  signupFreeTrial: '✅ 1 Gebäude kostenlose Testversion',
+  signupNoInstallation: '✅ Keine Installation erforderlich',
+  signupQuickProjects: '✅ Projekte in 30 Sekunden',
+  signupProTip: '💡 Profi-Tipp',
+  signupProTipDescription: 'Nach der Erstellung Ihres ersten Projekts können Sie die KI nach spezifischen Gebäudedetails und Materialempfehlungen fragen. Dies beschleunigt Ihren Designprozess um 70%.'
 };

@@ -1,5 +1,9 @@
 export const fr = {
-  // Header
+  // Site Metadata
+  siteTitle: 'ArchBuilder.AI - Plateforme d\'Architecture Alimentée par IA',
+  siteDescription: 'Plateforme révolutionnaire de conception architecturale alimentée par IA. Transformez le langage naturel et les dessins en projets Revit. La première solution architecturale assistée par IA au monde.',
+  
+  // Header Navigation
   overview: 'Aperçu',
   useCases: 'Cas d\'Usage',
   features: 'Fonctionnalités',
@@ -8,6 +12,10 @@ export const fr = {
   contact: 'Contact',
   login: 'Se connecter',
   getStarted: 'Commencer',
+  dashboard: 'Tableau de bord',
+  profile: 'Profil',
+  settings: 'Paramètres',
+  logout: 'Se déconnecter',
   
   // Hero Section
   heroTitle1: 'L\'avenir de',
@@ -17,45 +25,130 @@ export const fr = {
   startFree: 'Commencer gratuitement',
   watchDemo: 'Voir la démo',
   aiRevolution: 'Révolution IA en architecture',
+  revolutionDescription: '70% de livraison de projet plus rapide, 80% d\'erreurs de conception en moins',
   
-  // Features
+  // Features Section
   featuresTitle1: 'Fonctionnalités',
   featuresTitle2: 'Puissantes avec IA',
   featuresSubtitle: 'ArchBuilder.AI offre des fonctionnalités technologiques avancées qui accélèrent vos projets architecturaux et améliorent la qualité',
+  aiDesignTitle: 'Design assisté par IA',
+  aiDesignDesc: 'Création et optimisation de projets architecturaux alimentées par Vertex AI Gemini-2.5-Flash-Lite et GPT-4.1',
+  multiFormatTitle: 'Support multi-formats',
+  multiFormatDesc: 'Analyse transparente des réglementations DWG, DXF, IFC, PDF et des projets Revit existants',
+  workflowTitle: 'Flux de travail étape par étape',
+  workflowDesc: 'Plans de travail détaillés de 5 à 50 étapes avec suivi des progrès basé sur la complexité du projet',
+  revitIntegrationTitle: 'Intégration Revit',
+  revitIntegrationDesc: 'Intégration transparente avec votre flux de travail Revit existant, y compris les plugins et le support API',
+  realTimeTitle: 'Collaboration en temps réel',
+  realTimeDesc: 'Partage instantané avec les membres de l\'équipe, système de commentaires et contrôle de version',
+  sustainabilityTitle: 'Analyse de durabilité',
+  sustainabilityDesc: 'Efficacité énergétique, conformité LEED/BREEAM et calculs d\'impact environnemental',
   
-  // Technology
+  // Technology Section
   technologyTitle1: 'Infrastructure',
   technologyTitle2: 'Technologique Avancée',
   technologySubtitle: 'ArchBuilder.AI fournit des solutions architecturales fiables et évolutives en utilisant les technologies les plus avancées de l\'industrie',
+  aiEngineTitle: 'Moteur IA Double',
+  aiEngineDesc: 'Système d\'intelligence artificielle hybride avec Google Vertex AI Gemini et OpenAI GPT-4.1',
+  cloudInfraTitle: 'Infrastructure Cloud',
+  cloudInfraDesc: 'Sécurité et évolutivité de niveau entreprise sur Microsoft Azure',
+  desktopAppTitle: 'Application Desktop',
+  desktopAppDesc: 'Application Windows native construite avec WPF, support de travail hors ligne',
+  apiIntegration: 'Intégration API',
+  apiIntegrationDesc: 'Connexion transparente avec des logiciels tiers via l\'API RESTful',
   
-  // Pricing
+  // Pricing Section
   pricingTitle1: 'Tarification',
   pricingTitle2: 'Transparente et Équitable',
   pricingSubtitle: 'Choisissez le plan qui correspond à vos besoins. Tous les plans sont fournis avec un essai gratuit de 14 jours.',
+  starterPlan: 'Débutant',
+  starterDesc: 'Parfait pour les architectes individuels et les petits projets',
+  starterPrice: '99€',
+  starterPeriod: '/mois',
+  proPlan: 'Professionnel',
+  proDesc: 'Fonctionnalités avancées pour les entreprises de taille moyenne',
+  proPrice: '299€',
+  proPeriod: '/mois',
+  enterprisePlan: 'Entreprise',
+  enterpriseDesc: 'Solutions personnalisées pour les grandes organisations',
+  enterprisePrice: 'Tarification personnalisée',
+  enterpriseContact: 'Nous contacter',
+  choosePlan: 'Choisir le plan',
+  mostPopular: 'Le plus populaire',
   
-  // CTA
+  // Pricing Features
+  projectsUnlimited: 'Projets illimités',
+  users: 'Utilisateurs',
+  storage: 'Stockage',
+  supportSection: 'Support',
+  aiCredits: 'Crédits IA',
+  revitPlugin: 'Plugin Revit',
+  apiAccess: 'Accès API',
+  customization: 'Personnalisation',
+  training: 'Formation',
+  sla: 'Garantie SLA',
+  
+  // CTA Section
   ctaTitle: 'Prêt à transformer vos projets avec l\'IA ?',
   ctaSubtitle: 'Accélérez votre processus architectural, améliorez la qualité et gardez une longueur d\'avance sur la concurrence avec ArchBuilder.AI. Commencez votre essai gratuit aujourd\'hui.',
   
-  // Common
+  // Contact Section
+  contactTitle: 'Contactez-nous',
+  contactSubtitle: 'Vous avez des questions ? Notre équipe est là pour vous aider à réussir.',
+  fullName: 'Nom complet',
+  emailAddress: 'Adresse e-mail',
+  companyName: 'Nom de l\'entreprise',
+  message: 'Votre message',
+  sendMessage: 'Envoyer le message',
+  phoneNumber: 'Téléphone',
+  officeHours: 'Heures de bureau',
+  mondayFriday: 'Lundi - Vendredi, 9h00 - 18h00',
+  
+  // Newsletter Section
+  newsletterTitle: 'Restez informé',
+  newsletterSubtitle: 'Ne manquez pas les développements de l\'IA en architecture et les mises à jour produit',
+  subscribeNewsletter: 'S\'abonner à la newsletter',
+  emailPlaceholder: 'Entrez votre adresse e-mail',
+  subscribe: 'S\'abonner',
+  subscribeSuccess: 'Abonnement réussi !',
+  
+  // Footer
+  footerDescription: 'Transformez vos projets avec la plateforme de conception architecturale alimentée par IA.',
+  quickLinks: 'Liens rapides',
+  solutions: 'Solutions',
+  company: 'Entreprise',
+  about: 'À propos',
+  careers: 'Carrières',
+  blog: 'Blog',
+  helpCenter: 'Centre d\'aide',
+  documentation: 'Documentation',
+  apiDocs: 'Documentation API',
+  privacy: 'Politique de confidentialité',
+  terms: 'Conditions d\'utilisation',
+  cookies: 'Politique des cookies',
+  allRightsReserved: 'Tous droits réservés.',
+  
+  // Common UI Elements
   learnMore: 'En savoir plus',
   freeTrial: '14 jours gratuits',
   noCredit: 'Aucune carte de crédit requise',
   support247: 'Support 24/7',
-  
-  // Feature Cards
-  aiDesignTitle: 'Design assisté par IA',
-  aiDesignDesc: 'Création de projets architecturaux alimentée par Vertex AI Gemini-2.5-Flash-Lite et GPT-4.1',
-  multiFormatTitle: 'Support multi-formats',
-  multiFormatDesc: 'Analyse des réglementations DWG, DXF, IFC, PDF et des projets Revit existants',
-  workflowTitle: 'Flux de travail étape par étape',
-  workflowDesc: 'Plans de travail détaillés de 5 à 50 étapes basés sur la complexité du projet',
+  close: 'Fermer',
+  cancel: 'Annuler',
+  confirm: 'Confirmer',
+  save: 'Enregistrer',
+  edit: 'Modifier',
+  delete: 'Supprimer',
+  loading: 'Chargement...',
+  error: 'Erreur',
+  success: 'Succès',
+  warning: 'Avertissement',
   
   // Trust Indicators
   freeDays: '14 Jours',
   freeTrialLabel: 'Essai Gratuit',
   noCreditCard: 'Aucune Carte de Crédit',
   notRequired: 'Requise',
-  support: '24/7',
+  supportAvailable: '24/7',
   supportLabel: 'Support'
 };

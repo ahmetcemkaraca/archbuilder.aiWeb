@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { Bars3Icon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline';
@@ -9,20 +9,26 @@ import { LanguageSelector } from '@/components/ui/language-selector';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
   const { t } = useI18n();
 
+  // Hydration güvenliği için
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Navigation items with hydration-safe translation
   const navigation = [
-    { name: t('overview'), href: '#overview' },
-    { name: t('useCases'), href: '#use-cases' },
-    { name: t('features'), href: '#features' },
-    { name: t('technology'), href: '#technology' },
-    { name: t('pricing'), href: '#pricing' },
-    { name: t('contact'), href: '#contact' },
+    { name: mounted ? t('overview') : 'Genel Bakış', href: '#hero' },
+    { name: mounted ? t('features') : 'Özellikler', href: '#features' },
+    { name: mounted ? t('technology') : 'Teknoloji', href: '#technology' },
+    { name: mounted ? t('pricing') : 'Fiyatlandırma', href: '/pricing' },
+    { name: mounted ? t('contact') : 'İletişim', href: '#contact' },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass-effect border-b border-white/20">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
@@ -69,16 +75,16 @@ export function Header() {
             </button>
 
             <Link
-              href="/auth/login"
+              href="/login"
               className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
             >
-              {t('login')}
+              {mounted ? t('login') : 'Giriş Yap'}
             </Link>
             <Link
-              href="/pricing"
+              href="/signup"
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
             >
-              {t('getStarted')}
+              {mounted ? t('getStarted') : 'Başlayın'}
             </Link>
           </div>
 
@@ -130,18 +136,18 @@ export function Header() {
               ))}
               <div className="border-t border-white/20 pt-4 flex flex-col space-y-3 px-2">
                 <Link
-                  href="/auth/login"
+                  href="/login"
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {t('login')}
+                  {mounted ? t('login') : 'Giriş Yap'}
                 </Link>
                 <Link
-                  href="/pricing"
+                  href="/signup"
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-300 text-center"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {t('getStarted')}
+                  {mounted ? t('getStarted') : 'Başlayın'}
                 </Link>
               </div>
             </nav>

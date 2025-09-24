@@ -73,10 +73,76 @@
       "configKeys": []
     },
     {
+      "name": "components.ui.theme-toggle",
+      "exports": ["ThemeToggle"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.seo.structured-data",
+      "exports": ["StructuredData"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.sections.contact",
+      "exports": ["Contact"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.sections.contact-form",
+      "exports": ["ContactForm"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.sections.newsletter",
+      "exports": ["NewsletterSubscription"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
       "name": "lib.api",
       "exports": [],
       "variables": [],
       "configKeys": ["NEXT_PUBLIC_API_URL"]
+    },
+    {
+      "name": "lib.health-monitor",
+      "exports": ["healthMonitor", "useHealthCheck", "HealthCheckResult", "PerformanceMetrics"],
+      "variables": ["healthMonitor"],
+      "configKeys": ["NEXT_PUBLIC_VERSION", "NEXT_PUBLIC_BUILD_TIME", "NEXT_PUBLIC_COMMIT_HASH"]
+    },
+    {
+      "name": "lib.uptime-config",
+      "exports": ["uptimeMonitor", "UptimeMonitor", "UptimeConfig", "SystemStatus", "Incident"],
+      "variables": ["uptimeMonitor", "defaultUptimeConfig"],
+      "configKeys": ["NEXT_PUBLIC_ADMIN_EMAIL", "SLACK_WEBHOOK_URL", "NEXT_PUBLIC_SITE_URL"]
+    },
+    {
+      "name": "lib.production-config",
+      "exports": ["deployment", "ProductionDeployment", "ProductionConfig", "productionConfigs"],
+      "variables": ["deployment", "productionConfigs"],
+      "configKeys": ["NEXT_PUBLIC_GA_MEASUREMENT_ID", "NEXT_PUBLIC_SITE_URL"]
+    },
+    {
+      "name": "app.forgot-password.page",
+      "exports": ["default"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "app.reset-password.page",
+      "exports": ["default"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "app.verify-email.page",
+      "exports": ["default"],
+      "variables": [],
+      "configKeys": []
     }
   ],
   "globalConfig": [
@@ -103,7 +169,20 @@
     "NEXT_PUBLIC_CONTACT_PHONE",
     "NEXT_PUBLIC_PRIVACY_POLICY_URL",
     "NEXT_PUBLIC_TERMS_OF_SERVICE_URL",
-    "NEXT_PUBLIC_COOKIE_POLICY_URL"
+    "NEXT_PUBLIC_COOKIE_POLICY_URL",
+    "NEXT_PUBLIC_VERSION",
+    "NEXT_PUBLIC_BUILD_TIME", 
+    "NEXT_PUBLIC_COMMIT_HASH",
+    "NEXT_PUBLIC_ADMIN_EMAIL",
+    "SLACK_WEBHOOK_URL",
+    "NEXT_PUBLIC_SITE_URL",
+    "NEXT_PUBLIC_GA_MEASUREMENT_ID",
+    "NEXT_PUBLIC_SENTRY_DSN",
+    "NEXT_PUBLIC_UPTIME_ROBOT_API_KEY",
+    "NEXT_PUBLIC_PINGDOM_API_KEY",
+    "NETLIFY_SITE_ID",
+    "VERCEL_PROJECT_ID",
+    "VERCEL_ORG_ID"
   ]
 }
 

@@ -1,5 +1,9 @@
 export const ru = {
-  // Header
+  // Site Metadata
+  siteTitle: 'ArchBuilder.AI - Архитектурная Платформа на Базе ИИ',
+  siteDescription: 'Революционная архитектурная платформа на базе искусственного интеллекта. Превратите естественный язык и чертежи в проекты Revit. Первое в мире ИИ-решение для архитекторов.',
+  
+  // Header Navigation
   overview: 'Обзор',
   useCases: 'Сценарии Использования',
   features: 'Функции',
@@ -8,6 +12,10 @@ export const ru = {
   contact: 'Контакты',
   login: 'Войти',
   getStarted: 'Начать',
+  dashboard: 'Панель',
+  profile: 'Профиль',
+  settings: 'Настройки',
+  logout: 'Выйти',
   
   // Hero Section
   heroTitle1: 'Будущее',
@@ -17,45 +25,130 @@ export const ru = {
   startFree: 'Начать бесплатно',
   watchDemo: 'Смотреть демо',
   aiRevolution: 'ИИ революция в архитектуре',
+  revolutionDescription: 'На 70% быстрее сдача проектов, на 80% меньше ошибок проектирования',
   
-  // Features
+  // Features Section
   featuresTitle1: 'Мощные функции',
   featuresTitle2: 'с поддержкой ИИ',
   featuresSubtitle: 'ArchBuilder.AI предлагает передовые технологические функции, которые ускоряют ваши архитектурные проекты и повышают качество',
+  aiDesignTitle: 'Дизайн на основе ИИ',
+  aiDesignDesc: 'Создание и оптимизация архитектурных проектов с использованием Vertex AI Gemini-2.5-Flash-Lite и GPT-4.1',
+  multiFormatTitle: 'Поддержка множественных форматов',
+  multiFormatDesc: 'Бесшовный анализ DWG, DXF, IFC, PDF-регламентов и существующих проектов Revit',
+  workflowTitle: 'Пошаговый рабочий процесс',
+  workflowDesc: 'Детальные рабочие планы из 5-50 шагов с отслеживанием прогресса в зависимости от сложности проекта',
+  revitIntegrationTitle: 'Интеграция с Revit',
+  revitIntegrationDesc: 'Бесшовная интеграция с вашим существующим рабочим процессом Revit, включая плагины и поддержку API',
+  realTimeTitle: 'Совместная работа в реальном времени',
+  realTimeDesc: 'Мгновенный обмен с членами команды, система комментариев и контроль версий',
+  sustainabilityTitle: 'Анализ устойчивости',
+  sustainabilityDesc: 'Энергоэффективность, соответствие LEED/BREEAM и расчеты воздействия на окружающую среду',
   
-  // Technology
+  // Technology Section
   technologyTitle1: 'Передовая',
   technologyTitle2: 'Технологическая Инфраструктура',
   technologySubtitle: 'ArchBuilder.AI предоставляет надежные и масштабируемые архитектурные решения, используя самые передовые технологии отрасли',
+  aiEngineTitle: 'Двойной ИИ-движок',
+  aiEngineDesc: 'Гибридная система искусственного интеллекта с Google Vertex AI Gemini и OpenAI GPT-4.1',
+  cloudInfraTitle: 'Облачная инфраструктура',
+  cloudInfraDesc: 'Корпоративная безопасность и масштабируемость на Microsoft Azure',
+  desktopAppTitle: 'Настольное приложение',
+  desktopAppDesc: 'Нативное Windows-приложение, построенное с WPF, поддержка автономной работы',
+  apiIntegration: 'Интеграция API',
+  apiIntegrationDesc: 'Бесшовное подключение к стороннему программному обеспечению через RESTful API',
   
-  // Pricing
+  // Pricing Section
   pricingTitle1: 'Прозрачные и',
   pricingTitle2: 'Справедливые Цены',
   pricingSubtitle: 'Выберите план, который подходит вашим потребностям. Все планы поставляются с 14-дневной бесплатной пробной версией.',
+  starterPlan: 'Стартовый',
+  starterDesc: 'Идеально для отдельных архитекторов и небольших проектов',
+  starterPrice: '$99',
+  starterPeriod: '/месяц',
+  proPlan: 'Профессиональный',
+  proDesc: 'Расширенные функции для средних фирм',
+  proPrice: '$299',
+  proPeriod: '/месяц',
+  enterprisePlan: 'Корпоративный',
+  enterpriseDesc: 'Индивидуальные решения для крупных организаций',
+  enterprisePrice: 'Индивидуальные цены',
+  enterpriseContact: 'Связаться с нами',
+  choosePlan: 'Выбрать план',
+  mostPopular: 'Самый популярный',
   
-  // CTA
+  // Pricing Features
+  projectsUnlimited: 'Неограниченные проекты',
+  users: 'Пользователи',
+  storage: 'Хранилище',
+  supportSection: 'Поддержка',
+  aiCredits: 'ИИ-кредиты',
+  revitPlugin: 'Плагин Revit',
+  apiAccess: 'Доступ к API',
+  customization: 'Настройка',
+  training: 'Обучение',
+  sla: 'Гарантия SLA',
+  
+  // CTA Section
   ctaTitle: 'Готовы преобразовать свои проекты с помощью ИИ?',
   ctaSubtitle: 'Ускорьте архитектурный процесс, повысьте качество и опережайте конкурентов с ArchBuilder.AI. Начните бесплатную пробную версию сегодня.',
   
-  // Common
+  // Contact Section
+  contactTitle: 'Связаться с нами',
+  contactSubtitle: 'Есть вопросы? Наша команда здесь, чтобы помочь вам добиться успеха.',
+  fullName: 'Полное имя',
+  emailAddress: 'Адрес электронной почты',
+  companyName: 'Название компании',
+  message: 'Ваше сообщение',
+  sendMessage: 'Отправить сообщение',
+  phoneNumber: 'Телефон',
+  officeHours: 'Рабочие часы',
+  mondayFriday: 'Понедельник - Пятница, 9:00 - 18:00',
+  
+  // Newsletter Section
+  newsletterTitle: 'Оставайтесь в курсе',
+  newsletterSubtitle: 'Не пропустите разработки ИИ в архитектуре и обновления продуктов',
+  subscribeNewsletter: 'Подписаться на рассылку',
+  emailPlaceholder: 'Введите ваш email',
+  subscribe: 'Подписаться',
+  subscribeSuccess: 'Успешно подписаны!',
+  
+  // Footer
+  footerDescription: 'Преобразуйте свои проекты с помощью архитектурной платформы на базе ИИ.',
+  quickLinks: 'Быстрые ссылки',
+  solutions: 'Решения',
+  company: 'Компания',
+  about: 'О нас',
+  careers: 'Карьера',
+  blog: 'Блог',
+  helpCenter: 'Центр помощи',
+  documentation: 'Документация',
+  apiDocs: 'API документы',
+  privacy: 'Политика конфиденциальности',
+  terms: 'Условия использования',
+  cookies: 'Политика файлов cookie',
+  allRightsReserved: 'Все права защищены.',
+  
+  // Common UI Elements
   learnMore: 'Узнать больше',
   freeTrial: '14 дней бесплатно',
   noCredit: 'Кредитная карта не требуется',
   support247: 'Поддержка 24/7',
-  
-  // Feature Cards
-  aiDesignTitle: 'Дизайн на основе ИИ',
-  aiDesignDesc: 'Создание архитектурных проектов с использованием Vertex AI Gemini-2.5-Flash-Lite и GPT-4.1',
-  multiFormatTitle: 'Поддержка множественных форматов',
-  multiFormatDesc: 'Анализ DWG, DXF, IFC, PDF-регламентов и существующих проектов Revit',
-  workflowTitle: 'Пошаговый рабочий процесс',
-  workflowDesc: 'Детальные рабочие планы из 5-50 шагов в зависимости от сложности проекта',
+  close: 'Закрыть',
+  cancel: 'Отмена',
+  confirm: 'Подтвердить',
+  save: 'Сохранить',
+  edit: 'Редактировать',
+  delete: 'Удалить',
+  loading: 'Загрузка...',
+  error: 'Ошибка',
+  success: 'Успех',
+  warning: 'Предупреждение',
   
   // Trust Indicators
   freeDays: '14 Дней',
   freeTrialLabel: 'Бесплатная Пробная Версия',
   noCreditCard: 'Кредитная Карта',
   notRequired: 'Не Требуется',
-  support: '24/7',
+  supportAvailable: '24/7',
   supportLabel: 'Поддержка'
 };

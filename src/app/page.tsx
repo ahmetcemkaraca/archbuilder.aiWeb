@@ -3,6 +3,7 @@ import { Hero } from '@/components/sections/hero';
 import { Features } from '@/components/sections/features';
 import { Technology } from '@/components/sections/technology';
 import { Pricing } from '@/components/sections/pricing';
+import { Contact } from '@/components/sections/contact';
 import { CTA } from '@/components/sections/cta';
 import { Footer } from '@/components/layout/footer';
 
@@ -14,6 +15,7 @@ export default function HomePage() {
       <Features />
       <Technology />
       <Pricing />
+      <Contact />
       <CTA />
       <Footer />
     </main>

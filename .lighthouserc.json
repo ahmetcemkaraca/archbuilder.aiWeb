@@ -1,0 +1,51 @@
+{
+  "ci": {
+    "collect": {
+      "url": [
+        "http://localhost:3000",
+        "http://localhost:3000/tr",
+        "http://localhost:3000/en"
+      ],
+      "numberOfRuns": 3,
+      "settings": {
+        "chromeFlags": "--no-sandbox --disable-dev-shm-usage"
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["warn", {"minScore": 0.85}],
+        "categories:accessibility": ["error", {"minScore": 0.9}],
+        "categories:best-practices": ["warn", {"minScore": 0.85}],
+        "categories:seo": ["error", {"minScore": 0.9}],
+        "categories:pwa": "off",
+        
+        "first-contentful-paint": ["warn", {"maxNumericValue": 3000}],
+        "largest-contentful-paint": ["error", {"maxNumericValue": 4000}],
+        "first-meaningful-paint": ["warn", {"maxNumericValue": 3500}],
+        "speed-index": ["warn", {"maxNumericValue": 4000}],
+        "interactive": ["error", {"maxNumericValue": 5000}],
+        "cumulative-layout-shift": ["error", {"maxNumericValue": 0.15}],
+        
+        "unused-css-rules": "off",
+        "unused-javascript": "off",
+        "uses-responsive-images": "warn",
+        "offscreen-images": "warn",
+        "render-blocking-resources": "warn",
+        "unminified-css": "error",
+        "unminified-javascript": "error",
+        "modern-image-formats": "warn",
+        "uses-optimized-images": "warn",
+        "uses-text-compression": "error",
+        "uses-rel-preconnect": "warn",
+        "font-display": "warn",
+        "third-party-summary": "off"
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    },
+    "wizard": {
+      "target": "github-actions"
+    }
+  }
+}

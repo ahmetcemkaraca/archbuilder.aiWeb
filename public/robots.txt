@@ -1,0 +1,73 @@
+# ArchBuilder.AI - AI-Powered Architecture Platform
+# www.robotstxt.org/
+
+# Allow all legitimate search engines
+User-agent: *
+Allow: /
+
+# Disallow build artifacts and private areas (static export)
+Disallow: /_next/static/chunks/
+Disallow: /_next/webpack-*
+Disallow: /.well-known/
+
+# Allow important static assets
+Allow: /_next/static/css/
+Allow: /_next/static/media/
+Allow: /favicon.ico
+Allow: /manifest.json
+
+# Prevent indexing of query parameters and anchors
+Disallow: /*?*
+Disallow: /*#*
+
+# Allow important pages for SEO
+Allow: /sitemap.xml
+Allow: /robots.txt
+
+# Crawl delay for server optimization
+Crawl-delay: 1
+
+# Sitemap location (dynamic based on environment)
+Sitemap: https://archbuilder.ai/sitemap.xml
+
+# Specific directives for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot  
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 1
+
+# Block aggressive crawlers and bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: dotbot
+Disallow: /
+
+# Archive.org is welcome
+User-agent: ia_archiver
+Allow: /
