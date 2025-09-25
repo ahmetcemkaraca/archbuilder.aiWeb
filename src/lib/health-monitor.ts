@@ -257,7 +257,7 @@ class HealthMonitor {
 
     const results: { [key: string]: boolean } = {};
     
-  for (const dep of dependencies) {
+    for (const dep of dependencies) {
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), dep.timeout);
