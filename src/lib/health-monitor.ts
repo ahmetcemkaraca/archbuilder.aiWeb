@@ -156,7 +156,7 @@ class HealthMonitor {
       '/robots.txt'
     ];
 
-  const results = await Promise.allSettled(
+    const results = await Promise.allSettled(
       criticalAssets.map(asset => 
         fetch(`${this.baseUrl}${asset}`, { 
           method: 'HEAD',
