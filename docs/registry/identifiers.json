@@ -1,16 +1,19 @@
 {
   "modules": [
     {
-      "name": "repo.governance",
+      "name": "repo.governance.gitflow",
       "exports": [
         "ISSUE_TEMPLATES",
-        "PR_TEMPLATE",
+        "PR_TEMPLATE", 
         "CODEOWNERS",
-        "WORKFLOWS"
+        "WORKFLOWS",
+        "GITFLOW_GUIDE"
       ],
       "variables": [
-        "BRANCH_NAMING_CONVENTION",
-        "CONVENTIONAL_COMMITS"
+        "GITFLOW_BRANCH_NAMING",
+        "CONVENTIONAL_COMMITS",
+        "DEVELOP_BRANCH",
+        "MAIN_BRANCH"
       ],
       "configKeys": []
     }
