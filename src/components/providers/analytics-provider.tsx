@@ -42,7 +42,7 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== 'undefined') {
       setTimeout(initializeAnalytics, 1000);
     }
-  }, [pathname]);
+  }, []);
 
   // Route change tracking
   useEffect(() => {
