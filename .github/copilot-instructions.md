@@ -43,8 +43,8 @@ npm run lint         # ESLint check
 
 ## 🔧 MANDATORY DEVELOPMENT WORKFLOW
 
-### 🌟 GIT BRANCH WORKFLOW
-**ALWAYS** work with feature branches for every task/implementation:
+### 🌟 GIT BRANCH WORKFLOW (Issue-first)
+**ALWAYS** start from an Issue, then work with feature branches for every task/implementation:
 
 #### Git Branch Strategy:
 1. **Create Feature Branch**: Before starting any task, create a new branch from main
@@ -55,21 +55,23 @@ npm run lint         # ESLint check
    ```
 
 2. **Branch Naming Convention**:
-   - `feature/component-implementation`
-   - `feature/i18n-translations`
-   - `feature/ui-enhancements`
-   - `bugfix/issue-description`
-   - `docs/update-instructions`
+  - `feature/<issue-number>-<kebab-title>` (e.g., `feature/123-add-user-login`)
+  - `fix/<issue-number>-<kebab-title>`
+  - `hotfix/<kebab-title>` (for urgent production fixes)
+  - `docs/<kebab-title>`
 
 3. **Work on Feature Branch**: 
    - Make all commits to the feature branch
    - Use descriptive commit messages with conventional commits format
    - Push feature branch to origin regularly
 
-4. **Submit for Review**:
+4. **Submit for Review (PR)**:
    - When task is complete, push final branch to origin
    - DO NOT merge to main directly
    - Human reviewer will merge after approval
+  - Use conventional commits; PR title conventional (`feat(scope): summary`)
+  - Link the issue in PR description using `Closes #<id>`
+  - Prefer Squash & Merge; delete branch after merge
 
 ### Before ANY Implementation:
 **ALWAYS** read the relevant `*.instructions.md` files from `.github/instructions/` directory before writing or modifying any code. This is **NON-NEGOTIABLE**.
@@ -208,6 +210,7 @@ Before committing any code changes:
 - [ ] Responsive design tested (mobile + desktop)
 - [ ] Dark/light theme compatibility verified
 - [ ] Translation keys added to all 7 locale files
+ - [ ] PR links Issue and passes CI (tests, lint, typecheck)
 
 ## Common Patterns & Anti-Patterns
 

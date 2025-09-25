@@ -34,8 +34,17 @@ Bu belge; dil politikası, kayıt defteri (registry), kalıcı bağlam (persiste
 - Registry kodla uyumsuzsa merge engellenir.
 
 ## Geliştirici Akışı
+- Issue-first: Her değişiklik bir Issue ile başlar (özet, motivasyon, acceptance criteria, etiketler).
+- Branching: `main`'den dal al. İsimler: `feature/<issue>-<kebab-title>`, `fix/<issue>-<kebab-title>`, `hotfix/<kebab-title>`, `docs/<kebab-title>`.
+- Commits: Küçük ve atomik; Conventional Commits formatı zorunlu: `feat|fix|docs|chore|refactor|test|perf(scope): mesaj`.
 - Before coding: `.mds/context/current-context.md` + `docs/registry/*.json` oku; i18n planla.
 - After coding: Registry güncelle; `current-context.md`yi tazele; `history/NNNN.md`ye özet yaz; test ekle; scriptleri çalıştır.
+- Pull Request: Başlık conventional, açıklamada `Closes #<issue>` olmalı; checklist (lint, test, i18n, registry) yeşil; Squash & Merge, branch sil.
+
+## Otomasyon
+- PR Governance workflow: PR başlığı, issue bağlantısı ve branch ismini doğrular.
+- Lint workflow: PR ve main üzerinde ESLint çalıştırır.
+- CODEOWNERS: çekirdek yollar için otomatik reviewer ataması yapar.
 
 ## Replit Agent ve Copilot
 - Promptlar registry/context adımlarını açıkça talep eder.

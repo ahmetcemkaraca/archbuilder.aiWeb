@@ -1,0 +1,81 @@
+name: Bug report
+description: Report a reproducible problem or regression
+labels: [bug]
+title: "bug: <short description>"
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please fill out all required fields so we can reproduce and fix it quickly.
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Short, specific description of the bug
+      placeholder: e.g., Login button does not respond on mobile Safari
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened vs. what you expected to happen
+      placeholder: Actual vs Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to Reproduce
+      description: List clear steps to reproduce the issue
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - S1 - Critical (blocks release or major functionality)
+        - S2 - High (major feature degraded)
+        - S3 - Medium (workaround exists)
+        - S4 - Low (minor or cosmetic)
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Affected version/build
+      placeholder: git SHA or tag
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: OS/Browser/Device (e.g., Windows 11, Edge 127)
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Console output
+      render: shell
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: Conditions of satisfaction to confirm the fix
+      placeholder: |
+        - Repro steps no longer reproduce on Edge and Chrome
+        - Unit test covers the regression case
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional context

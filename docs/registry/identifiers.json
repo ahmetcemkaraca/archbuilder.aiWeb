@@ -1,6 +1,21 @@
 {
   "modules": [
     {
+      "name": "repo.governance",
+      "exports": [
+        "ISSUE_TEMPLATES",
+        "PR_TEMPLATE",
+        "CODEOWNERS",
+        "WORKFLOWS"
+      ],
+      "variables": [
+        "BRANCH_NAMING_CONVENTION",
+        "CONVENTIONAL_COMMITS"
+      ],
+      "configKeys": []
+    }
+    ,
+    {
       "name": "lib.i18n.config",
       "exports": ["locales", "defaultLocale", "localeNames", "localeFlags", "Locale"],
       "variables": ["locales", "defaultLocale", "localeNames", "localeFlags"],

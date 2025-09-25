@@ -1,0 +1,27 @@
+name: Documentation
+description: Improvements or additions to documentation
+labels: [documentation]
+title: "docs: <short description>"
+assignees: []
+body:
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      placeholder: Files/areas to update
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      placeholder: |
+        - Docs updated
+        - Screenshots added (if UI)
+        - Links verified
+    validations:
+      required: true

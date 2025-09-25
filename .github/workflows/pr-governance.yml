@@ -1,0 +1,55 @@
+name: PR Governance
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      contents: read
+    steps:
+      - name: Check PR title follows conventional commits
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            chore
+            refactor
+            test
+            perf
+            build
+            ci
+          requireScope: false
+          subjectPattern: '^[a-zA-Z]'
+
+      - name: Ensure PR description links an issue (Closes #...)
+        uses: actions-ecosystem/action-regex-match@v2
+        id: issue
+        with:
+          text: ${{ github.event.pull_request.body }}
+          regex: 'Closes #[0-9]+'
+
+      - name: Fail if no linked issue
+        if: ${{ steps.issue.outputs.match == '' }}
+        run: |
+          echo "PR description must include 'Closes #<issue-number>'" >&2
+          exit 1
+
+      - name: Ensure branch name matches convention
+        uses: actions-ecosystem/action-regex-match@v2
+        id: branch
+        with:
+          text: ${{ github.head_ref }}
+          regex: '^(feature|fix|hotfix|docs)\/.+'
+
+      - name: Fail if branch name invalid
+        if: ${{ steps.branch.outputs.match == '' }}
+        run: |
+          echo "Branch name must start with feature/, fix/, hotfix/, or docs/" >&2
+          exit 1

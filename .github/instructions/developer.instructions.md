@@ -10,10 +10,23 @@ As the Developer:
 - Add observability hooks; handle errors cleanly; avoid leaky abstractions.
 - Update `.mds/Todo.md` progress and `CHANGELOG.md` entries when applicable.
 
+GitHub Flow (Issue → Branch → Commits → PR → Merge):
+- Issue-first: Every change must have an Issue with summary, motivation, acceptance criteria, and labels (bug/feature/docs). Link PRs with `Closes #<id>`.
+- Branching: Create branches from `main` only. Naming: `feature/<issue>-<kebab-title>`, `fix/<issue>-<kebab-title>`, `hotfix/<kebab-title>`, `docs/<kebab-title>`.
+- Commits: Keep atomic; conventional commits required: `feat|fix|docs|chore|refactor|test|perf(scope): message`. Prefer imperative mood; include rationale in body if non-trivial.
+- Pull Requests: Open early as draft if WIP. Checklist must pass (lint, tests, i18n, registry). Request reviews from CODEOWNERS. Ensure CI green before merge.
+- Merge strategy: Squash and merge by default to keep a linear history. Delete merged branches.
+
+Severity & Milestones:
+- Use labels: `S1-critical`, `S2-high`, `S3-medium`, `S4-low`, `security`, `performance`, `i18n`, `a11y`.
+- Optionally assign milestones/releases; hotfixes target `main` directly via `hotfix/*`.
+
 Before coding (checklist)
 - Read `.mds/context/current-context.md` and `docs/registry/*.json` to rehydrate context.
 - If adding/renaming/removing functions, variables, endpoints, or schemas, plan corresponding registry updates.
 - For UI text, add/modify i18n resources (TR default). Do not hardcode strings.
+ - Ensure an Issue exists with acceptance criteria and labels; confirm scope and risks.
+ - Create a dedicated branch from `main` with a conventional name.
 
 After coding (checklist)
 - Update `docs/registry/identifiers.json`, `endpoints.json`, `schemas.json` as applicable.
@@ -22,6 +35,8 @@ After coding (checklist)
 - Run validation scripts (Windows PowerShell):
   - `pwsh -File scripts/validate-registry.ps1`
   - `pwsh -File scripts/rehydrate-context.ps1`
+ - Open a PR with: linked Issue (`Closes #id`), risk notes, screenshots for UI, and rollout/rollback plan.
+ - Ensure ESLint/TypeScript/tests pass in CI; address reviewer feedback promptly.
 
 Environment targets
 - Cloud server: Python 3.12 (pin in CI and docs)

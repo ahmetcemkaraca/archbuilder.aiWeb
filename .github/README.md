@@ -147,3 +147,16 @@ Private and proprietary to ArchBuilder.AI.
 ---
 
 Built with ❤️ by the ArchBuilder.AI team
+
+## Governance & Templates
+
+- Issue templates: `.github/ISSUE_TEMPLATE/` (bug, feature, documentation)
+- PR template: `.github/PULL_REQUEST_TEMPLATE.md`
+- Code owners: `.github/CODEOWNERS`
+- Workflows: `.github/workflows/` (CI, PR governance, lint)
+
+Follow the Issue-first workflow and branch naming conventions in:
+- `.github/instructions/developer.instructions.md`
+- `.github/copilot-instructions.md`
+
+PRs must include a linked Issue via `Closes #<id>` and use a conventional title; governance checks will fail otherwise.

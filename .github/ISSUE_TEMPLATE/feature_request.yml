@@ -1,0 +1,55 @@
+name: Feature request
+description: Propose a new capability or improvement
+labels: [feature]
+title: "feat: <short description>"
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please describe the problem this feature solves and the value it provides.
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      placeholder: Short, imperative title (e.g., Add dark mode toggle)
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Problem / Motivation
+      placeholder: Why is this needed? Who benefits?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      placeholder: High-level approach, scope, and alternatives considered
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      placeholder: |
+        - Given ... when ... then ...
+        - Analytics event recorded: ...
+        - i18n keys added for 7 locales
+    validations:
+      required: true
+  - type: checkboxes
+    id: impacts
+    attributes:
+      label: Impacts
+      options:
+        - label: UI changes (add screenshots/wireframes)
+        - label: i18n strings required (7 locales)
+        - label: Public contract changes (update docs/registry/*.json)
+        - label: Performance-sensitive path
+        - label: Security-sensitive path
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional context
