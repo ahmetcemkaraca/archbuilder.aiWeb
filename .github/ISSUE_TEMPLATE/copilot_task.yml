@@ -1,0 +1,68 @@
+name: 🤖 Copilot Implementation Task
+description: Structured task for GitHub Copilot coding agent
+title: "🤖 [Copilot]: "
+labels: ["copilot", "task", "development"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template is designed for GitHub Copilot coding agent tasks.
+        All required instruction files and architectural constraints are clearly defined.
+
+  - type: textarea
+    id: task-description
+    attributes:
+      label: Task Description
+      description: Clear, specific description of what needs to be implemented.
+      placeholder: |
+        Implement [specific feature/component/fix] following the ArchBuilder.AI website patterns...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: task-type
+    attributes:
+      label: Task Type
+      description: What type of task is this?
+      options:
+        - Component Implementation
+        - UI/UX Enhancement
+        - i18n Translation Addition
+        - Bug Fix
+        - Performance Optimization
+        - Build/Configuration Update
+        - Documentation Update
+        - Testing Addition
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: instruction-files
+    attributes:
+      label: Relevant Instruction Files
+      description: Select all instruction files relevant to this task
+      options:
+        - label: "`.github/instructions/web-typescript-react.instructions.md` - React/TypeScript patterns"
+        - label: "`.github/instructions/website-nextjs-patterns.instructions.md` - Next.js specific patterns" 
+        - label: "`.github/instructions/i18n-patterns.instructions.md` - Internationalization"
+        - label: "`.github/instructions/ux-ui-design.instructions.md` - UI/UX guidelines"
+        - label: "`.github/instructions/performance-optimization.instructions.md` - Performance"
+        - label: "`.github/instructions/code-style.instructions.md` - Code style standards"
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Specific, testable criteria for completion
+      placeholder: |
+        - [ ] Component follows existing patterns in `/src/components/`
+        - [ ] All UI text uses i18n system (no hardcoded strings)
+        - [ ] TypeScript strict mode compliance
+        - [ ] ESLint passes without errors
+        - [ ] Responsive design (mobile + desktop)
+        - [ ] Registry files updated if needed
+        - [ ] Translation keys added to all 7 locale files
+      render: markdown
+    validations:
+      required: true

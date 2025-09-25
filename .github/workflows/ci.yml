@@ -12,7 +12,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Validate registry
         shell: pwsh
         run: |
@@ -31,10 +31,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Setup Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v5
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
@@ -86,7 +86,7 @@ jobs:
         "
 
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: website-build-${{ matrix.node-version }}
         path: |
@@ -100,10 +100,10 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v5
       with:
         node-version: '20'
         cache: 'npm'
@@ -139,7 +139,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Test Cloud Server (Python)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
@@ -175,13 +175,13 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Security audit (npm)
       run: npm audit --audit-level=moderate
 
     - name: Dependency check
-      uses: actions/dependency-review-action@v3
+      uses: actions/dependency-review-action@v4
       if: github.event_name == 'pull_request'
 
   # Code Quality (Python)
@@ -189,7 +189,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Code Quality (Python)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
@@ -215,10 +215,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v5
       with:
         node-version: '20'
         cache: 'npm'
@@ -249,10 +249,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v5
       with:
         node-version: '20'
         cache: 'npm'
@@ -282,10 +282,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v5
       with:
         node-version: '20'
         cache: 'npm'
