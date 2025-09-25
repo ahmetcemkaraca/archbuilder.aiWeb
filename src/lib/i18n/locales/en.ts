@@ -539,6 +539,7 @@ export const en = {
   signupPlanStarter: 'Starter',
   signupPlanProfessional: 'Professional',
   signupPlanEnterprise: 'Enterprise',
+  signupPlanStudent: 'Student',
   signupPrivacyAcceptance: 'I have read and accept.',
   signupStartFree: 'Start Free',
   signupAlreadyHaveAccount: 'Already have an account?',

@@ -139,6 +139,8 @@ export const en = {
 
 ### Web Development (.tsx, .jsx files)
 - **Primary**: `.github/instructions/web-typescript-react.instructions.md`
+- **Next.js Patterns**: `.github/instructions/website-nextjs-patterns.instructions.md`
+- **i18n System**: `.github/instructions/i18n-patterns.instructions.md`
 - **UI/UX**: `.github/instructions/ux-ui-design.instructions.md`
 - **Security**: `.github/instructions/security.instructions.md`
 
@@ -146,6 +148,11 @@ export const en = {
 - **Registry**: `.github/instructions/registry-governance.instructions.md`
 - **Architecture**: `.github/instructions/architecture-decisions.instructions.md`
 - **Code Style**: `.github/instructions/code-style.instructions.md`
+
+### 📖 Quick Reference
+- **Complete Development Guide**: `.github/COPILOT_DEVELOPMENT_GUIDE.md`
+- **Issue Templates**: Use 🤖 Copilot Implementation Task template for structured tasks
+- **PR Template**: Comprehensive checklist for all requirements
 
 ## Quality Gates
 - TypeScript strict mode compliance
@@ -240,6 +247,58 @@ return <h1>Welcome</h1>; // ❌
 
 // Missing TypeScript types
 function MyComponent(props) { } // ❌
+```
+
+## Troubleshooting Common Issues
+
+### Build & Development Issues
+
+#### ESLint Errors
+```bash
+# If getting 16K+ lint errors from .next directory
+npm run lint
+# Expected: ~100 errors from actual source code
+# If seeing build artifacts errors, check eslint.config.mjs ignores
+```
+
+#### Build Failures
+```bash
+# Font loading issues (common in CI)
+npm run build
+# Expected: May fail due to Google Fonts network requests
+# Solution: Font loading is handled gracefully in production
+
+# Dependency conflicts
+npm install --legacy-peer-deps
+# React 19 + framer-motion compatibility handled this way
+```
+
+#### Development Server Issues
+```bash
+# Use Turbopack for faster development
+npm run dev
+# Port conflicts: Check port 3000 availability
+# Hot reload issues: Clear .next directory and restart
+```
+
+### i18n System Debugging
+```bash
+# Verify all translation files exist
+ls src/lib/i18n/locales/
+# Expected: en.ts, tr.ts, ru.ts, de.ts, fr.ts, es.ts, it.ts
+
+# Test translation key resolution
+npm run build
+# Missing keys will show in build output
+```
+
+### Static Export Validation
+```bash
+# Verify static export works
+npm run build
+# Check output directory exists
+ls -la out/
+# Should contain: index.html, _next/, and other static assets
 ```
 
 ## Versioning & Context

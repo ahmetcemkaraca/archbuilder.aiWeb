@@ -156,7 +156,7 @@ class HealthMonitor {
       '/robots.txt'
     ];
 
-  const results = await Promise.allSettled(
+    const results = await Promise.allSettled(
       criticalAssets.map(asset => 
         fetch(`${this.baseUrl}${asset}`, { 
           method: 'HEAD',
@@ -257,7 +257,7 @@ class HealthMonitor {
 
     const results: { [key: string]: boolean } = {};
     
-  for (const dep of dependencies) {
+    for (const dep of dependencies) {
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), dep.timeout);

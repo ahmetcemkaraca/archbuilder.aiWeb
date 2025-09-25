@@ -42,7 +42,7 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== 'undefined') {
       setTimeout(initializeAnalytics, 1000);
     }
-  }, [pathname]);
+  }, []);
 
   // Route change tracking
   useEffect(() => {
@@ -148,9 +148,10 @@ export function useAnalytics() {
       const { trackEvent } = await import('@/lib/firebase-analytics');
       
       // Firebase conversion
-      const allowed = ['contact', 'newsletter', 'demo', 'signup'] as const;
-      const formType = (allowed as readonly string[]).includes(conversionType)
-        ? (conversionType as (typeof allowed)[number])
+      const isValidFormType = (type: string): type is 'contact' | 'newsletter' | 'demo' | 'signup' =>
+        ['contact', 'newsletter', 'demo', 'signup'].includes(type);
+      const formType: 'contact' | 'newsletter' | 'demo' | 'signup' = isValidFormType(conversionType)
+        ? conversionType
         : 'contact';
       trackEvent.contactFormSubmit(formType, true);
       

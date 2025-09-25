@@ -24,7 +24,7 @@ export function getTranslation(locale: Locale, key: TranslationKey): string {
     const translation = translations[locale] as Record<string, unknown>;
     const fallback = translations.tr as Record<string, unknown>;
     
-    const result = (translation?.[key] ?? fallback?.[key] ?? key) as unknown;
+    const result = String(translation?.[key] ?? fallback?.[key] ?? key);
     
     // Ensure we return a string, not an object
     if (typeof result === 'object' && result !== null) {
