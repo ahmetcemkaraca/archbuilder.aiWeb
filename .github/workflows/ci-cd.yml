@@ -160,7 +160,7 @@ jobs:
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.STAGING_GA_MEASUREMENT_ID }}
           
       - name: 📁 Download Build Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: build-output
           
