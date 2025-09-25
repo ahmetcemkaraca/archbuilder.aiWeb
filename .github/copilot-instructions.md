@@ -87,7 +87,9 @@ npm run lint         # ESLint check
    - Use conventional commits; PR title conventional (`feat(scope): summary`)
    - Link the issue in PR description using `Closes #<id>`
    - Prefer Squash & Merge; delete branch after merge
-   - **NEVER** merge directly to `main` except through releases/hotfixes### Before ANY Implementation:
+   - **NEVER** merge directly to `main` except through releases/hotfixes
+
+### Before ANY Implementation:
 **ALWAYS** read the relevant `*.instructions.md` files from `.github/instructions/` directory before writing or modifying any code. This is **NON-NEGOTIABLE**.
 
 #### Workflow Steps:
