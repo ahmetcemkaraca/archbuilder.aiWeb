@@ -657,7 +657,7 @@ export const productionConfigs: Record<string, ProductionConfig> = {
         redirect: true
       },
       headers: {
-        csp: "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://firestore.googleapis.com https://www.googleapis.com https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://firebaseinstallations.googleapis.com",
+        csp: "default-src 'self'; script-src 'self' https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://firestore.googleapis.com https://www.googleapis.com https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://firebaseinstallations.googleapis.com",
         xfo: 'DENY',
         xss: '1; mode=block',
         referrer: 'strict-origin-when-cross-origin'
