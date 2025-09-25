@@ -1,6 +1,12 @@
-# ArchBuilder.AI - Official Website
+# ArchBuilder.AI Website
 
-A modern, multilingual website for ArchBuilder.AI - the AI-powered architectural design automation platform.
+🚀 **Production-ready AI-powered architectural design platform website**
+
+[![Firebase Deploy](https://img.shields.io/badge/Firebase-Deployed-orange)](https://archbuilderai.web.app)
+[![Analytics](https://img.shields.io/badge/GA4-Active-green)](https://analytics.google.com)
+[![Next.js](https://img.shields.io/badge/Next.js-15.5.3-black)](https://nextjs.org)
+
+Official marketing website for ArchBuilder.AI - an advanced AI-powered architectural design automation platform.
 
 ## 🌍 Multilingual Support
 
