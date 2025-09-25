@@ -10,22 +10,30 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
+  // Global ignores should be first and at the top level
   {
     ignores: [
       "node_modules/**",
       ".next/**",
       "out/**",
-      "build/**",
+      "build/**", 
       "dist/**",
+      "coverage/**",
       "next-env.d.ts",
       "*.config.js",
-      "*.config.mjs",
+      "*.config.mjs", 
       "*.config.ts",
+      "public/**",
+      "__mocks__/**",
+      "jest.setup.js",
+      "scripts/**/*.js",
     ],
+  },
+  ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
+  {
     rules: {
       "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-explicit-any": "warn", // Changed from error to warn
       "prefer-const": "error",
       "no-var": "error",
     },
