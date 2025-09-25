@@ -1,11 +1,22 @@
-# Pattern-based ownership rules
-# Reviewers are automatically requested for matching paths
+# Global ownership for all files - GitFlow requires code review
+* @ahmetcemkaraca
 
-# Core web app
+# Critical governance files require additional scrutiny
+/.github/ @ahmetcemkaraca
+/docs/governance.md @ahmetcemkaraca
+/CONTRIBUTING.md @ahmetcemkaraca
+/SECURITY.md @ahmetcemkaraca
+
+# Core application source code
 /src/** @ahmetcemkaraca
 
-# Docs and governance
+# Configuration and deployment
+/next.config.ts @ahmetcemkaraca
+/package.json @ahmetcemkaraca
+/tsconfig.json @ahmetcemkaraca
+
+# Documentation and registry
 /docs/** @ahmetcemkaraca
 
-# GitHub configs
+# GitHub workflows and templates  
 /.github/** @ahmetcemkaraca
