@@ -16,7 +16,11 @@ Bu PowerShell script'i GitHub CLI kullanarak branch protection rules'ları otoma
 # Owner: ahmetcemkaraca
 
 # Repository context
-$REPO = "ahmetcemkaraca/archbuilder.aiWeb"
+$REPO = (git remote get-url origin | ForEach-Object { $_ -replace ".*github.com/", "" -replace ".git", "" })
+if (-not $REPO) {
+    Write-Error "Failed to automatically detect repository. Please set the \$REPO variable manually."
+    return
+}
 
 Write-Host "🚀 Setting up GitFlow branch protection rules for $REPO" -ForegroundColor Green
 
