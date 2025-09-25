@@ -53,35 +53,35 @@
       "name": "ContactSubmission",
       "version": "1.0.0",
       "type": "interface",
-      "fields": ["id: string", "firstName: string", "lastName: string", "email: string", "phone?: string", "company?: string", "jobTitle?: string", "message: string", "inquiryType: string", "submittedAt: any", "status: 'pending' | 'reviewed' | 'responded'", "source: string", "ipAddress?: string", "userAgent?: string"],
+  "fields": ["id: string", "firstName: string", "lastName: string", "email: string", "phone?: string", "company?: string", "jobTitle?: string", "message: string", "inquiryType: string", "submittedAt: string | number | { toDate: () => Date }", "status: 'pending' | 'reviewed' | 'responded'", "source: string", "ipAddress?: string", "userAgent?: string"],
       "description": "Contact form submission data structure"
     },
     {
       "name": "NewsletterSubscription",
       "version": "1.0.0",
       "type": "interface",
-      "fields": ["id: string", "email: string", "firstName?: string", "preferences: string[]", "subscribedAt: any", "status: 'active' | 'unsubscribed'", "confirmed: boolean", "confirmationToken: string", "source: string"],
+  "fields": ["id: string", "email: string", "firstName?: string", "preferences: string[]", "subscribedAt: string | number | { toDate: () => Date }", "status: 'active' | 'unsubscribed'", "confirmed: boolean", "confirmationToken: string", "source: string"],
       "description": "Newsletter subscription data structure"
     },
     {
       "name": "DemoRequest",
       "version": "1.0.0",
       "type": "interface",
-      "fields": ["id: string", "firstName: string", "lastName: string", "email: string", "company?: string", "jobTitle?: string", "message?: string", "requestedAt: any", "status: 'pending' | 'scheduled' | 'completed'", "source: string", "priority: 'low' | 'normal' | 'high'"],
+  "fields": ["id: string", "firstName: string", "lastName: string", "email: string", "company?: string", "jobTitle?: string", "message?: string", "requestedAt: string | number | { toDate: () => Date }", "status: 'pending' | 'scheduled' | 'completed'", "source: string", "priority: 'low' | 'normal' | 'high'"],
       "description": "Demo request data structure"
     },
     {
       "name": "SignupSubmission",
       "version": "1.0.0",
       "type": "interface",
-      "fields": ["id: string", "fullName: string", "email: string", "company?: string", "plan: string", "promoCode?: string", "promoDiscount?: any", "submittedAt: any", "status: 'pending' | 'processed' | 'converted'"],
+  "fields": ["id: string", "fullName: string", "email: string", "company?: string", "plan: string", "promoCode?: string", "promoDiscount?: { type: 'percent' | 'amount'; value: number } | null", "submittedAt: string | number | { toDate: () => Date }", "status: 'pending' | 'processed' | 'converted'"],
       "description": "Signup form submission data structure"
     },
     {
       "name": "PromoCodeUsage",
       "version": "1.0.0",
       "type": "interface",
-      "fields": ["id: string", "code: string", "usedAt: any", "discount: number", "type: string", "description: string", "status: string"],
+  "fields": ["id: string", "code: string", "usedAt: string | number | { toDate: () => Date }", "discount: number", "type: string", "description: string", "status: string"],
       "description": "Promo code usage tracking data structure"
     }
   ]

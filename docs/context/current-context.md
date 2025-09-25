@@ -1,6 +1,6 @@
 # ArchBuilder.AI Website - Current Context
 
-**Updated**: 2025-09-24 
+**Updated**: 2025-09-25 
 
 ## Project Overview
 This is the **marketing website** component of ArchBuilder.AI - a Next.js 15 static-exportable multilingual site.
@@ -80,6 +80,11 @@ src/components/
 - **✅ Admin Dashboard**: Full admin panel with stats, contact management, and newsletter management
 - **✅ Website Deploy**: Static site deployed to Firebase Hosting
 - **✅ Build Success**: Static export working with Firebase integration
+- **✅ Lint/Build/Test**: ESLint yeşil, `npm run build` ve Jest testleri başarılı
+
+### Registry Updates (2025-09-25)
+- Yeni kayıtlar: `lib.analytics`, `components.providers.analytics-provider`, `components.ui.error-boundary`, `lib.performance`, `lib.monitoring`, `lib.firebase-analytics`
+- Şema düzeltmeleri: `any` alanları tip güvenli yapılara taşındı (timestamp alanları ve promoDiscount)
 
 ## Next Development Priorities
 - **Admin User Setup**: Create admin user in Firebase Auth console for panel access

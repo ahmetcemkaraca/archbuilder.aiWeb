@@ -52,8 +52,8 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
         trackEvent.pageView(pathname, document.title);
         
         // GA4 page view (gtag varsa)
-        if (typeof window !== 'undefined' && 'gtag' in window) {
-          const gtag = (window as any).gtag;
+        if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+          const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag!;
           gtag('config', process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID, {
             page_path: pathname,
             page_title: document.title
@@ -83,7 +83,7 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
 
     // Click tracking
     const handleClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
+  const target = e.target as HTMLElement;
       if (target.tagName === 'BUTTON' || target.tagName === 'A') {
         const text = target.textContent?.substring(0, 50) || target.className;
         trackEngagement('click', text);
@@ -91,7 +91,7 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
     };
 
     // Scroll tracking
-    let scrollTimer: NodeJS.Timeout;
+  let scrollTimer: ReturnType<typeof setTimeout>;
     const handleScroll = () => {
       clearTimeout(scrollTimer);
       scrollTimer = setTimeout(() => {
@@ -120,18 +120,21 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
  * Custom hook for manual event tracking
  */
 export function useAnalytics() {
-  const trackCustomEvent = async (eventName: string, parameters?: Record<string, any>) => {
+  const trackCustomEvent = async (eventName: string, parameters?: Record<string, unknown>) => {
     try {
       const { trackEvent } = await import('@/lib/firebase-analytics');
       
       // Firebase Analytics event
       if (eventName in trackEvent) {
-        (trackEvent as any)[eventName](parameters);
+        const fn = (trackEvent as unknown as Record<string, (p?: Record<string, unknown>) => void>)[eventName];
+        if (typeof fn === 'function') {
+          fn(parameters);
+        }
       }
       
       // GA4 custom event
-      if (typeof window !== 'undefined' && 'gtag' in window) {
-        const gtag = (window as any).gtag;
+      if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+        const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag!;
         gtag('event', eventName, parameters);
       }
       
@@ -145,11 +148,16 @@ export function useAnalytics() {
       const { trackEvent } = await import('@/lib/firebase-analytics');
       
       // Firebase conversion
-      trackEvent.contactFormSubmit(conversionType as any, true);
+      const isValidFormType = (type: string): type is 'contact' | 'newsletter' | 'demo' | 'signup' =>
+        ['contact', 'newsletter', 'demo', 'signup'].includes(type);
+      const formType: 'contact' | 'newsletter' | 'demo' | 'signup' = isValidFormType(conversionType)
+        ? conversionType
+        : 'contact';
+      trackEvent.contactFormSubmit(formType, true);
       
       // GA4 conversion
-      if (typeof window !== 'undefined' && 'gtag' in window) {
-        const gtag = (window as any).gtag;
+      if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+        const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag!;
         gtag('event', 'conversion', {
           conversion_type: conversionType,
           value: value || 0,

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useI18n } from '@/lib/i18n';
 import { LanguageSelector } from '@/components/ui/language-selector';
 
@@ -39,7 +38,7 @@ export default function AboutPage() {
               </span>
             </h1>
             <p className="text-xl text-white/90 max-w-3xl mx-auto">
-              {isMounted ? t('aboutFoundedIn2024') : '2024 yılında kurulan ArchBuilder.AI, yapay zeka teknolojisi ile mimarlık endüstrisini dönüştürmeyi hedefleyen yenilikçi bir startup\'tır.'}
+              {isMounted ? t('aboutFoundedIn2024') : '2024 yılında kurulan ArchBuilder.AI, yapay zeka teknolojisi ile mimarlık endüstrisini dönüştürmeyi hedefleyen yenilikçi bir girişimdir.'}
             </p>
           </div>
         </div>
@@ -78,7 +77,7 @@ export default function AboutPage() {
                 {isMounted ? t('aboutEfficiency') : 'Verimlilik'}
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                {isMounted ? t('aboutEfficiencyDesc') : 'Tasarım süreçlerini %70\'e kadar hızlandırıyoruz'}
+                {isMounted ? t('aboutEfficiencyDesc') : 'Tasarım süreçlerini %70&apos;e kadar hızlandırıyoruz'}
               </p>
             </div>
 
@@ -105,7 +104,7 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-4 text-gray-600 dark:text-gray-300">
                 <p>
-                  ArchBuilder.AI'ın hikayesi, bir mimarlık ofisindeki günlük zorlukların gözlemlenmesiyle başladı. 
+                  ArchBuilder.AI&apos;ın hikayesi, bir mimarlık ofisindeki günlük zorlukların gözlemlenmesiyle başladı. 
                   Mimarların yaratıcı potansiyellerini teknik çizimler ve hesaplamalar için harcadığını fark ettik.
                 </p>
                 <p>
@@ -113,7 +112,7 @@ export default function AboutPage() {
                   son teknoloji AI modellerini kullanarak bu soruna çözüm getirdi.
                 </p>
                 <p>
-                  Bugün, Türkiye'den dünyaya açılan ArchBuilder.AI, yüzlerce mimarın 
+                  Bugün, Türkiye&apos;den dünyaya açılan ArchBuilder.AI, yüzlerce mimarın 
                   iş akışını optimize etmeye devam ediyor.
                 </p>
               </div>
@@ -143,7 +142,7 @@ export default function AboutPage() {
                 <div className="text-center">
                   <span className="text-8xl mb-4 block">🏗️</span>
                   <p className="text-gray-600 dark:text-gray-300 italic">
-                    "AI ile mimarinin geleceğini inşa etmek"
+                    &quot;AI ile mimarinin geleceğini inşa etmek&quot;
                   </p>
                 </div>
               </div>

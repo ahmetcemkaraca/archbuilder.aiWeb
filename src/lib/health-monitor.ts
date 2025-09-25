@@ -8,7 +8,7 @@ import React from 'react';
 // Analytics gtag type declaration
 declare global {
   interface Window {
-    gtag?: (command: string, eventName: string, parameters?: any) => void;
+    gtag?: (command: string, eventName: string, parameters?: Record<string, unknown>) => void;
   }
 }
 
@@ -20,7 +20,7 @@ export interface HealthCheckResult {
       status: 'pass' | 'fail' | 'warn';
       message: string;
       duration?: number;
-      details?: any;
+      details?: Record<string, unknown>;
     };
   };
   metadata: {
@@ -262,7 +262,7 @@ class HealthMonitor {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), dep.timeout);
         
-        const response = await fetch(dep.url, {
+        await fetch(dep.url, {
           method: 'HEAD',
           signal: controller.signal,
           mode: 'no-cors'
@@ -270,7 +270,7 @@ class HealthMonitor {
         
         clearTimeout(timeoutId);
         results[dep.name] = true;
-      } catch (error) {
+      } catch (_error) {
         results[dep.name] = false;
       }
     }

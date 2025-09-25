@@ -16,7 +16,6 @@ const eslintConfig = [
       "node_modules/**",
       ".next/**",
       "out/**",
-      "build/**", 
       "dist/**",
       "coverage/**",
       "next-env.d.ts",
@@ -32,8 +31,6 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
   {
     rules: {
-      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-      "@typescript-eslint/no-explicit-any": "warn", // Changed from error to warn
       "prefer-const": "error",
       "no-var": "error",
     },

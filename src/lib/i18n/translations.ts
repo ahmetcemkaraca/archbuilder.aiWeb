@@ -21,10 +21,10 @@ export type TranslationKey = keyof typeof tr;
 
 export function getTranslation(locale: Locale, key: TranslationKey): string {
   try {
-    const translation = translations[locale] as any;
-    const fallback = translations.tr as any;
+    const translation = translations[locale] as Record<string, unknown>;
+    const fallback = translations.tr as Record<string, unknown>;
     
-    let result = translation?.[key] || fallback?.[key] || key;
+    const result = String(translation?.[key] ?? fallback?.[key] ?? key);
     
     // Ensure we return a string, not an object
     if (typeof result === 'object' && result !== null) {

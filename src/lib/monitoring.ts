@@ -9,7 +9,7 @@ export interface HealthCheckResult {
       status: 'pass' | 'fail' | 'warn';
       message: string;
       duration?: number;
-      metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
     };
   };
   overallHealth: number; // 0-100 score
@@ -38,7 +38,7 @@ export interface PerformanceMetrics {
 
 // Declare gtag for Google Analytics
 declare global {
-  function gtag(...args: any[]): void;
+  function gtag(...args: unknown[]): void;
 }
 
 export interface ErrorMetrics {
@@ -73,7 +73,7 @@ export interface UptimeMetrics {
 }
 
 class HealthCheckService {
-  private checks: Map<string, () => Promise<any>> = new Map();
+  private checks: Map<string, () => Promise<unknown>> = new Map();
   
   constructor() {
     this.registerDefaultChecks();
@@ -91,8 +91,8 @@ class HealthCheckService {
         const testObj = { test: 'value' };
         JSON.stringify(testObj);
         return true;
-      } catch (error) {
-        throw new Error(`JavaScript runtime error: ${error}`);
+      } catch (_error) {
+        throw new Error(`JavaScript runtime error: ${_error}`);
       }
     });
     
@@ -104,7 +104,7 @@ class HealthCheckService {
         const retrieved = localStorage.getItem(testKey);
         localStorage.removeItem(testKey);
         return retrieved === 'test';
-      } catch (error) {
+      } catch (_error) {
         throw new Error('localStorage not available');
       }
     });
@@ -122,8 +122,8 @@ class HealthCheckService {
           cache: 'no-cache'
         });
         return response.ok;
-      } catch (error) {
-        throw new Error(`Network check failed: ${error}`);
+      } catch (_error) {
+        throw new Error(`Network check failed: ${_error}`);
       }
     });
     
@@ -148,7 +148,7 @@ class HealthCheckService {
     });
   }
   
-  registerCheck(name: string, checkFunction: () => Promise<any>) {
+  registerCheck(name: string, checkFunction: () => Promise<unknown>) {
     this.checks.set(name, checkFunction);
   }
   
@@ -171,7 +171,9 @@ class HealthCheckService {
             status: 'pass',
             message: 'Check passed successfully',
             duration,
-            metadata: typeof result === 'object' ? result : undefined
+            metadata: (result && typeof result === 'object' && !Array.isArray(result)) 
+              ? (result as Record<string, unknown>) 
+              : undefined
           };
           passCount++;
         } else {
@@ -181,11 +183,11 @@ class HealthCheckService {
             duration
           };
         }
-      } catch (error) {
+      } catch (_error) {
         const duration = performance.now() - startTime;
         checks[name] = {
           status: 'fail',
-          message: error instanceof Error ? error.message : 'Unknown error',
+          message: _error instanceof Error ? _error.message : 'Unknown error',
           duration
         };
       }
@@ -225,7 +227,7 @@ class PerformanceMonitor {
           } else if (entry.entryType === 'paint') {
             this.recordPaintMetrics(entry as PerformancePaintTiming);
           } else if (entry.entryType === 'largest-contentful-paint') {
-            this.recordLCPMetrics(entry as any);
+            this.recordLCPMetrics(entry as PerformanceEntry);
           }
         });
       });
@@ -268,7 +270,7 @@ class PerformanceMonitor {
     }
   }
   
-  private recordLCPMetrics(entry: any) {
+  private recordLCPMetrics(entry: PerformanceEntry) {
     const latestMetrics = this.metrics[this.metrics.length - 1];
     if (latestMetrics) {
       latestMetrics.lcp = entry.startTime;
@@ -277,23 +279,24 @@ class PerformanceMonitor {
   
   measureCLS(): Promise<number> {
     return new Promise((resolve) => {
-      let clsValue = 0;
-      let sessionValue = 0;
-      let sessionEntries: any[] = [];
+  let clsValue = 0;
+  let sessionValue = 0;
+  let sessionEntries: PerformanceEntry[] = [];
       
       const observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (!(entry as any).hadRecentInput) {
+          const e = entry as unknown as { hadRecentInput?: boolean; value?: number; startTime: number };
+          if (!e.hadRecentInput) {
             const firstSessionEntry = sessionEntries[0];
             const lastSessionEntry = sessionEntries[sessionEntries.length - 1];
             
             if (sessionValue && 
                 entry.startTime - lastSessionEntry.startTime < 1000 &&
                 entry.startTime - firstSessionEntry.startTime < 5000) {
-              sessionValue += (entry as any).value;
+              sessionValue += (e.value ?? 0);
               sessionEntries.push(entry);
             } else {
-              sessionValue = (entry as any).value;
+              sessionValue = (e.value ?? 0);
               sessionEntries = [entry];
             }
             
@@ -318,7 +321,7 @@ class PerformanceMonitor {
     return new Promise((resolve) => {
       const observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          const fidEntry = entry as any; // Type assertion for FID entry
+          const fidEntry = entry as unknown as { processingStart: number; startTime: number };
           const fidValue = fidEntry.processingStart - fidEntry.startTime;
           observer.disconnect();
           resolve(fidValue);
@@ -402,8 +405,9 @@ class ErrorMonitor {
     // Resource loading errors
     window.addEventListener('error', (event) => {
       if (event.target !== window) {
+        const target = event.target as { src?: string } | null;
         this.recordError(
-          new Error(`Resource failed to load: ${(event.target as any)?.src || 'unknown'}`),
+          new Error(`Resource failed to load: ${target?.src || 'unknown'}`),
           'network'
         );
       }
@@ -489,7 +493,7 @@ class UptimeMonitor {
     const startTime = performance.now();
     
     try {
-      const response = await fetch(`${url}/favicon.ico`, {
+      await fetch(`${url}/favicon.ico`, {
         method: 'HEAD',
         cache: 'no-cache'
       });
@@ -520,7 +524,6 @@ class UptimeMonitor {
   
   getUptimeMetrics(): UptimeMetrics {
     const uptimeMs = Date.now() - this.startTime;
-    const uptimeHours = uptimeMs / (1000 * 60 * 60);
     
     // Calculate downtime from incidents
     const totalDowntime = this.incidents.reduce((total, incident) => {
