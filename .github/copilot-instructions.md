@@ -43,35 +43,51 @@ npm run lint         # ESLint check
 
 ## 🔧 MANDATORY DEVELOPMENT WORKFLOW
 
-### 🌟 GIT BRANCH WORKFLOW (Issue-first)
-**ALWAYS** start from an Issue, then work with feature branches for every task/implementation:
+### 🌟 GITFLOW WORKFLOW (Issue-first)
+**ALWAYS** start from an Issue, then work with GitFlow branch structure:
 
-#### Git Branch Strategy:
-1. **Create Feature Branch**: Before starting any task, create a new branch from main
+#### GitFlow Branch Strategy:
+1. **Main Branches**:
+   - `main`: Production-ready code (stable releases only)
+   - `develop`: Integration branch (active development)
+
+2. **Supporting Branches**:
    ```bash
+   # Features: develop → feature → develop
+   git checkout develop
+   git pull origin develop
+   git checkout -b feature/123-add-user-login
+   
+   # Hotfixes: main → hotfix → main + develop
    git checkout main
    git pull origin main
-   git checkout -b feature/task-name-description
+   git checkout -b hotfix/456-critical-bug
+   
+   # Releases: develop → release → main + develop
+   git checkout develop
+   git pull origin develop
+   git checkout -b release/1.2.0
    ```
 
-2. **Branch Naming Convention**:
-  - `feature/<issue-number>-<kebab-title>` (e.g., `feature/123-add-user-login`)
-  - `fix/<issue-number>-<kebab-title>`
-  - `hotfix/<kebab-title>` (for urgent production fixes)
-  - `docs/<kebab-title>`
+3. **Branch Naming Convention**:
+   - `feature/<issue-number>-<kebab-title>` (from develop)
+   - `release/<version>` (from develop, merge to main + develop)
+   - `hotfix/<issue-number>-<kebab-title>` (from main, merge to main + develop)
+   - `docs/<kebab-title>` (from develop)
 
-3. **Work on Feature Branch**: 
+4. **Work on Feature Branch**: 
    - Make all commits to the feature branch
    - Use descriptive commit messages with conventional commits format
    - Push feature branch to origin regularly
 
 4. **Submit for Review (PR)**:
-   - When task is complete, push final branch to origin
-   - DO NOT merge to main directly
-   - Human reviewer will merge after approval
-  - Use conventional commits; PR title conventional (`feat(scope): summary`)
-  - Link the issue in PR description using `Closes #<id>`
-  - Prefer Squash & Merge; delete branch after merge
+   - **Features/Docs**: PR from `feature/*` → `develop`
+   - **Releases**: PR from `release/*` → `main` (then merge `main` → `develop`)
+   - **Hotfixes**: PR from `hotfix/*` → `main` (then merge `main` → `develop`)
+   - Use conventional commits; PR title conventional (`feat(scope): summary`)
+   - Link the issue in PR description using `Closes #<id>`
+   - Prefer Squash & Merge; delete branch after merge
+   - **NEVER** merge directly to `main` except through releases/hotfixes
 
 ### Before ANY Implementation:
 **ALWAYS** read the relevant `*.instructions.md` files from `.github/instructions/` directory before writing or modifying any code. This is **NON-NEGOTIABLE**.

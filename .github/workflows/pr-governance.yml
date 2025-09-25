@@ -41,15 +41,15 @@ jobs:
           echo "PR description must include 'Closes #<issue-number>'" >&2
           exit 1
 
-      - name: Ensure branch name matches convention
+      - name: Ensure branch name matches GitFlow convention
         uses: actions-ecosystem/action-regex-match@v2
         id: branch
         with:
           text: ${{ github.head_ref }}
-          regex: '^(feature|fix|hotfix|docs)\/.+'
+          regex: '^(feature|hotfix|docs)\/[0-9]+-[a-z0-9-]+$|^release\/[0-9]+\.[0-9]+\.[0-9]+$'
 
       - name: Fail if branch name invalid
         if: ${{ steps.branch.outputs.match == '' }}
         run: |
-          echo "Branch name must start with feature/, fix/, hotfix/, or docs/" >&2
+          echo "Branch name must start with feature/, hotfix/, docs/, or release/ for GitFlow" >&2
           exit 1

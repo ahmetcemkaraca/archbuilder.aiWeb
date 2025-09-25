@@ -35,9 +35,12 @@ src/components/
 └── providers/    # ThemeProvider, I18nProvider
 ```
 
-## Development Workflow
+## Development Workflow (GitFlow)
 1. **Issue-first**: Open an Issue with acceptance criteria and labels
-2. **Branch from `main`** using `feature/<issue>-<kebab-title>` (or `fix/..`, `hotfix/..`, `docs/..`)
+2. **GitFlow branching**:
+   - **Features/Docs**: Branch from `develop` → PR to `develop`
+   - **Releases**: Branch from `develop` → PR to `main` + merge to `develop`
+   - **Hotfixes**: Branch from `main` → PR to `main` + merge to `develop`
 3. **Read `.github/instructions/*.md`** before any changes
 4. **Update registry files** when adding/modifying public contracts
 5. **Add translation keys** to all 7 locale files (no hardcoded UI text)

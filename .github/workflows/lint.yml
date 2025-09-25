@@ -6,6 +6,15 @@ on:
       - '*.js'
       - '*.ts'
       - '*.json'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'src/**'
+      - '*.js'
+      - '*.ts'
+      - '*.json'
 
 jobs:
   lint:

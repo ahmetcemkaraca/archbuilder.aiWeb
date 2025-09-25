@@ -1,13 +1,34 @@
 # Contributing Guide
 
-This project follows an Issue-first, branch-based GitHub Flow with conventional commits and CI-enforced quality gates.
+This project follows an Issue-first, GitFlow branching model with conventional commits and CI-enforced quality gates.
 
-## Workflow
+## Workflow (GitFlow)
+
+### Branch Strategy
+- **main**: Production branch with stable releases only
+- **develop**: Integration branch for active development  
+- **feature/***: Features branched from develop, merged back to develop
+- **release/***: Release preparation from develop, merged to main + develop
+- **hotfix/***: Critical fixes from main, merged to main + develop
+
+### Branch Naming
+- Features: `feature/<issue-number>-<kebab-title>` (from develop)
+- Releases: `release/<version>` (from develop, merge to main + develop)
+- Hotfixes: `hotfix/<issue-number>-<kebab-title>` (from main, merge to main + develop)
+- Docs: `docs/<kebab-title>` (from develop)
+
+### Development Process
 1. Create an Issue describing the change with acceptance criteria and labels.
-2. Branch from `main` using `feature/<issue>-<kebab-title>` or `fix/<issue>-<kebab-title>`.
+2. GitFlow branching:
+   - **Features**: Branch from `develop` using `feature/<issue>-<kebab-title>`
+   - **Hotfixes**: Branch from `main` using `hotfix/<issue>-<kebab-title>`
+   - **Releases**: Branch from `develop` using `release/<version>`
+   - **Docs**: Branch from `develop` using `docs/<kebab-title>`
 3. Implement changes with small, atomic commits using conventional commit messages.
 4. Add/update tests, i18n keys (7 locales), and registry entries under `docs/registry/*.json`.
 5. Open a PR (draft allowed). Title must be conventional: `feat(scope): summary`. Include `Closes #<issue>`.
+   - **Features/Docs**: PR to `develop`
+   - **Releases/Hotfixes**: PR to `main`, then merge to `develop`
 6. Ensure CI is green (lint, typecheck, tests). After review, Squash & Merge and delete the branch.
 
 ## Commit Message Format
