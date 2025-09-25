@@ -523,7 +523,7 @@ class UptimeMonitor {
   }
   
   getUptimeMetrics(): UptimeMetrics {
-  const uptimeMs = Date.now() - this.startTime;
+    const uptimeMs = Date.now() - this.startTime;
     
     // Calculate downtime from incidents
     const totalDowntime = this.incidents.reduce((total, incident) => {
