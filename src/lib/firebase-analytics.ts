@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { getAnalytics, logEvent, setUserProperties, setUserId, Analytics } from 'firebase/analytics';
+import { getAnalytics, logEvent, setUserProperties, Analytics } from 'firebase/analytics';
 import { app } from './firebase-config';
 
 // Configuration
@@ -73,7 +73,7 @@ export const initializeFirebase = (): boolean => {
  * Send event to Firebase Analytics & GA4
  * Production-ready event tracking
  */
-const sendEvent = async (eventName: string, parameters: Record<string, any>) => {
+const sendEvent = async (eventName: string, parameters: Record<string, unknown>) => {
   if (!config.enabled || !analytics) return;
   
   try {
@@ -286,7 +286,7 @@ export const analyticsDebug = {
     }
   },
 
-  logEvent: (eventName: string, parameters: any) => {
+  logEvent: (eventName: string, parameters: Record<string, unknown>) => {
     if (process.env.NODE_ENV === 'development') {
       console.log(`🔥 Analytics Event: ${eventName}`, parameters);
     }
@@ -298,7 +298,7 @@ if (typeof window !== 'undefined' && config.enabled) {
   setTimeout(initializeFirebase, 1000);
 }
 
-export default {
+const firebaseAnalyticsExports = {
   initializeFirebase,
   trackEvent,
   performanceMonitor,
@@ -306,3 +306,5 @@ export default {
   costOptimization,
   analyticsDebug
 };
+
+export default firebaseAnalyticsExports;

@@ -6,13 +6,6 @@ import { ArrowRightIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { useI18n } from '@/lib/i18n';
 import { LanguageSelector } from '@/components/ui/language-selector';
 
-const plans = [
-  { id: 'personal', labelKey: 'signup.plans.personal' },
-  { id: 'team', labelKey: 'signup.plans.team' },
-  { id: 'enterprise', labelKey: 'signup.plans.enterprise' },
-  { id: 'student', labelKey: 'signup.plans.student' },
-];
-
 export default function SignupPage() {
   const { t } = useI18n();
   const [formData, setFormData] = useState({
@@ -92,7 +85,7 @@ export default function SignupPage() {
           console.log('Analytics error:', analyticsError);
         }
       }
-    } catch (error) {
+    } catch (_error) {
       setPromoCodeState({
         isValidating: false,
         isValid: false,

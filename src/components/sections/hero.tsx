@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRightIcon, PlayIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { SparklesIcon } from '@heroicons/react/24/solid';
 import { useI18n } from '@/lib/i18n';
 import { AnimatedSection, StaggeredList, StaggeredItem } from '@/components/ui/animated-section';

@@ -3,6 +3,38 @@ import Cookies from 'js-cookie';
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "./firebase-config";
 
+// Veri tipleri (minimal kontratlar)
+type ContactSubmissionInput = {
+  name?: string;
+  email?: string;
+  message?: string;
+  ipAddress?: string | null;
+  userAgent?: string | null;
+  [key: string]: unknown;
+};
+
+type NewsletterSubscriptionInput = {
+  email: string;
+  preferences?: string[];
+  [key: string]: unknown;
+};
+
+type DemoRequestInput = Record<string, unknown>;
+
+type SignupSubmissionInput = {
+  fullName: string;
+  email: string;
+  company?: string;
+  plan?: string;
+  promoCode?: string;
+  promoDiscount?: { amount: number; type: string; description: string } | null;
+  language?: string;
+  timezone?: string;
+  referrer?: string | null;
+  userAgent?: string;
+  [key: string]: unknown;
+};
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 // Create axios instance
@@ -152,7 +184,7 @@ export const documentsAPI = {
 };
 
 // Kayıt toplama API'leri
-export async function addContactSubmission(data: any) {
+export async function addContactSubmission(data: ContactSubmissionInput) {
   try {
     const docRef = await addDoc(collection(db, "contact_submissions"), {
       ...data,
@@ -172,7 +204,7 @@ export async function addContactSubmission(data: any) {
   }
 }
 
-export async function addNewsletterSubscription(data: any) {
+export async function addNewsletterSubscription(data: NewsletterSubscriptionInput) {
   try {
     const docRef = await addDoc(collection(db, "newsletter_subscriptions"), {
       ...data,
@@ -192,7 +224,7 @@ export async function addNewsletterSubscription(data: any) {
   }
 }
 
-export async function addDemoRequest(data: any) {
+export async function addDemoRequest(data: DemoRequestInput) {
   try {
     const docRef = await addDoc(collection(db, "demo_requests"), {
       ...data,
@@ -231,7 +263,7 @@ export async function validatePromoCode(code: string) {
       const promo = validPromoCodes[promoCode as keyof typeof validPromoCodes];
       
       // Promo kod kullanımını Firebase'e kaydet
-      const docRef = await addDoc(collection(db, "promo_code_usage"), {
+      await addDoc(collection(db, "promo_code_usage"), {
         code: promoCode,
         usedAt: serverTimestamp(),
         discount: promo.discount,
@@ -264,7 +296,7 @@ export async function validatePromoCode(code: string) {
   }
 }
 
-export async function addSignupSubmission(data: any) {
+export async function addSignupSubmission(data: SignupSubmissionInput) {
   try {
     const docRef = await addDoc(collection(db, "signup_submissions"), {
       ...data,

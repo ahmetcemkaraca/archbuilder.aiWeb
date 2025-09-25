@@ -240,7 +240,7 @@ export function useUptimeMonitoring() {
 
 // Monitoring Dashboard Hook
 export function useMonitoringDashboard() {
-  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [dashboardData, setDashboardData] = useState<unknown>(null);
   const [report, setReport] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
   

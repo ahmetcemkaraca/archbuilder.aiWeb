@@ -228,7 +228,7 @@ export default function CookiesPage() {
             <p className="text-yellow-800 dark:text-yellow-200 m-0">
               <strong>Not:</strong> Mobil uygulamalar çerez kullanmaz, bunun yerine 
               cihaz kimliği ve uygulama ayarları kullanılır. Detaylar için 
-              <Link href="/privacy" className="underline">Gizlilik Politikası</Link>'na bakın.
+              <Link href="/privacy" className="underline">Gizlilik Politikası</Link>&apos;na bakın.
             </p>
           </div>
 

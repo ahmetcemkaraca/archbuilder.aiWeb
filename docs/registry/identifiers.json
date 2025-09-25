@@ -1,6 +1,21 @@
 {
   "modules": [
     {
+      "name": "repo.governance",
+      "exports": [
+        "ISSUE_TEMPLATES",
+        "PR_TEMPLATE",
+        "CODEOWNERS",
+        "WORKFLOWS"
+      ],
+      "variables": [
+        "BRANCH_NAMING_CONVENTION",
+        "CONVENTIONAL_COMMITS"
+      ],
+      "configKeys": []
+    }
+    ,
+    {
       "name": "lib.i18n.config",
       "exports": ["locales", "defaultLocale", "localeNames", "localeFlags", "Locale"],
       "variables": ["locales", "defaultLocale", "localeNames", "localeFlags"],
@@ -155,6 +170,92 @@
       "exports": ["default"],
       "variables": [],
       "configKeys": []
+    }
+    ,
+    {
+      "name": "lib.analytics",
+      "exports": [
+        "consentManager",
+        "analytics",
+        "trackEvent",
+        "trackPageView",
+        "trackConversion",
+        "setUserProperties"
+      ],
+      "variables": [],
+      "configKeys": [
+        "NEXT_PUBLIC_GA4_MEASUREMENT_ID",
+        "NEXT_PUBLIC_GTM_ID",
+        "NEXT_PUBLIC_DOMAIN",
+        "NEXT_PUBLIC_ANALYTICS_ENDPOINT"
+      ]
+    },
+    {
+      "name": "components.providers.analytics-provider",
+      "exports": ["AnalyticsProvider", "useAnalytics", "AnalyticsDebug"],
+      "variables": [],
+      "configKeys": ["NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID"]
+    },
+    {
+      "name": "components.ui.error-boundary",
+      "exports": [
+        "ErrorBoundary",
+        "withErrorBoundary",
+        "MinimalErrorFallback",
+        "SectionErrorFallback"
+      ],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "lib.performance",
+      "exports": [
+        "measureWebVitals",
+        "analyzeBundleSize",
+        "calculatePerformanceScore",
+        "savePerformanceMetrics",
+        "getPerformanceHistory",
+        "logPerformanceReport",
+        "sendPerformanceData"
+      ],
+      "variables": [],
+      "configKeys": ["NEXT_PUBLIC_ANALYTICS_ENDPOINT"]
+    },
+    {
+      "name": "lib.monitoring",
+      "exports": [
+        "healthCheckService",
+        "performanceMonitor",
+        "errorMonitor",
+        "uptimeMonitor",
+        "MonitoringDashboard",
+        "monitoringDashboard"
+      ],
+      "variables": [
+        "healthCheckService",
+        "performanceMonitor",
+        "errorMonitor",
+        "uptimeMonitor"
+      ],
+      "configKeys": []
+    },
+    {
+      "name": "lib.firebase-analytics",
+      "exports": [
+        "initializeFirebase",
+        "trackEvent",
+        "performanceMonitor",
+        "useFirebaseAnalytics",
+        "costOptimization",
+        "analyticsDebug",
+        "default"
+      ],
+      "variables": ["analytics"],
+      "configKeys": [
+        "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
+        "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID",
+        "NEXT_PUBLIC_FIREBASE_API_KEY"
+      ]
     }
   ],
   "globalConfig": [

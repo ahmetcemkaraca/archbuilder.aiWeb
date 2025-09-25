@@ -9,7 +9,7 @@ import { useI18n } from '@/lib/i18n';
  * Privacy-first yaklaşımla consent management
  */
 export default function CookieBanner() {
-  const { showBanner, acceptAll, acceptNecessary, acceptCustom, setShowBanner } = useConsent();
+  const { showBanner, acceptAll, acceptNecessary, acceptCustom } = useConsent();
   const { t } = useI18n();
   const [showDetails, setShowDetails] = useState(false);
   const [isMounted, setIsMounted] = useState(false);

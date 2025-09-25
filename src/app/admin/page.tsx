@@ -7,7 +7,6 @@ import { auth, db } from '@/lib/firebase-config';
 import { 
   EnvelopeIcon, 
   UserGroupIcon, 
-  EyeIcon,
   ChartBarIcon,
   KeyIcon,
   ArrowRightOnRectangleIcon,
@@ -17,6 +16,14 @@ import {
   UserPlusIcon,
   GiftIcon
 } from '@heroicons/react/24/outline';
+
+// Firestore Timestamp benzeri tip (toDate metodu olan)
+type FirestoreTimestampLike = { toDate: () => Date };
+
+interface PromoDiscount {
+  type: 'percentage' | 'fixed';
+  amount: number;
+}
 
 interface ContactSubmission {
   id: string;
@@ -28,7 +35,7 @@ interface ContactSubmission {
   jobTitle?: string;
   message: string;
   inquiryType: string;
-  submittedAt: any;
+  submittedAt: FirestoreTimestampLike | Date | string | number;
   status: 'pending' | 'reviewed' | 'responded';
   source: string;
 }
@@ -38,7 +45,7 @@ interface NewsletterSubscription {
   email: string;
   firstName?: string;
   preferences: string[];
-  subscribedAt: any;
+  subscribedAt: FirestoreTimestampLike | Date | string | number;
   status: 'active' | 'unsubscribed';
   confirmed: boolean;
 }
@@ -50,15 +57,15 @@ interface SignupSubmission {
   company?: string;
   plan: string;
   promoCode?: string;
-  promoDiscount?: any;
-  submittedAt: any;
+  promoDiscount?: PromoDiscount;
+  submittedAt: FirestoreTimestampLike | Date | string | number;
   status: 'pending' | 'processed' | 'converted';
 }
 
 interface PromoCodeUsage {
   id: string;
   code: string;
-  usedAt: any;
+  usedAt: FirestoreTimestampLike | Date | string | number;
   discount: number;
   type: string;
   description: string;
@@ -115,14 +122,16 @@ export default function AdminDashboard() {
   }, []);
 
   // Giriş yap
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoginError('');
 
     try {
       await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-    } catch (error: any) {
-      setLoginError(error.message || 'Giriş yapılamadı');
+    } catch (error: unknown) {
+      // Hata yakalamayı tür güvenli hale getir
+      const message = error instanceof Error ? error.message : 'Giriş yapılamadı';
+      setLoginError(message);
     }
   };
 
@@ -223,9 +232,26 @@ export default function AdminDashboard() {
   };
 
   // Tarih formatla
-  const formatDate = (timestamp: any) => {
+  const formatDate = (
+    timestamp: FirestoreTimestampLike | number | string | Date | null | undefined
+  ) => {
     if (!timestamp) return 'Bilinmiyor';
-    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    let date: Date;
+    if (timestamp instanceof Date) {
+      date = timestamp;
+    } else if (typeof timestamp === 'number' || typeof timestamp === 'string') {
+      date = new Date(timestamp);
+    } else if (
+      typeof timestamp === 'object' &&
+      timestamp !== null &&
+      'toDate' in timestamp &&
+      typeof (timestamp as FirestoreTimestampLike).toDate === 'function'
+    ) {
+      date = (timestamp as FirestoreTimestampLike).toDate();
+    } else {
+      // Son çare: stringe çevirip Date oluştur
+      date = new Date(String(timestamp));
+    }
     return date.toLocaleDateString('tr-TR') + ' ' + date.toLocaleTimeString('tr-TR', { 
       hour: '2-digit', 
       minute: '2-digit' 
@@ -344,7 +370,7 @@ export default function AdminDashboard() {
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as typeof activeTab)}
                 className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'

@@ -1,6 +1,6 @@
 # ArchBuilder.AI Website - Current Context
 
-**Updated**: 2025-09-24 
+**Updated**: 2025-09-25 
 
 ## Project Overview
 This is the **marketing website** component of ArchBuilder.AI - a Next.js 15 static-exportable multilingual site.
@@ -36,11 +36,13 @@ src/components/
 ```
 
 ## Development Workflow
-1. **Always create feature branches** from `main`
-2. **Read `.github/instructions/*.md`** before any changes
-3. **Update registry files** when adding/modifying components
-4. **Add translation keys** to all 7 locale files
-5. **Test static export** compatibility
+1. **Issue-first**: Open an Issue with acceptance criteria and labels
+2. **Branch from `main`** using `feature/<issue>-<kebab-title>` (or `fix/..`, `hotfix/..`, `docs/..`)
+3. **Read `.github/instructions/*.md`** before any changes
+4. **Update registry files** when adding/modifying public contracts
+5. **Add translation keys** to all 7 locale files (no hardcoded UI text)
+6. **Open PR with conventional title** and `Closes #<id>` link; Squash & Merge after green CI
+7. **Test static export** compatibility
 
 ## Current Registry State
 - **25 registered modules** in identifiers.json (added auth pages)
@@ -80,6 +82,12 @@ src/components/
 - **✅ Admin Dashboard**: Full admin panel with stats, contact management, and newsletter management
 - **✅ Website Deploy**: Static site deployed to Firebase Hosting
 - **✅ Build Success**: Static export working with Firebase integration
+- **✅ Lint/Build/Test**: ESLint yeşil, `npm run build` ve Jest testleri başarılı
+ - **✅ Governance**: Issue/PR templates, CODEOWNERS, PR governance and lint workflows added; CONTRIBUTING and SECURITY policies published.
+
+### Registry Updates (2025-09-25)
+- Yeni kayıtlar: `lib.analytics`, `components.providers.analytics-provider`, `components.ui.error-boundary`, `lib.performance`, `lib.monitoring`, `lib.firebase-analytics`
+- Şema düzeltmeleri: `any` alanları tip güvenli yapılara taşındı (timestamp alanları ve promoDiscount)
 
 ## Next Development Priorities
 - **Admin User Setup**: Create admin user in Firebase Auth console for panel access

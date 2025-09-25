@@ -1,24 +1,12 @@
-name: 🚀 CI/CD Pipeline - ArchBuilder.AI Website
+name: 🚀 Simplified CI/CD
 
 on:
   push:
-    branches: [main, develop, 'feature/*']
-  pull_request:
-    branches: [main, develop]
+    branches: [main]
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Deployment environment'
-        required: true
-        default: 'staging'
-        type: choice
-        options:
-          - staging
-          - production
 
 env:
-  NODE_VERSION: '18'
-  NEXT_PUBLIC_DOMAIN: ${{ secrets.NEXT_PUBLIC_DOMAIN || 'https://archbuilder.ai' }}
+  NODE_VERSION: '20'
   
 jobs:
   # ✅ Code Quality & Testing

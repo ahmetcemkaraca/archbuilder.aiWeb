@@ -1,0 +1,11 @@
+# Pattern-based ownership rules
+# Reviewers are automatically requested for matching paths
+
+# Core web app
+/src/** @ahmetcemkaraca
+
+# Docs and governance
+/docs/** @ahmetcemkaraca
+
+# GitHub configs
+/.github/** @ahmetcemkaraca

@@ -69,8 +69,9 @@ export function measureWebVitals(callback: (metrics: PerformanceMetrics) => void
   let clsValue = 0;
   const clsObserver = new PerformanceObserver((list) => {
     for (const entry of list.getEntries()) {
-      if (!(entry as any).hadRecentInput) {
-        clsValue += (entry as any).value;
+      const e = entry as unknown as { hadRecentInput?: boolean; value?: number };
+      if (!e.hadRecentInput) {
+        clsValue += e.value ?? 0;
       }
     }
     metrics.cls = clsValue;
@@ -87,7 +88,8 @@ export function measureWebVitals(callback: (metrics: PerformanceMetrics) => void
     const entries = list.getEntries();
     const firstEntry = entries[0];
     if (firstEntry) {
-      metrics.fid = (firstEntry as any).processingStart - firstEntry.startTime;
+      const fe = firstEntry as unknown as { processingStart: number; startTime: number };
+      metrics.fid = fe.processingStart - fe.startTime;
     }
   });
   
@@ -113,11 +115,11 @@ export function measureWebVitals(callback: (metrics: PerformanceMetrics) => void
     
     // Device ve connection bilgilerini ekle
     if ('connection' in navigator) {
-      metrics.connectionType = (navigator as any).connection?.effectiveType;
+      metrics.connectionType = (navigator as unknown as { connection?: { effectiveType?: string } }).connection?.effectiveType;
     }
     
     if ('deviceMemory' in navigator) {
-      metrics.deviceMemory = (navigator as any).deviceMemory;
+      metrics.deviceMemory = (navigator as unknown as { deviceMemory?: number }).deviceMemory;
     }
     
     metrics.userAgent = navigator.userAgent;
@@ -270,8 +272,8 @@ export function logPerformanceReport(metrics: PerformanceMetrics): void {
  */
 export function sendPerformanceData(metrics: PerformanceMetrics): void {
   // Google Analytics 4 event
-  if (typeof window !== 'undefined' && 'gtag' in window) {
-    (window as any).gtag('event', 'web_vitals', {
+  if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+    (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag!('event', 'web_vitals', {
       custom_parameter_1: metrics.fcp,
       custom_parameter_2: metrics.lcp,
       custom_parameter_3: metrics.cls,

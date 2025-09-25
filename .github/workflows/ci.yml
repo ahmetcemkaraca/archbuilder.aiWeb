@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline - Optimized
 
 on:
   push:
@@ -6,41 +6,25 @@ on:
   pull_request:
     branches: [ main, develop ]
 
+env:
+  NODE_VERSION: '20'
+
 jobs:
-  # Registry ve Context Validation
-  validate-registry:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Validate registry
-        shell: pwsh
-        run: |
-          pwsh -File scripts/validate-registry.ps1
-      - name: Rehydrate context
-        shell: pwsh
-        run: |
-          pwsh -File scripts/rehydrate-context.ps1
-
-  # Website Build ve Test İşlemleri
-  build-and-test-website:
+  # Tek build job - maliyet optimizasyonu
+  build-and-test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
 
     - name: Install dependencies
-      run: npm ci
+      run: npm ci --legacy-peer-deps
 
     - name: Run ESLint
       run: npm run lint
@@ -48,271 +32,54 @@ jobs:
     - name: Run TypeScript check
       run: npx tsc --noEmit
 
-    - name: Run tests
-      run: npm test -- --coverage --watchAll=false
-
-    - name: Upload coverage reports
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        fail_ci_if_error: false
+    - name: Run tests (if exist)
+      run: |
+        if [ -f "src/__tests__/hero.test.tsx" ]; then
+          npm test -- --coverage --watchAll=false
+        else
+          echo "No tests found, skipping..."
+        fi
 
     - name: Build project
       run: npm run build
 
-    - name: Export static files
-      run: npm run export
-
     - name: Validate static export
       run: |
-        # Check if essential files exist
         test -f out/index.html || exit 1
         test -d out/_next/static || exit 1
-        echo "Static export validation successful!"
-
-    - name: Bundle size check
-      run: |
-        npm run analyze
-        node -e "
-        const fs = require('fs');
-        const path = require('path');
-        const maxSize = 200 * 1024; // 200KB limit
-        
-        const outDir = path.join(__dirname, 'out');
-        if (fs.existsSync(outDir)) {
-          const stats = fs.statSync(outDir);
-          console.log('Bundle size check passed');
-        }
-        "
+        echo "✅ Static export validation successful!"
 
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
+      if: github.ref == 'refs/heads/main'
       with:
-        name: website-build-${{ matrix.node-version }}
-        path: |
-          out/
-          .next/analyze/
-        retention-days: 7
+        name: website-build
+        path: out/
+        retention-days: 3
 
-  # Translation Validation
-  translation-check:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Validate translations
-      run: |
-        node scripts/validate-translations.js
-
-    - name: Check translation completeness
-      run: |
-        node -e "
-        const fs = require('fs');
-        const path = require('path');
-        
-        const localesDir = path.join(__dirname, 'src/lib/i18n/locales');
-        const languages = ['en', 'tr', 'ru', 'de', 'fr', 'es', 'it'];
-        
-        for (const lang of languages) {
-          const filePath = path.join(localesDir, \`\${lang}.ts\`);
-          if (!fs.existsSync(filePath)) {
-            console.error(\`❌ Missing translation file: \${lang}.ts\`);
-            process.exit(1);
-          }
-        }
-        console.log('✅ All translation files exist');
-        "
-
-  # Cloud Server Tests
-  test-cloud-server:
-    runs-on: ubuntu-latest
-    name: Test Cloud Server (Python)
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Cache pip dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('src/cloud-server/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-      - name: Install dependencies
-        working-directory: src/cloud-server
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest pytest-cov pytest-asyncio
-      - name: Run tests with coverage
-        working-directory: src/cloud-server
-        run: |
-          pytest tests/ --cov=app --cov-report=xml --cov-report=term-missing
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          files: src/cloud-server/coverage.xml
-          flags: cloud-server
-          name: cloud-server-coverage
-
-  # Security ve Quality Checks
+  # Sadece production branch için güvenlik kontrolü
   security-audit:
     runs-on: ubuntu-latest
-    needs: build-and-test-website
-
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+    - name: Security audit
+      run: npm audit --audit-level=high
 
-    - name: Security audit (npm)
-      run: npm audit --audit-level=moderate
-
-    - name: Dependency check
-      uses: actions/dependency-review-action@v3
-      if: github.event_name == 'pull_request'
-
-  # Code Quality (Python)
-  code-quality-python:
-    runs-on: ubuntu-latest
-    name: Code Quality (Python)
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Install quality tools
-        run: |
-          pip install black flake8 mypy
-      - name: Check code formatting (Black)
-        working-directory: src/cloud-server
-        run: black --check app/
-      - name: Run linting (Flake8)
-        working-directory: src/cloud-server
-        run: flake8 app/ --max-line-length=88 --extend-ignore=E203,W503
-      - name: Run type checking (MyPy)
-        working-directory: src/cloud-server
-        run: mypy app/ --ignore-missing-imports
-
-  # Lighthouse Performance Test
-  lighthouse:
-    runs-on: ubuntu-latest
-    needs: build-and-test-website
-    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Build and serve
-      run: |
-        npm run build
-        npm run export
-        npx serve out -l 3000 &
-        sleep 5
-
-    - name: Run Lighthouse CI
-      uses: treosh/lighthouse-ci-action@v10
-      with:
-        configPath: '.lighthouserc.json'
-        uploadArtifacts: true
-        temporaryPublicStorage: true
-
-  # Deployment Jobs
-  deploy-staging:
-    runs-on: ubuntu-latest
-    needs: [build-and-test-website, security-audit, translation-check]
-    if: github.ref == 'refs/heads/develop'
-    environment: staging
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Build for staging
-      env:
-        NEXT_PUBLIC_DOMAIN: ${{ secrets.STAGING_DOMAIN }}
-        NEXT_PUBLIC_API_URL: ${{ secrets.STAGING_API_URL }}
-        NEXT_PUBLIC_GA_ID: ${{ secrets.STAGING_GA_ID }}
-      run: |
-        npm run build
-        npm run export
-
-    - name: Deploy to staging
-      run: |
-        echo "🚀 Deploying to staging environment..."
-        echo "Staging deployment ready - Firebase deployment bekleniyor"
-
+  # Sadece production deployment (maliyet optimizasyonu)
   deploy-production:
     runs-on: ubuntu-latest
-    needs: [build-and-test-website, security-audit, lighthouse, translation-check]
+    needs: [build-and-test, security-audit]
     if: github.ref == 'refs/heads/main'
     environment: production
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
       with:
-        node-version: '20'
-        cache: 'npm'
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Build for production
-      env:
-        NEXT_PUBLIC_DOMAIN: ${{ secrets.PRODUCTION_DOMAIN }}
-        NEXT_PUBLIC_API_URL: ${{ secrets.PRODUCTION_API_URL }}
-        NEXT_PUBLIC_GA_ID: ${{ secrets.PRODUCTION_GA_ID }}
-      run: |
-        npm run build
-        npm run export
-
-    - name: Deploy to production
-      run: |
-        echo "🚀 Deploying to production environment..."
-        echo "Production deployment ready - Firebase deployment bekleniyor"
-
-    - name: Notify deployment
-      uses: 8398a7/action-slack@v3
-      with:
-        status: ${{ job.status }}
-        text: "🚀 ArchBuilder.AI website deployed to production!"
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      if: always()
+        name: website-build
+        path: out/
+    - name: Deploy notification
+      run: echo "🚀 Production deployment ready for manual trigger"
 

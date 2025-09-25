@@ -42,14 +42,14 @@ export default function PrivacyPage() {
         <div className="prose prose-lg dark:prose-invert max-w-none">
           <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 mb-8">
             <p className="text-blue-800 dark:text-blue-200 m-0">
-              <strong>Önemli:</strong> Bu gizlilik politikası, ArchBuilder.AI'nın kişisel verilerinizi 
+              <strong>Önemli:</strong> Bu gizlilik politikası, ArchBuilder.AI&apos;nın kişisel verilerinizi 
               nasıl topladığını, kullandığını ve koruduğunu açıklar. GDPR ve KVKK uyumludur.
             </p>
           </div>
 
           <h2>1. Veri Sorumlusu</h2>
           <p>
-            Bu gizlilik politikası kapsamında veri sorumlusu ArchBuilder.AI'dır. 
+            Bu gizlilik politikası kapsamında veri sorumlusu ArchBuilder.AI&apos;dır. 
             İletişim bilgileri: info@archbuilder.app
           </p>
 
