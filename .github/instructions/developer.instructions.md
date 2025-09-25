@@ -34,7 +34,9 @@ Before coding (checklist)
 - Create a dedicated branch using GitFlow conventions:
   - **Features/Docs**: Branch from `develop` → merge to `develop`
   - **Hotfixes**: Branch from `main` → merge to both `main` and `develop`
-  - **Releases**: Branch from `develop` → merge to both `main` and `develop`After coding (checklist)
+  - **Releases**: Branch from `develop` → merge to both `main` and `develop`
+
+After coding (checklist)
 - Update `docs/registry/identifiers.json`, `endpoints.json`, `schemas.json` as applicable.
 - Refresh `.mds/context/current-context.md`; append a short session summary under `.mds/context/history/NNNN.md`.
 - Add at least one test covering the new/changed contract.
