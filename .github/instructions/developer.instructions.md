@@ -10,12 +10,17 @@ As the Developer:
 - Add observability hooks; handle errors cleanly; avoid leaky abstractions.
 - Update `.mds/Todo.md` progress and `CHANGELOG.md` entries when applicable.
 
-GitHub Flow (Issue → Branch → Commits → PR → Merge):
+GitFlow (Issue → Branch → Commits → PR → Merge):
 - Issue-first: Every change must have an Issue with summary, motivation, acceptance criteria, and labels (bug/feature/docs). Link PRs with `Closes #<id>`.
-- Branching: Create branches from `main` only. Naming: `feature/<issue>-<kebab-title>`, `fix/<issue>-<kebab-title>`, `hotfix/<kebab-title>`, `docs/<kebab-title>`.
+- Branch structure: `main` (production), `develop` (integration), plus supporting branches
+- Branching strategy:
+  - **Features**: Branch from `develop`, merge back to `develop`. Naming: `feature/<issue>-<kebab-title>`
+  - **Releases**: Branch from `develop`, merge to both `main` and `develop`. Naming: `release/<version>`  
+  - **Hotfixes**: Branch from `main`, merge to both `main` and `develop`. Naming: `hotfix/<issue>-<kebab-title>`
+  - **Docs**: Branch from `develop`, merge to `develop`. Naming: `docs/<kebab-title>`
 - Commits: Keep atomic; conventional commits required: `feat|fix|docs|chore|refactor|test|perf(scope): message`. Prefer imperative mood; include rationale in body if non-trivial.
 - Pull Requests: Open early as draft if WIP. Checklist must pass (lint, tests, i18n, registry). Request reviews from CODEOWNERS. Ensure CI green before merge.
-- Merge strategy: Squash and merge by default to keep a linear history. Delete merged branches.
+- Merge strategy: Squash and merge by default to keep a linear history. Delete merged branches after successful merge.
 
 Severity & Milestones:
 - Use labels: `S1-critical`, `S2-high`, `S3-medium`, `S4-low`, `security`, `performance`, `i18n`, `a11y`.
@@ -25,10 +30,11 @@ Before coding (checklist)
 - Read `.mds/context/current-context.md` and `docs/registry/*.json` to rehydrate context.
 - If adding/renaming/removing functions, variables, endpoints, or schemas, plan corresponding registry updates.
 - For UI text, add/modify i18n resources (TR default). Do not hardcode strings.
- - Ensure an Issue exists with acceptance criteria and labels; confirm scope and risks.
- - Create a dedicated branch from `main` with a conventional name.
-
-After coding (checklist)
+- Ensure an Issue exists with acceptance criteria and labels; confirm scope and risks.
+- Create a dedicated branch using GitFlow conventions:
+  - **Features/Docs**: Branch from `develop` → merge to `develop`
+  - **Hotfixes**: Branch from `main` → merge to both `main` and `develop`
+  - **Releases**: Branch from `develop` → merge to both `main` and `develop`After coding (checklist)
 - Update `docs/registry/identifiers.json`, `endpoints.json`, `schemas.json` as applicable.
 - Refresh `.mds/context/current-context.md`; append a short session summary under `.mds/context/history/NNNN.md`.
 - Add at least one test covering the new/changed contract.
