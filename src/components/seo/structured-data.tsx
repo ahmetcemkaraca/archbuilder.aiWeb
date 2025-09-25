@@ -9,7 +9,13 @@ export function StructuredData({ locale = 'en' }: StructuredDataProps) {
 
   // Çoklu dil desteği için content mapping
   const getLocalizedContent = (locale: string) => {
-    const content: Record<string, any> = {
+    const content: Record<string, {
+      name: string;
+      description: string;
+      pageName: string;
+      pageDescription: string;
+      languages: string[];
+    }> = {
       en: {
         name: 'ArchBuilder.AI',
         description: 'AI-powered architectural design automation platform that transforms natural language and drawings into Revit projects.',

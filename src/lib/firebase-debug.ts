@@ -28,7 +28,7 @@ if (typeof window !== 'undefined') {
     connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
     connectFirestoreEmulator(db, 'localhost', 8080);
     console.log('✅ Emulator baglantisi basarili');
-  } catch (error) {
+  } catch (_error) {
     console.log('⚠️ Emulator bulunamadi, production kullaniliyor');
   }
 }

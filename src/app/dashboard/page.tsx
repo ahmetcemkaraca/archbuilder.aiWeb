@@ -9,7 +9,6 @@ import {
   DocumentIcon,
   CubeIcon,
   ChartBarIcon,
-  CogIcon,
   UserIcon,
   BellIcon,
   MagnifyingGlassIcon,
@@ -201,7 +200,7 @@ export default function DashboardPage() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => (
+          {stats.map((stat) => (
             <div
               key={stat.name}
               className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6"
@@ -275,7 +274,7 @@ export default function DashboardPage() {
                 </h2>
               </div>
               <div className="p-6 space-y-4">
-                {quickActions.map((action, index) => (
+                {quickActions.map((action) => (
                   <button
                     key={action.name}
                     className="w-full flex items-start space-x-3 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200"

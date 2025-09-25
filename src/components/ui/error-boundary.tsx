@@ -43,8 +43,8 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     }
 
     // Error'u analytics'e gönder
-    if (typeof window !== 'undefined' && 'gtag' in window) {
-      (window as any).gtag('event', 'exception', {
+    if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+      (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag!('event', 'exception', {
         description: error.toString(),
         fatal: false
       });
@@ -160,7 +160,7 @@ export function withErrorBoundary<T extends object>(
 /**
  * Minimal Error Fallback Component
  */
-export function MinimalErrorFallback({ error }: { error?: Error }) {
+export function MinimalErrorFallback({ error: _error }: { error?: Error }) {
   const { t } = useI18n();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -185,7 +185,7 @@ export function MinimalErrorFallback({ error }: { error?: Error }) {
 /**
  * Section Error Fallback Component
  */
-export function SectionErrorFallback({ error }: { error?: Error }) {
+export function SectionErrorFallback({ error: _error }: { error?: Error }) {
   const { t } = useI18n();
   const [isMounted, setIsMounted] = useState(false);
 

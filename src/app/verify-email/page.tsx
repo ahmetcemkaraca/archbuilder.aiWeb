@@ -17,18 +17,17 @@ function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const [isMounted, setIsMounted] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState<'loading' | 'success' | 'error' | 'expired'>('loading');
-  const [token, setToken] = useState('');
+  // Token state kullanılmadığı için kaldırıldı
   const [email, setEmail] = useState('');
   const [isResending, setIsResending] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
     
-    const tokenParam = searchParams.get('token');
+  const tokenParam = searchParams.get('token');
     const emailParam = searchParams.get('email');
     
     if (tokenParam) {
-      setToken(tokenParam);
       if (emailParam) {
         setEmail(decodeURIComponent(emailParam));
       }

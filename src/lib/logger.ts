@@ -16,7 +16,7 @@ export interface LogEntry {
   level: LogLevel;
   message: string;
   timestamp: string;
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
   error?: Error;
   userId?: string;
   sessionId?: string;
@@ -62,7 +62,7 @@ class Logger {
     }
   }
 
-  private createEntry(level: LogLevel, message: string, context?: Record<string, any>, error?: Error): LogEntry {
+  private createEntry(level: LogLevel, message: string, context?: Record<string, unknown>, error?: Error): LogEntry {
     const entry: LogEntry = {
       level,
       message,
@@ -127,28 +127,28 @@ class Logger {
     }
   }
 
-  debug(message: string, context?: Record<string, any>): void {
+  debug(message: string, context?: Record<string, unknown>): void {
     const entry = this.createEntry(LogLevel.DEBUG, message, context);
     this.log(entry);
   }
 
-  info(message: string, context?: Record<string, any>): void {
+  info(message: string, context?: Record<string, unknown>): void {
     const entry = this.createEntry(LogLevel.INFO, message, context);
     this.log(entry);
   }
 
-  warn(message: string, context?: Record<string, any>): void {
+  warn(message: string, context?: Record<string, unknown>): void {
     const entry = this.createEntry(LogLevel.WARN, message, context);
     this.log(entry);
   }
 
-  error(message: string, error?: Error, context?: Record<string, any>): void {
+  error(message: string, error?: Error, context?: Record<string, unknown>): void {
     const entry = this.createEntry(LogLevel.ERROR, message, context, error);
     this.log(entry);
   }
 
   // Performance logging
-  performanceLog(name: string, duration: number, context?: Record<string, any>): void {
+  performanceLog(name: string, duration: number, context?: Record<string, unknown>): void {
     this.info(`Performance: ${name}`, {
       ...context,
       duration,
@@ -157,7 +157,7 @@ class Logger {
   }
 
   // User action logging
-  userAction(action: string, context?: Record<string, any>): void {
+  userAction(action: string, context?: Record<string, unknown>): void {
     this.info(`User Action: ${action}`, {
       ...context,
       type: 'user_action'
@@ -165,7 +165,7 @@ class Logger {
   }
 
   // Analytics event logging
-  analyticsEvent(event: string, properties?: Record<string, any>): void {
+  analyticsEvent(event: string, properties?: Record<string, unknown>): void {
     this.info(`Analytics: ${event}`, {
       ...properties,
       type: 'analytics'
@@ -186,7 +186,7 @@ class Logger {
   }
 
   // Security event logging
-  securityEvent(event: string, severity: 'low' | 'medium' | 'high' | 'critical', context?: Record<string, any>): void {
+  securityEvent(event: string, severity: 'low' | 'medium' | 'high' | 'critical', context?: Record<string, unknown>): void {
     const level = severity === 'critical' || severity === 'high' ? LogLevel.ERROR : LogLevel.WARN;
     const entry = this.createEntry(level, `Security: ${event}`, {
       ...context,
@@ -210,7 +210,7 @@ export class PerformanceTimer {
     this.startTime = performance.now();
   }
 
-  end(context?: Record<string, any>): number {
+  end(context?: Record<string, unknown>): number {
     const duration = performance.now() - this.startTime;
     logger.performanceLog(this.name, duration, context);
     return duration;
@@ -230,7 +230,7 @@ export function withPerformanceLogging<T extends object>(
       return () => {
         timer.end();
       };
-    }, []);
+    }, [name]);
 
     return React.createElement(Component, props);
   };
@@ -243,16 +243,16 @@ export function withPerformanceLogging<T extends object>(
 // Hook for logging user interactions
 export function useInteractionLogger() {
   return {
-    logClick: (element: string, context?: Record<string, any>) => {
+    logClick: (element: string, context?: Record<string, unknown>) => {
       logger.userAction('click', { element, ...context });
     },
     logNavigation: (from: string, to: string) => {
       logger.userAction('navigation', { from, to });
     },
-    logFormSubmission: (form: string, success: boolean, context?: Record<string, any>) => {
+    logFormSubmission: (form: string, success: boolean, context?: Record<string, unknown>) => {
       logger.userAction('form_submission', { form, success, ...context });
     },
-    logError: (error: Error, context?: Record<string, any>) => {
+    logError: (error: Error, context?: Record<string, unknown>) => {
       logger.error('User-triggered error', error, context);
     }
   };

@@ -11,7 +11,7 @@ interface AnalyticsEvent {
   category: string;
   label?: string;
   value?: number;
-  custom_parameters?: Record<string, any>;
+  custom_parameters?: Record<string, unknown>;
 }
 
 interface UserProperties {
@@ -156,8 +156,8 @@ class ConsentManager {
     };
 
     // gtag komutları
-    if (typeof window !== 'undefined' && 'gtag' in window) {
-      const gtag = (window as any).gtag;
+    if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+      const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag!;
       gtag('config', ANALYTICS_CONFIG.GA4_ID, gaConfig);
       gtag('consent', 'update', {
         analytics_storage: this.consent?.analytics ? 'granted' : 'denied',
@@ -169,8 +169,8 @@ class ConsentManager {
 
   // Analytics'i devre dışı bırak
   private disableAnalytics(): void {
-    if (typeof window !== 'undefined' && 'gtag' in window) {
-      const gtag = (window as any).gtag;
+    if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+      const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag!;
       gtag('consent', 'update', {
         analytics_storage: 'denied',
         ad_storage: 'denied',
@@ -231,12 +231,12 @@ class AnalyticsManager {
     document.head.appendChild(script);
 
     // gtag function'ını tanımla
-    (window as any).dataLayer = (window as any).dataLayer || [];
-    (window as any).gtag = function(...args: any[]) {
-      (window as any).dataLayer.push(args);
+    (window as unknown as { dataLayer?: unknown[] }).dataLayer = (window as unknown as { dataLayer?: unknown[] }).dataLayer || [];
+    (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag = function(...args: unknown[]) {
+      (window as unknown as { dataLayer: unknown[] }).dataLayer.push(args);
     };
 
-    const gtag = (window as any).gtag;
+    const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag!;
     gtag('js', new Date());
     
     // Consent mode başlat
@@ -252,8 +252,8 @@ class AnalyticsManager {
   trackEvent(event: AnalyticsEvent): void {
     if (!this.consentManager.hasAnalyticsConsent()) return;
 
-    if (typeof window !== 'undefined' && 'gtag' in window) {
-      const gtag = (window as any).gtag;
+    if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+      const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag!;
       gtag('event', event.action, {
         event_category: event.category,
         event_label: event.label,
@@ -270,8 +270,8 @@ class AnalyticsManager {
   trackPageView(url: string, title?: string): void {
     if (!this.consentManager.hasAnalyticsConsent()) return;
 
-    if (typeof window !== 'undefined' && 'gtag' in window) {
-      const gtag = (window as any).gtag;
+    if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+      const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag!;
       gtag('event', 'page_view', {
         page_title: title || document.title,
         page_location: url
@@ -285,8 +285,8 @@ class AnalyticsManager {
   trackConversion(conversion: ConversionEvent): void {
     if (!this.consentManager.hasAnalyticsConsent()) return;
 
-    if (typeof window !== 'undefined' && 'gtag' in window) {
-      const gtag = (window as any).gtag;
+    if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+      const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag!;
       gtag('event', conversion.event_name, {
         currency: conversion.currency,
         value: conversion.value,
@@ -302,8 +302,8 @@ class AnalyticsManager {
   setUserProperties(properties: UserProperties): void {
     if (!this.consentManager.hasAnalyticsConsent()) return;
 
-    if (typeof window !== 'undefined' && 'gtag' in window) {
-      const gtag = (window as any).gtag;
+    if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+      const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag!;
       gtag('config', ANALYTICS_CONFIG.GA4_ID, {
         custom_map: properties
       });
@@ -346,7 +346,7 @@ class AnalyticsManager {
   }
 
   // Custom endpoint'e gönderme (isteğe bağlı)
-  private sendToCustomEndpoint(type: string, data: any): void {
+  private sendToCustomEndpoint(type: string, data: unknown): void {
     const endpoint = process.env.NEXT_PUBLIC_ANALYTICS_ENDPOINT;
     if (!endpoint) return;
 

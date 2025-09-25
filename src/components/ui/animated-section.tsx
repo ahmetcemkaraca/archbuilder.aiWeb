@@ -44,8 +44,8 @@ export function AnimatedSection({
 
   return (
     <motion.div
-      ref={elementRef as any}
-      {...({ className } as any)}
+      ref={elementRef as React.MutableRefObject<HTMLElement | null> as unknown as React.Ref<HTMLDivElement>}
+      className={className}
       initial={variant.initial}
       animate={isVisible ? variant.animate : variant.initial}
       transition={{
@@ -76,8 +76,8 @@ export function StaggeredList({
 
   return (
     <motion.div
-      ref={elementRef as any}
-      {...({ className } as any)}
+      ref={elementRef as React.MutableRefObject<HTMLElement | null> as unknown as React.Ref<HTMLDivElement>}
+      className={className}
       initial="initial"
       animate={isVisible ? "animate" : "initial"}
       variants={{
@@ -102,7 +102,7 @@ interface StaggeredItemProps {
 export function StaggeredItem({ children, className = '' }: StaggeredItemProps) {
   return (
     <motion.div
-      {...({ className } as any)}
+      className={className}
       variants={{
         initial: { opacity: 0, y: 30 },
         animate: { opacity: 1, y: 0 }

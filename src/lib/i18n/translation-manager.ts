@@ -40,16 +40,19 @@ const locales = {
  * @param prefix - Anahtar öneki (nested keys için)
  * @returns Tüm anahtarların düz listesi
  */
-function extractAllKeys(obj: any, prefix: string = ''): string[] {
+function extractAllKeys(obj: unknown, prefix: string = ''): string[] {
   const keys: string[] = [];
   
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
+  if (typeof obj !== 'object' || obj === null) return keys;
+
+  for (const key in obj as Record<string, unknown>) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
       const fullKey = prefix ? `${prefix}.${key}` : key;
+      const value = (obj as Record<string, unknown>)[key];
       
-      if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
         // Nested object - recurse
-        keys.push(...extractAllKeys(obj[key], fullKey));
+        keys.push(...extractAllKeys(value, fullKey));
       } else {
         // Primitive value - add to keys
         keys.push(fullKey);

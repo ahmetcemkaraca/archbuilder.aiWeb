@@ -161,7 +161,7 @@ export class UptimeMonitor {
   /**
    * Create UptimeRobot monitor configuration
    */
-  generateUptimeRobotConfig(): any {
+  generateUptimeRobotConfig(): Record<string, unknown> | null {
     if (!this.config.providers.uptimeRobot?.enabled) return null;
 
     return {
@@ -189,7 +189,7 @@ export class UptimeMonitor {
   /**
    * Create Pingdom check configuration
    */
-  generatePingdomConfig(): any {
+  generatePingdomConfig(): Record<string, unknown> | null {
     if (!this.config.providers.pingdom?.enabled) return null;
 
     return {

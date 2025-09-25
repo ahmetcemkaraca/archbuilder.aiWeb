@@ -1,14 +1,10 @@
-# Firebase Configuration - ArchBuilder.AI
-NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyBvOkBH0LMUkl3b0HI0nOiWnlzYRAYXNxM
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=archbuilderai.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=archbuilderai
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=archbuilderai.appspot.com
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=123456789012
-NEXT_PUBLIC_FIREBASE_APP_ID=1:123456789012:web:abcdef1234567890
-NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=G-XXXXXXXXXX
+/**
+ * Local Next.js config overrides
+ * Note: Environment variables must live in .env* files, not JS.
+ * This file intentionally exports an empty config to satisfy tooling.
+ */
 
-# Development
-NODE_ENV=development
+/** @type {import('next').NextConfig} */
+const config = {};
 
-# Domain
-NEXT_PUBLIC_DOMAIN=https://archbuilderai.web.app
+module.exports = config;
