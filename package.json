@@ -16,8 +16,10 @@
     "build:analyze": "ANALYZE=true npm run build",
     "build:production": "NODE_ENV=production npm run build",
     "performance:test": "npm run build && node scripts/performance-test.js",
-    "test": "jest --passWithNoTests",
-    "test:ci": "jest --ci --passWithNoTests --watchAll=false",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:ci": "jest --ci --coverage --watchAll=false",
     "deploy:firebase": "powershell -ExecutionPolicy Bypass -File ./scripts/deploy-firebase.ps1",
     "deploy:netlify": "npm run build && netlify deploy --prod --dir=out",
     "deploy:vercel": "npm run build && vercel --prod"
