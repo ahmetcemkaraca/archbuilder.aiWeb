@@ -73,7 +73,9 @@ npm run lint         # ESLint check
    - `feature/<issue-number>-<kebab-title>` (from develop)
    - `release/<version>` (from develop, merge to main + develop)
    - `hotfix/<issue-number>-<kebab-title>` (from main, merge to main + develop)
-   - `docs/<kebab-title>` (from develop)3. **Work on Feature Branch**: 
+   - `docs/<kebab-title>` (from develop)
+
+4. **Work on Feature Branch**: 
    - Make all commits to the feature branch
    - Use descriptive commit messages with conventional commits format
    - Push feature branch to origin regularly
