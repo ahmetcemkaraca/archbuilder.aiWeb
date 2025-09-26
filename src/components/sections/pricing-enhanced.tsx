@@ -5,8 +5,8 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { CheckIcon, StarIcon, BoltIcon, ShieldCheckIcon } from '@heroicons/react/24/solid';
 import { useI18n } from '@/lib/i18n/context';
 import { 
@@ -14,9 +14,7 @@ import {
   BillingInterval, 
   SUBSCRIPTION_PRICING, 
   SUBSCRIPTION_LIMITS,
-  calculateYearlySavings,
-  hasFeature,
-  FEATURE_FLAGS
+  calculateYearlySavings
 } from '@/types/stripe';
 import { createSubscriptionCheckout, validatePromoCode } from '@/lib/stripe-api';
 import toast from 'react-hot-toast';
@@ -37,15 +35,15 @@ const PricingSection: React.FC<PricingProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTier, setSelectedTier] = useState<SubscriptionTier | null>(null);
   const [promoCode, setPromoCode] = useState('');
-  const [appliedPromo, setAppliedPromo] = useState<any>(null);
+  const [appliedPromo, setAppliedPromo] = useState<{ type: 'percentage' | 'amount'; value: number; code?: string } | null>(null);
 
   // Promosyon kodu uygula
   const handleApplyPromo = async () => {
     if (!promoCode.trim()) return;
 
     const result = await validatePromoCode(promoCode);
-    if (result.valid) {
-      setAppliedPromo(result.discount);
+    if (result.valid && result.discount) {
+      setAppliedPromo({ ...result.discount, code: promoCode });
       toast.success(t('promoCodeApplied'));
     } else {
       toast.error(t('invalidPromoCode'));
@@ -233,7 +231,7 @@ const PricingSection: React.FC<PricingProps> = ({
         <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8 mb-16">
           {Object.values(SubscriptionTier).map((tier, index) => {
             const pricing = SUBSCRIPTION_PRICING[tier];
-            const limits = SUBSCRIPTION_LIMITS[tier];
+            const tierLimits = SUBSCRIPTION_LIMITS[tier];
             const isPopular = tier === SubscriptionTier.PROFESSIONAL;
             const price = calculateDiscountedPrice(tier);
             const originalPrice = billingInterval === BillingInterval.YEARLY 

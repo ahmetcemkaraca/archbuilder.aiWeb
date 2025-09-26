@@ -46,8 +46,8 @@ const Marketplace: React.FC<MarketplaceProps> = ({
   const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
-  // Sepete ürün ekleme
-  const addToCart = (product: any) => {
+  // Sepete ürün ekleme  
+  const addToCart = (product: { id: string; name: string; price: number; description: string }) => {
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item.productId === product.id);
       
@@ -125,7 +125,7 @@ const Marketplace: React.FC<MarketplaceProps> = ({
   };
 
   // Direkt satın alma
-  const handleBuyNow = async (product: any) => {
+  const handleBuyNow = async (product: { id: string; name: string; price: number; description: string }) => {
     setIsLoading(true);
     try {
       const result = await createCheckoutSession(

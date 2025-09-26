@@ -64,7 +64,7 @@ export const ProductSchema = z.object({
   limits: z.record(z.union([z.number(), z.string(), z.boolean()])).default({}),
   isPopular: z.boolean().default(false),
   isActive: z.boolean().default(true),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string()).optional(),
   createdAt: z.date().default(() => new Date()),
   updatedAt: z.date().default(() => new Date())
 });
@@ -84,7 +84,7 @@ export const SubscriptionSchema = z.object({
   trialEnd: z.date().optional(),
   price: z.number(),
   currency: z.string().default('usd'),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string()).optional(),
   createdAt: z.date().default(() => new Date()),
   updatedAt: z.date().default(() => new Date())
 });
@@ -101,7 +101,7 @@ export const PaymentSchema = z.object({
   stripeSessionId: z.string().optional(),
   paymentMethod: z.string(),
   description: z.string().optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string()).optional(),
   createdAt: z.date().default(() => new Date()),
   updatedAt: z.date().default(() => new Date())
 });
@@ -114,7 +114,7 @@ export const UsageTrackingSchema = z.object({
   count: z.number().min(0),
   period: z.string(), // YYYY-MM formatında
   timestamp: z.date().default(() => new Date()),
-  metadata: z.record(z.any()).optional()
+  metadata: z.record(z.string()).optional()
 });
 
 // TypeScript türleri (Zod'dan çıkarılmış)
@@ -124,7 +124,7 @@ export type Payment = z.infer<typeof PaymentSchema>;
 export type UsageTracking = z.infer<typeof UsageTrackingSchema>;
 
 // Abonelik limitleri ve özellikleri
-export const SUBSCRIPTION_LIMITS: Record<SubscriptionTier, any> = {
+export const SUBSCRIPTION_LIMITS: Record<SubscriptionTier, Record<string, number | string | boolean | string[]>> = {
   [SubscriptionTier.FREE]: {
     aiLayoutsPerMonth: 5,
     buildingScansPerMonth: 2,
@@ -178,7 +178,7 @@ export const SUBSCRIPTION_LIMITS: Record<SubscriptionTier, any> = {
 };
 
 // Abonelik fiyat planları
-export const SUBSCRIPTION_PRICING: Record<SubscriptionTier, any> = {
+export const SUBSCRIPTION_PRICING: Record<SubscriptionTier, Record<string, unknown>> = {
   [SubscriptionTier.FREE]: {
     monthlyPriceUsd: 0,
     yearlyPriceUsd: 0,
@@ -274,7 +274,8 @@ export const FEATURE_FLAGS = {
 
 // Yardımcı fonksiyonlar
 export const getSubscriptionFeatures = (tier: SubscriptionTier): string[] => {
-  return SUBSCRIPTION_LIMITS[tier]?.features || [];
+  const features = SUBSCRIPTION_LIMITS[tier]?.features;
+  return Array.isArray(features) ? features : [];
 };
 
 export const hasFeature = (tier: SubscriptionTier, feature: string): boolean => {
@@ -287,7 +288,8 @@ export const getUsageLimit = (tier: SubscriptionTier, usageType: string): number
   if (!limits) return 0;
   
   const limitKey = `${usageType}PerMonth`;
-  return limits[limitKey] || 0;
+  const limit = limits[limitKey];
+  return typeof limit === 'number' ? limit : 0;
 };
 
 export const calculateYearlySavings = (tier: SubscriptionTier): number => {

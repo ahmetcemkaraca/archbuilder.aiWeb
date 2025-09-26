@@ -5,9 +5,6 @@
 
 import { getStripe, handleStripeError, createCheckoutOptions, createSubscriptionOptions } from '@/lib/stripe-config';
 import { 
-  Product, 
-  Subscription, 
-  Payment, 
   SubscriptionTier, 
   BillingInterval,
   PaymentStatus,
@@ -220,7 +217,7 @@ export const calculateSubscriptionPrice = (
 // Promo kod doğrulama (client-side mock)
 export const validatePromoCode = async (
   code: string,
-  productId?: string
+  _productId?: string
 ): Promise<{ 
   valid: boolean; 
   discount?: { type: 'percentage' | 'amount'; value: number }; 
@@ -228,7 +225,7 @@ export const validatePromoCode = async (
 }> => {
   try {
     // Mock promo kodları (gerçek implementasyonda API çağrısı olacak)
-    const mockPromoCodes: Record<string, any> = {
+    const mockPromoCodes: Record<string, { type: 'percentage' | 'amount'; value: number }> = {
       'WELCOME20': { type: 'percentage', value: 20 },
       'FIRST100': { type: 'amount', value: 100 },
       'STUDENT50': { type: 'percentage', value: 50 },
@@ -245,7 +242,7 @@ export const validatePromoCode = async (
       valid: true,
       discount: promoData
     };
-  } catch (error) {
+  } catch (_error) {
     return { valid: false, error: 'Promo kod doğrulanamadı' };
   }
 };

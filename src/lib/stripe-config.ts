@@ -83,25 +83,37 @@ export const createCheckoutOptions = (lineItems: Array<{ price: string; quantity
 });
 
 // Hata yönetimi yardımcı fonksiyonları
-export const handleStripeError = (error: any) => {
+export const handleStripeError = (error: unknown) => {
   console.error('Stripe hatası:', error);
   
-  switch (error.type) {
-    case 'card_error':
-      return `Kart hatası: ${error.message}`;
-    case 'validation_error':
-      return `Doğrulama hatası: ${error.message}`;
-    case 'api_connection_error':
-      return 'Bağlantı hatası. Lütfen tekrar deneyin.';
-    case 'api_error':
-      return 'Sunucu hatası. Lütfen destek ekibi ile iletişime geçin.';
-    case 'authentication_error':
-      return 'Kimlik doğrulama hatası.';
-    case 'rate_limit_error':
-      return 'Çok fazla istek. Lütfen bir dakika bekleyin.';
-    default:
-      return error.message || 'Bilinmeyen bir hata oluştu.';
+  // Error type guard
+  if (error && typeof error === 'object' && 'type' in error) {
+    const stripeError = error as { type: string; message?: string };
+    
+    switch (stripeError.type) {
+      case 'card_error':
+        return `Kart hatası: ${stripeError.message || 'Kart ile ilgili bir sorun oluştu.'}`;
+      case 'validation_error':
+        return `Doğrulama hatası: ${stripeError.message || 'Girilen bilgiler geçersiz.'}`;
+      case 'api_connection_error':
+        return 'Bağlantı hatası. Lütfen tekrar deneyin.';
+      case 'api_error':
+        return 'Sunucu hatası. Lütfen destek ekibi ile iletişime geçin.';
+      case 'authentication_error':
+        return 'Kimlik doğrulama hatası.';
+      case 'rate_limit_error':
+        return 'Çok fazla istek. Lütfen bir dakika bekleyin.';
+      default:
+        return stripeError.message || 'Bilinmeyen bir hata oluştu.';
+    }
   }
+  
+  // Fallback for other error types
+  if (error instanceof Error) {
+    return error.message;
+  }
+  
+  return 'Bilinmeyen bir hata oluştu.';
 };
 
 // Stripe istemci durumunu kontrol etme yardımcısı

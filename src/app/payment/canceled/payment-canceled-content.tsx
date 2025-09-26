@@ -10,7 +10,6 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { XCircleIcon, ArrowRightIcon, HomeIcon, CreditCardIcon } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
-import { useI18n } from '@/lib/i18n';
 
 export default function PaymentCanceledContent() {
   const searchParams = useSearchParams();
