@@ -787,5 +787,132 @@ export const tr = {
   review: "İnceleme",
   draft: "Taslak",
   dashboardQuickActions: "Hızlı İşlemler",
-  dashboardUpcomingTasks: "Yaklaşan Görevler"
+  dashboardUpcomingTasks: "Yaklaşan Görevler",
+
+  // Stripe & Market Yeri
+  marketplace: 'Market Yeri',
+  products: 'Ürünler',
+  subscriptions: 'Abonelikler',
+  billing: 'Faturalandırma',
+  paymentHistory: 'Ödeme Geçmişi',
+  currentSubscription: 'Mevcut Abonelik',
+  upgradeSubscription: 'Aboneliği Yükselt',
+  downgradeSubscription: 'Aboneliği Düşür',
+  cancelSubscription: 'Aboneliği İptal Et',
+  manageSubscription: 'Aboneliği Yönet',
+  
+  // Ödeme & Checkout
+  checkout: 'Ödeme',
+  proceedToPayment: 'Ödemeye Geç',
+  payNow: 'Şimdi Öde',
+  paySecurely: 'Güvenli Öde',
+  securePayment: 'Güvenli Ödeme',
+  paymentMethod: 'Ödeme Yöntemi',
+  creditCard: 'Kredi Kartı',
+  paypal: 'PayPal',
+  bankTransfer: 'Banka Havalesi',
+  
+  // Abonelik Yönetimi
+  subscriptionActive: 'Aboneliğiniz aktif',
+  subscriptionExpired: 'Aboneliğiniz süresi doldu',
+  subscriptionCanceled: 'Aboneliğiniz iptal edildi',
+  renewSubscription: 'Aboneliği Yenile',
+  extendSubscription: 'Aboneliği Uzat',
+  subscriptionRenewsOn: 'Yenileme tarihi',
+  subscriptionExpiresOn: 'Bitiş tarihi',
+  canceledOn: 'İptal tarihi',
+  
+  // Kullanım & Limitler
+  usage: 'Kullanım',
+  usageThisMonth: 'Bu Ay Kullanım',
+  remainingCredits: 'Kalan Kredi',
+  usageLimit: 'Kullanım Limiti',
+  unlimitedUsage: 'Sınırsız Kullanım',
+  aiLayoutsUsed: 'Oluşturulan AI Layoutlar',
+  buildingScansUsed: 'Bina Taramaları',
+  apiCallsUsed: 'API Çağrıları',
+  exportsUsed: 'Dışa Aktarımlar',
+  storageUsed: 'Kullanılan Depolama',
+  
+  // Market Ürünleri
+  aiCreditsProduct: 'AI Kredileri',
+  premiumSupportProduct: 'Premium Destek',
+  customModelsProduct: 'Özel Modeller',
+  additionalStorageProduct: 'Ek Depolama',
+  productDetails: 'Ürün Detayları',
+  addToCart: 'Sepete Ekle',
+  buyNow: 'Şimdi Satın Al',
+  inStock: 'Stokta',
+  outOfStock: 'Stokta Yok',
+  
+  // Krediler & Eklentiler
+  credits100: '100 AI Layout Kredisi',
+  credits500: '500 AI Layout Kredisi', 
+  credits1000: '1000 AI Layout Kredisi',
+  premiumSupportPackage: 'Premium Destek Paketi',
+  oneMonthSupport: '1 Aylık Premium Destek',
+  threeMonthSupport: '3 Aylık Premium Destek',
+  customModelTraining: 'Özel Model Eğitimi',
+  
+  // Alışveriş Sepeti
+  shoppingCart: 'Alışveriş Sepeti',
+  cartEmpty: 'Sepetiniz boş',
+  cartTotal: 'Toplam',
+  cartSubtotal: 'Ara Toplam',
+  cartTax: 'KDV',
+  cartShipping: 'Kargo',
+  removeFromCart: 'Kaldır',
+  updateQuantity: 'Miktarı Güncelle',
+  
+  // Promosyon Kodları
+  promoCode: 'Promosyon Kodu',
+  enterPromoCode: 'Promosyon kodu girin',
+  applyPromoCode: 'Uygula',
+  promoCodeApplied: 'Promosyon kodu uygulandı',
+  invalidPromoCode: 'Geçersiz promosyon kodu',
+  promoCodeDiscount: 'İndirim',
+  
+  // Faturalandırma Döngüleri
+  monthly: 'Aylık',
+  yearly: 'Yıllık',
+  quarterly: 'Üç Aylık',
+  billingCycle: 'Faturalandırma Döngüsü',
+  saveWithYearly: 'Yıllık faturalama ile {amount} tasarruf edin',
+  mostPopularPlan: 'En Popüler',
+  
+  // Ödeme Durumu
+  paymentSuccess: 'Ödeme Başarılı',
+  paymentFailed: 'Ödeme Başarısız',
+  paymentPending: 'Ödeme Bekliyor',
+  paymentCanceled: 'Ödeme İptal Edildi',
+  paymentRefunded: 'Ödeme İade Edildi',
+  
+  // Başarı/Hata Mesajları
+  subscriptionCreated: 'Abonelik başarıyla oluşturuldu',
+  subscriptionUpdated: 'Abonelik başarıyla güncellendi',
+  subscriptionCanceledSuccess: 'Abonelik başarıyla iptal edildi',
+  paymentProcessed: 'Ödeme başarıyla işlendi',
+  errorProcessingPayment: 'Ödeme işlenirken hata oluştu',
+  errorCreatingSubscription: 'Abonelik oluşturulurken hata oluştu',
+  
+  // Özellik Erişimi
+  featureNotAvailable: 'Bu özellik mevcut planınızda bulunmamaktadır',
+  upgradeRequired: 'Yükseltme gerekli',
+  upgradeToAccess: 'Bu özelliğe erişmek için {plan} planına geçin',
+  contactSalesTeam: 'Satış Ekibi ile İletişime Geçin',
+  
+  // Müşteri Portalı
+  customerPortal: 'Müşteri Portalı',
+  managePaymentMethods: 'Ödeme Yöntemlerini Yönet',
+  downloadInvoices: 'Faturaları İndir',
+  updateBillingInfo: 'Fatura Bilgilerini Güncelle',
+  viewPaymentHistory: 'Ödeme Geçmişini Görüntüle',
+  
+  // Ücretsiz Deneme
+  freeTrialOffer: 'Ücretsiz Deneme',
+  freeTrialDays: '{days} Günlük Ücretsiz Deneme',
+  trialExpired: 'Deneme Süresi Doldu',
+  trialExpiresIn: 'Deneme süresi {days} gün sonra bitiyor',
+  startFreeTrialNow: 'Ücretsiz Denemeyi Başlat',
+  noPaymentRequired: 'Ödeme gerektirmez'
 };

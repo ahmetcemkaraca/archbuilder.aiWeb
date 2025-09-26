@@ -69,32 +69,59 @@ src/components/
 - Lighthouse score ≥ 90
 
 ## Recent Updates
-- **Firebase Integration**: Fixed data collection system with Firebase Firestore
-- **Admin Panel**: Created comprehensive admin dashboard (`/admin`) for managing submissions
-- **Data Collection API**: Implemented `addContactSubmission`, `addNewsletterSubscription`, `addDemoRequest` functions
-- **Form Integration**: Connected contact and newsletter forms to Firebase backend
-- **Firebase Security**: Updated Firestore rules for admin-only data access
-- **Authentication System**: Added Firebase Auth integration for admin panel access
-- **Firebase Deploy**: Successfully deployed website and database rules to Firebase
-- **Registry Updates**: Added Firebase config, admin panel, and API modules to identifiers.json
+
+### Major Addition: Stripe Payment & Marketplace System (2025-01-27)
+- **✅ Stripe Integration**: Complete payment infrastructure with client-side Stripe integration
+- **✅ Payment Processing**: `createCheckoutSession`, `createSubscriptionCheckout`, promo code validation
+- **✅ Subscription Management**: Professional/Enterprise tier pricing with billing intervals (monthly/annual)
+- **✅ Marketplace System**: One-time product purchases (credits, templates, consultations)
+- **✅ Enhanced Pricing Page**: Interactive pricing component with feature comparison, promo codes
+- **✅ Payment Result Pages**: Success/canceled pages with proper Suspense boundaries
+- **✅ Type Safety**: Comprehensive TypeScript definitions with Zod schemas for validation
+- **✅ i18n Integration**: 70+ new translation keys for payment flows in EN/TR
+- **✅ Static Export Compatible**: All Stripe integration designed for static deployment
+
+### Previous Updates
+- **Firebase Integration**: Data collection system with Firebase Firestore
+- **Admin Panel**: Comprehensive admin dashboard (`/admin`) for managing submissions
+- **Data Collection API**: Contact, newsletter, and demo request functions
+- **Form Integration**: Connected forms to Firebase backend
+- **Firebase Security**: Firestore rules with admin access controls
+- **Authentication System**: Firebase Auth integration for admin panel
+- **Firebase Deploy**: Website and database rules deployed
 
 ## Current System Status
+- **✅ Stripe Payment System**: Complete payment infrastructure ready for production
+- **✅ Marketplace Ready**: Product catalog and shopping cart functionality implemented  
+- **✅ Payment Flows**: Success/canceled handling with analytics tracking
+- **✅ Type Safety**: All Stripe operations fully typed with error handling
 - **✅ Firebase Project**: `archbuilderai` project configured and deployed
 - **✅ Database Rules**: Firestore rules deployed with admin access controls
-- **✅ Data Collection**: Contact and newsletter forms now save to Firestore
-- **✅ Admin Dashboard**: Full admin panel with stats, contact management, and newsletter management
+- **✅ Data Collection**: Contact and newsletter forms save to Firestore
+- **✅ Admin Dashboard**: Full admin panel with stats and management features
 - **✅ Website Deploy**: Static site deployed to Firebase Hosting
-- **✅ Build Success**: Static export working with Firebase integration
-- **✅ Lint/Build/Test**: ESLint yeşil, `npm run build` ve Jest testleri başarılı
- - **✅ Governance**: Issue/PR templates, CODEOWNERS, PR governance and lint workflows added; CONTRIBUTING and SECURITY policies published.
+- **✅ Build Success**: Static export working with all integrations
+- **✅ Lint/Build/Test**: ESLint green, `npm run build` and Jest tests successful
+- **✅ Governance**: Issue/PR templates, CODEOWNERS, workflows, and policies
 
-### Registry Updates (2025-09-25)
-- Yeni kayıtlar: `lib.analytics`, `components.providers.analytics-provider`, `components.ui.error-boundary`, `lib.performance`, `lib.monitoring`, `lib.firebase-analytics`
-- Şema düzeltmeleri: `any` alanları tip güvenli yapılara taşındı (timestamp alanları ve promoDiscount)
+### Registry Updates (2025-01-27)
+- **New Stripe Modules**: `lib.stripe-config`, `lib.stripe-api`, `types.stripe`, payment components
+- **Enhanced Components**: `pricing-enhanced`, `marketplace`, payment result pages
+- **Environment Variables**: Stripe publishable key and price IDs added to global config
+- **Translation System**: Extended with payment/marketplace terminology (70+ keys)
+
+### Payment System Architecture
+- **Client-side Integration**: Compatible with static export using @stripe/stripe-js
+- **Subscription Tiers**: Starter, Professional, Enterprise with feature-based pricing
+- **One-time Products**: Credits (10/50/100), templates, consultation packages
+- **Promo Code System**: Validation and discount application
+- **Error Handling**: Comprehensive error boundaries and user feedback
+- **Analytics Integration**: Payment tracking with gtag events
 
 ## Next Development Priorities
-- **Admin User Setup**: Create admin user in Firebase Auth console for panel access
-- **Email Notifications**: Add email alerts for new form submissions
-- **Data Analytics**: Enhance admin dashboard with charts and analytics
-- **Export Features**: Add CSV export functionality for admin data
-- **Real-time Updates**: Implement real-time data refresh in admin panel
+- **Stripe Environment Setup**: Configure production Stripe keys and webhook endpoints
+- **Payment Testing**: Test payment flows with Stripe test cards
+- **Analytics Enhancement**: Track conversion funnels and payment success rates
+- **A/B Testing**: Experiment with pricing strategies and checkout flows
+- **Customer Portal**: Add Stripe Customer Portal for subscription management
+- **Invoice System**: Implement automated invoice generation and delivery

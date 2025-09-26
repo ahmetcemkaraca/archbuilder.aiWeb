@@ -792,5 +792,132 @@ export const en = {
   review: "Review",
   draft: "Draft",
   dashboardQuickActions: "Quick Actions",
-  dashboardUpcomingTasks: "Upcoming Tasks"
+  dashboardUpcomingTasks: "Upcoming Tasks",
+
+  // Stripe & Marketplace
+  marketplace: 'Marketplace',
+  products: 'Products',
+  subscriptions: 'Subscriptions',
+  billing: 'Billing',
+  paymentHistory: 'Payment History',
+  currentSubscription: 'Current Subscription',
+  upgradeSubscription: 'Upgrade Subscription',
+  downgradeSubscription: 'Downgrade Subscription',
+  cancelSubscription: 'Cancel Subscription',
+  manageSubscription: 'Manage Subscription',
+  
+  // Payment & Checkout
+  checkout: 'Checkout',
+  proceedToPayment: 'Proceed to Payment',
+  payNow: 'Pay Now',
+  paySecurely: 'Pay Securely',
+  securePayment: 'Secure Payment',
+  paymentMethod: 'Payment Method',
+  creditCard: 'Credit Card',
+  paypal: 'PayPal',
+  bankTransfer: 'Bank Transfer',
+  
+  // Subscription Management
+  subscriptionActive: 'Your subscription is active',
+  subscriptionExpired: 'Your subscription has expired',
+  subscriptionCanceled: 'Your subscription was canceled',
+  renewSubscription: 'Renew Subscription',
+  extendSubscription: 'Extend Subscription',
+  subscriptionRenewsOn: 'Renews on',
+  subscriptionExpiresOn: 'Expires on',
+  canceledOn: 'Canceled on',
+  
+  // Usage & Limits
+  usage: 'Usage',
+  usageThisMonth: 'Usage This Month',
+  remainingCredits: 'Remaining Credits',
+  usageLimit: 'Usage Limit',
+  unlimitedUsage: 'Unlimited Usage',
+  aiLayoutsUsed: 'AI Layouts Created',
+  buildingScansUsed: 'Building Scans',
+  apiCallsUsed: 'API Calls',
+  exportsUsed: 'Exports',
+  storageUsed: 'Storage Used',
+  
+  // Marketplace Products
+  aiCreditsProduct: 'AI Credits',
+  premiumSupportProduct: 'Premium Support',
+  customModelsProduct: 'Custom Models',
+  additionalStorageProduct: 'Additional Storage',
+  productDetails: 'Product Details',
+  addToCart: 'Add to Cart',
+  buyNow: 'Buy Now',
+  inStock: 'In Stock',
+  outOfStock: 'Out of Stock',
+  
+  // Credits & Add-ons
+  credits100: '100 AI Layout Credits',
+  credits500: '500 AI Layout Credits', 
+  credits1000: '1000 AI Layout Credits',
+  premiumSupportPackage: 'Premium Support Package',
+  oneMonthSupport: '1 Month Premium Support',
+  threeMonthSupport: '3 Month Premium Support',
+  customModelTraining: 'Custom Model Training',
+  
+  // Shopping Cart
+  shoppingCart: 'Shopping Cart',
+  cartEmpty: 'Your cart is empty',
+  cartTotal: 'Total',
+  cartSubtotal: 'Subtotal',
+  cartTax: 'Tax',
+  cartShipping: 'Shipping',
+  removeFromCart: 'Remove',
+  updateQuantity: 'Update Quantity',
+  
+  // Promo Codes
+  promoCode: 'Promo Code',
+  enterPromoCode: 'Enter promo code',
+  applyPromoCode: 'Apply',
+  promoCodeApplied: 'Promo code applied',
+  invalidPromoCode: 'Invalid promo code',
+  promoCodeDiscount: 'Discount',
+  
+  // Billing Intervals
+  monthly: 'Monthly',
+  yearly: 'Yearly',
+  quarterly: 'Quarterly',
+  billingCycle: 'Billing Cycle',
+  saveWithYearly: 'Save {amount} with yearly billing',
+  mostPopularPlan: 'Most Popular',
+  
+  // Payment Status
+  paymentSuccess: 'Payment Successful',
+  paymentFailed: 'Payment Failed',
+  paymentPending: 'Payment Pending',
+  paymentCanceled: 'Payment Canceled',
+  paymentRefunded: 'Payment Refunded',
+  
+  // Success/Error Messages
+  subscriptionCreated: 'Subscription created successfully',
+  subscriptionUpdated: 'Subscription updated successfully',
+  subscriptionCanceledSuccess: 'Subscription canceled successfully',
+  paymentProcessed: 'Payment processed successfully',
+  errorProcessingPayment: 'Error processing payment',
+  errorCreatingSubscription: 'Error creating subscription',
+  
+  // Feature Access
+  featureNotAvailable: 'This feature is not available in your current plan',
+  upgradeRequired: 'Upgrade required',
+  upgradeToAccess: 'Upgrade to {plan} to access this feature',
+  contactSalesTeam: 'Contact Sales Team',
+  
+  // Customer Portal
+  customerPortal: 'Customer Portal',
+  managePaymentMethods: 'Manage Payment Methods',
+  downloadInvoices: 'Download Invoices',
+  updateBillingInfo: 'Update Billing Information',
+  viewPaymentHistory: 'View Payment History',
+  
+  // Free Trial
+  freeTrialOffer: 'Free Trial',
+  freeTrialDays: '{days} Day Free Trial',
+  trialExpired: 'Trial Expired',
+  trialExpiresIn: 'Trial expires in {days} days',
+  startFreeTrialNow: 'Start Free Trial',
+  noPaymentRequired: 'No payment required'
 };
