@@ -259,6 +259,85 @@
         "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID",
         "NEXT_PUBLIC_FIREBASE_API_KEY"
       ]
+    },
+    {
+      "name": "lib.stripe-config",
+      "exports": [
+        "getStripe", 
+        "STRIPE_CONFIG",
+        "createStripeOptions",
+        "handleStripeError"
+      ],
+      "variables": ["STRIPE_CONFIG"],
+      "configKeys": [
+        "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"
+      ]
+    },
+    {
+      "name": "lib.stripe-api",
+      "exports": [
+        "createCheckoutSession",
+        "createSubscriptionCheckout", 
+        "validatePromoCode",
+        "calculateSubscriptionPrice"
+      ],
+      "variables": [],
+      "configKeys": [
+        "NEXT_PUBLIC_STRIPE_SUBSCRIPTION_STARTER_PRICE_ID",
+        "NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PROFESSIONAL_PRICE_ID",
+        "NEXT_PUBLIC_STRIPE_SUBSCRIPTION_ENTERPRISE_PRICE_ID",
+        "NEXT_PUBLIC_SITE_URL"
+      ]
+    },
+    {
+      "name": "types.stripe",
+      "exports": [
+        "SubscriptionTier",
+        "PaymentStatus", 
+        "BillingInterval",
+        "SUBSCRIPTION_LIMITS",
+        "SUBSCRIPTION_PRICING",
+        "ONE_TIME_PRODUCTS",
+        "getSubscriptionPrice",
+        "formatCurrency",
+        "isValidSubscriptionTier"
+      ],
+      "variables": [
+        "SUBSCRIPTION_LIMITS",
+        "SUBSCRIPTION_PRICING", 
+        "ONE_TIME_PRODUCTS"
+      ],
+      "configKeys": []
+    },
+    {
+      "name": "components.sections.pricing-enhanced",
+      "exports": ["default", "PricingSection"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "components.sections.marketplace",
+      "exports": ["default", "Marketplace"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "app.payment.success.page",
+      "exports": ["default"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "app.payment.canceled.page", 
+      "exports": ["default"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "app.marketplace.page",
+      "exports": ["default"],
+      "variables": [],
+      "configKeys": []
     }
   ],
   "globalConfig": [
@@ -305,7 +384,10 @@
     "NEXT_PUBLIC_PINGDOM_API_KEY",
     "NETLIFY_SITE_ID",
     "VERCEL_PROJECT_ID",
-    "VERCEL_ORG_ID"
+    "VERCEL_ORG_ID",
+    "NEXT_PUBLIC_STRIPE_SUBSCRIPTION_STARTER_PRICE_ID",
+    "NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PROFESSIONAL_PRICE_ID", 
+    "NEXT_PUBLIC_STRIPE_SUBSCRIPTION_ENTERPRISE_PRICE_ID"
   ]
 }
 
