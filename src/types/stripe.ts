@@ -8,7 +8,7 @@ import { z } from 'zod';
 // Abonelik seviyelerini tanımla
 export enum SubscriptionTier {
   FREE = 'free',
-  PROFESSIONAL = 'professional', 
+  PROFESSIONAL = 'professional',
   ENTERPRISE = 'enterprise',
   CUSTOM = 'custom'
 }
@@ -46,6 +46,46 @@ export enum BillingInterval {
   MONTHLY = 'monthly',
   YEARLY = 'yearly',
   QUARTERLY = 'quarterly'
+}
+
+// Desteklenen para birimleri
+export enum SupportedCurrency {
+  USD = 'USD',
+  EUR = 'EUR',
+  GBP = 'GBP',
+  TRY = 'TRY',
+  CAD = 'CAD',
+  AUD = 'AUD',
+  JPY = 'JPY',
+  CHF = 'CHF',
+  SEK = 'SEK',
+  NOK = 'NOK',
+  DKK = 'DKK',
+  PLN = 'PLN',
+  CZK = 'CZK',
+  HUF = 'HUF'
+}
+
+// Vergi bölgeleri
+export enum TaxRegion {
+  US = 'US',
+  EU = 'EU',
+  UK = 'UK',
+  TR = 'TR',
+  CA = 'CA',
+  AU = 'AU',
+  JP = 'JP',
+  CH = 'CH',
+  NONE = 'NONE'
+}
+
+// Invoice durumları
+export enum InvoiceStatus {
+  DRAFT = 'draft',
+  OPEN = 'open',
+  PAID = 'paid',
+  VOID = 'void',
+  UNCOLLECTIBLE = 'uncollectible'
 }
 
 // Zod şema tanımları
@@ -123,6 +163,129 @@ export type Subscription = z.infer<typeof SubscriptionSchema>;
 export type Payment = z.infer<typeof PaymentSchema>;
 export type UsageTracking = z.infer<typeof UsageTrackingSchema>;
 
+// Multi-currency pricing interface
+export interface CurrencyPricing {
+  amount: number;
+  currency: SupportedCurrency;
+  formatted: string;
+  symbol: string;
+  symbolPosition: 'before' | 'after';
+  decimalPlaces: number;
+}
+
+// Regional pricing interface
+export interface RegionalPricing {
+  subscriptionTier: SubscriptionTier;
+  currency: SupportedCurrency;
+  region: TaxRegion;
+  regionalAdjustment: number;
+  basePricingUsd: {
+    monthly: number;
+    yearly: number;
+  };
+  regionalPricingUsd: {
+    monthly: number;
+    yearly: number;
+  };
+  convertedPricing: {
+    monthly: number;
+    yearly: number;
+  };
+  taxInfo: {
+    applicable: boolean;
+    name: string;
+    rate: number;
+    ratePercentage: number;
+    type: 'inclusive' | 'exclusive' | 'none';
+    monthlyTax: number;
+    yearlyTax: number;
+    variesByLocation?: boolean;
+  };
+  finalPricing: {
+    monthly: number;
+    yearly: number;
+    currency: SupportedCurrency;
+  };
+  savingsYearly: {
+    amount: number;
+    percentage: number;
+  };
+}
+
+// Exchange rate response
+export interface ExchangeRates {
+  baseCurrency: SupportedCurrency;
+  rates: Record<string, number>;
+  timestamp: string;
+}
+
+// Invoice interface
+export interface Invoice {
+  id: string;
+  invoiceNumber: string;
+  status: InvoiceStatus;
+  currency: SupportedCurrency;
+  amountDue: number;
+  amountPaid: number;
+  subtotal: number;
+  total: number;
+  taxAmount: number;
+  dueDate?: string;
+  paidAt?: string;
+  hostedInvoiceUrl?: string;
+  invoicePdf?: string;
+  lineItems: InvoiceLineItem[];
+}
+
+// Invoice line item interface
+export interface InvoiceLineItem {
+  id: string;
+  description: string;
+  quantity: number;
+  unitAmount: number;
+  amount: number;
+  currency: SupportedCurrency;
+}
+
+// Revenue analytics interfaces
+export interface MRRARRData {
+  targetDate: string;
+  mrr: {
+    total: number;
+    byTier: Record<string, number>;
+  };
+  arr: {
+    total: number;
+    byTier: Record<string, number>;
+  };
+  subscriptionCounts: {
+    total: number;
+    byTier: Record<string, number>;
+  };
+  arpu: number;
+}
+
+// Usage overage interface
+export interface UsageOverage {
+  userId: string;
+  overageAmounts: {
+    aiLayouts: number;
+    buildingScans: number;
+    apiCalls: number;
+  };
+  overageCharges: {
+    aiLayouts: number;
+    buildingScans: number;
+    apiCalls: number;
+    total: number;
+  };
+  forecastData?: {
+    predictedUsage: Record<string, number>;
+    daysUntilLimit: Record<string, number>;
+    recommendedAction: string;
+  };
+}
+
 // Abonelik limitleri ve özellikleri
 export const SUBSCRIPTION_LIMITS: Record<SubscriptionTier, Record<string, number | string | boolean | string[]>> = {
   [SubscriptionTier.FREE]: {
@@ -143,7 +306,7 @@ export const SUBSCRIPTION_LIMITS: Record<SubscriptionTier, Record<string, number
     apiCallsPerHour: 100,
     supportLevel: 'email',
     features: [
-      'advanced_layout', 'code_compliance', '3d_visualization', 
+      'advanced_layout', 'code_compliance', '3d_visualization',
       'export_formats', 'revit_plugin', 'team_collaboration'
     ],
     maxProjects: 25,
@@ -157,7 +320,7 @@ export const SUBSCRIPTION_LIMITS: Record<SubscriptionTier, Record<string, number
     apiCallsPerHour: 1000,
     supportLevel: 'priority',
     features: [
-      'all_features', 'custom_models', 'white_label', 
+      'all_features', 'custom_models', 'white_label',
       'sso', 'dedicated_support', 'api_access', 'webhooks'
     ],
     maxProjects: -1, // Sınırsız
@@ -229,7 +392,7 @@ export const ONE_TIME_PRODUCTS = [
   },
   {
     id: 'ai_credits_500',
-    name: 'AI Layout Credits (500)', 
+    name: 'AI Layout Credits (500)',
     description: 'Ek 500 AI layout oluşturma kredisi',
     price: 129,
     credits: 500,
@@ -248,7 +411,7 @@ export const ONE_TIME_PRODUCTS = [
 // Kullanım takibi türleri
 export const USAGE_TYPES = {
   AI_LAYOUTS: 'ai_layouts',
-  BUILDING_SCANS: 'building_scans', 
+  BUILDING_SCANS: 'building_scans',
   API_CALLS: 'api_calls',
   EXPORTS: 'exports',
   COLLABORATIONS: 'collaborations',
@@ -286,10 +449,46 @@ export const hasFeature = (tier: SubscriptionTier, feature: string): boolean => 
 export const getUsageLimit = (tier: SubscriptionTier, usageType: string): number => {
   const limits = SUBSCRIPTION_LIMITS[tier];
   if (!limits) return 0;
-  
+
   const limitKey = `${usageType}PerMonth`;
   const limit = limits[limitKey];
   return typeof limit === 'number' ? limit : 0;
+};
+
+// Currency display information
+export const CURRENCY_CONFIG: Record<SupportedCurrency, {
+  symbol: string;
+  name: string;
+  decimalPlaces: number;
+  symbolPosition: 'before' | 'after';
+}> = {
+  [SupportedCurrency.USD]: { symbol: '$', name: 'US Dollar', decimalPlaces: 2, symbolPosition: 'before' },
+  [SupportedCurrency.EUR]: { symbol: '€', name: 'Euro', decimalPlaces: 2, symbolPosition: 'before' },
+  [SupportedCurrency.GBP]: { symbol: '£', name: 'British Pound', decimalPlaces: 2, symbolPosition: 'before' },
+  [SupportedCurrency.TRY]: { symbol: '₺', name: 'Turkish Lira', decimalPlaces: 2, symbolPosition: 'after' },
+  [SupportedCurrency.CAD]: { symbol: 'C$', name: 'Canadian Dollar', decimalPlaces: 2, symbolPosition: 'before' },
+  [SupportedCurrency.AUD]: { symbol: 'A$', name: 'Australian Dollar', decimalPlaces: 2, symbolPosition: 'before' },
+  [SupportedCurrency.JPY]: { symbol: '¥', name: 'Japanese Yen', decimalPlaces: 0, symbolPosition: 'before' },
+  [SupportedCurrency.CHF]: { symbol: 'Fr', name: 'Swiss Franc', decimalPlaces: 2, symbolPosition: 'after' },
+  [SupportedCurrency.SEK]: { symbol: 'kr', name: 'Swedish Krona', decimalPlaces: 2, symbolPosition: 'after' },
+  [SupportedCurrency.NOK]: { symbol: 'kr', name: 'Norwegian Krone', decimalPlaces: 2, symbolPosition: 'after' },
+  [SupportedCurrency.DKK]: { symbol: 'kr', name: 'Danish Krone', decimalPlaces: 2, symbolPosition: 'after' },
+  [SupportedCurrency.PLN]: { symbol: 'zł', name: 'Polish Zloty', decimalPlaces: 2, symbolPosition: 'after' },
+  [SupportedCurrency.CZK]: { symbol: 'Kč', name: 'Czech Koruna', decimalPlaces: 2, symbolPosition: 'after' },
+  [SupportedCurrency.HUF]: { symbol: 'Ft', name: 'Hungarian Forint', decimalPlaces: 0, symbolPosition: 'after' }
+};
+
+// Regional pricing adjustments
+export const REGIONAL_PRICING_ADJUSTMENTS: Record<string, number> = {
+  'US': 1.0,     // Base pricing
+  'EU': 0.95,    // Slightly lower due to VAT inclusion
+  'UK': 0.98,    // Competitive with EU
+  'TR': 0.6,     // Purchasing power adjustment
+  'CA': 0.9,     // Competitive with US
+  'AU': 0.92,    // Competitive pricing
+  'JP': 1.05,    // Premium market
+  'CH': 1.1,     // Premium market
+  'GLOBAL': 0.85 // Default for other regions
 };
 
 export const calculateYearlySavings = (tier: SubscriptionTier): number => {
@@ -297,8 +496,39 @@ export const calculateYearlySavings = (tier: SubscriptionTier): number => {
   if (typeof pricing.monthlyPriceUsd !== 'number' || typeof pricing.yearlyPriceUsd !== 'number') {
     return 0;
   }
-  
+
   const yearlyFromMonthly = pricing.monthlyPriceUsd * 12;
   const actualYearly = pricing.yearlyPriceUsd;
   return Math.max(0, yearlyFromMonthly - actualYearly);
+};
+
+// Format currency amount for display
+export const formatCurrency = (amount: number, currency: SupportedCurrency): string => {
+  const config = CURRENCY_CONFIG[currency];
+  if (!config) return `${amount} ${currency}`;
+
+  const formattedAmount = config.decimalPlaces === 0
+    ? Math.round(amount).toLocaleString()
+    : amount.toFixed(config.decimalPlaces);
+
+  return config.symbolPosition === 'before'
+    ? `${config.symbol}${formattedAmount}`
+    : `${formattedAmount} ${config.symbol}`;
+};
+
+// Get currency from user's region
+export const getCurrencyByRegion = (region: TaxRegion): SupportedCurrency => {
+  const regionToCurrency: Record<TaxRegion, SupportedCurrency> = {
+    [TaxRegion.US]: SupportedCurrency.USD,
+    [TaxRegion.EU]: SupportedCurrency.EUR,
+    [TaxRegion.UK]: SupportedCurrency.GBP,
+    [TaxRegion.TR]: SupportedCurrency.TRY,
+    [TaxRegion.CA]: SupportedCurrency.CAD,
+    [TaxRegion.AU]: SupportedCurrency.AUD,
+    [TaxRegion.JP]: SupportedCurrency.JPY,
+    [TaxRegion.CH]: SupportedCurrency.CHF,
+    [TaxRegion.NONE]: SupportedCurrency.USD
+  };
+
+  return regionToCurrency[region] || SupportedCurrency.USD;
 };
