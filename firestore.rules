@@ -2,41 +2,141 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // --- ADMIN ONLY ACCESS RULES ---
-    // Sadece admin custom claim'i olan kullanıcılar erişebilir
-    
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.admin == true;
+    }
+
+    function isProjectOwner(projectId) {
+      return isAuthenticated() &&
+        exists(/databases/$(database)/documents/projects/$(projectId)) &&
+        get(/databases/$(database)/documents/projects/$(projectId)).data.userId == request.auth.uid;
+    }
+
+    function isValidUser() {
+      return isAuthenticated() &&
+        request.resource.data.keys().hasAll(['email', 'displayName', 'createdAt']) &&
+        request.resource.data.email is string &&
+        request.resource.data.displayName is string;
+    }
+
+    function isValidProject() {
+      return isAuthenticated() &&
+        request.resource.data.keys().hasAll(['userId', 'name', 'type', 'status', 'createdAt']) &&
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.name is string &&
+        request.resource.data.type in ['residential', 'commercial', 'industrial'] &&
+        request.resource.data.status in ['draft', 'processing', 'completed', 'error'];
+    }
+
+    // --- LEGACY ADMIN RULES (KEEP FOR BACKWARDS COMPATIBILITY) ---
     match /contact_submissions/{submissionId} {
       allow create: if true; // Herkes form gönderebilir
-      allow read, update: if request.auth != null && request.auth.token.admin == true;
+      allow read, update: if isAdmin();
       allow delete: if false;
     }
 
     match /newsletter_subscriptions/{subscriptionId} {
       allow create: if true; // Herkes abone olabilir
-      allow read, update: if request.auth != null && request.auth.token.admin == true;
+      allow read, update: if isAdmin();
       allow delete: if false;
     }
 
     match /signup_submissions/{submissionId} {
       allow create: if true; // Herkes kayıt olabilir
-      allow read, update: if request.auth != null && request.auth.token.admin == true;
+      allow read, update: if isAdmin();
       allow delete: if false;
     }
 
     match /demo_requests/{requestId} {
       allow create: if true; // Herkes demo talep edebilir
-      allow read, update: if request.auth != null && request.auth.token.admin == true;
+      allow read, update: if isAdmin();
       allow delete: if false;
     }
 
     match /promo_code_usage/{usageId} {
       allow create: if true; // Promo kod kullanımı kayıt edilebilir
-      allow read: if request.auth != null && request.auth.token.admin == true;
+      allow read: if isAdmin();
       allow update, delete: if false;
     }
 
-    // Diğer tüm erişimleri engelle
+    // --- NEW FIREBASE MIGRATION RULES ---
+    // Users collection
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser();
+    }
+
+    // Projects collection
+    match /projects/{projectId} {
+      allow read, write: if isAuthenticated() &&
+        (resource.data.userId == request.auth.uid ||
+         request.auth.uid in resource.data.get('collaborators', []));
+
+      allow create: if isAuthenticated() && isValidProject();
+
+      // Project subcollections
+      match /files/{fileId} {
+        allow read, write: if isProjectOwner(projectId);
+      }
+
+      match /revisions/{revisionId} {
+        allow read, write: if isProjectOwner(projectId);
+      }
+    }
+
+    // WebRTC Sessions
+    match /sessions/{sessionId} {
+      allow read, write: if isAuthenticated() &&
+        (resource.data.userId == request.auth.uid ||
+         request.auth.uid in resource.data.get('participants', []));
+
+      allow create: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid;
+    }
+
+    // AI Commands
+    match /commands/{commandId} {
+      allow read, write: if isAuthenticated() &&
+        isProjectOwner(resource.data.projectId);
+
+      allow create: if isAuthenticated() &&
+        isProjectOwner(request.resource.data.projectId);
+    }
+
+    // User subscriptions
+    match /subscriptions/{subscriptionId} {
+      allow read, write: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid;
+    }
+
+    // Analytics (read-only for users, write for functions)
+    match /analytics/{document} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Only server-side functions can write
+    }
+
+    // Public configuration (read-only)
+    match /config/{document} {
+      allow read: if true;
+      allow write: if isAdmin(); // Only admins can write config
+    }
+
+    // Webhooks and system data (functions only)
+    match /system/{document} {
+      allow read, write: if false; // Only server-side functions
+    }
+
+    // Default deny all other access
     match /{document=**} {
       allow read, write: if false;
     }

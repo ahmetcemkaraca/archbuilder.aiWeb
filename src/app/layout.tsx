@@ -1,14 +1,17 @@
+import { AnalyticsDebug, AnalyticsProvider } from "@/components/providers/analytics-provider";
+import { QueryProvider } from "@/components/providers/query-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { StructuredData } from "@/components/seo/structured-data";
+import CookieBanner from "@/components/ui/cookie-banner";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { WebRTCProvider } from "@/contexts/WebRTCContext";
+import { I18nProvider } from "@/lib/i18n";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import { AnalyticsProvider, AnalyticsDebug } from "@/components/providers/analytics-provider";
-import { I18nProvider } from "@/lib/i18n";
-import { Toaster } from "react-hot-toast";
-import { StructuredData } from "@/components/seo/structured-data";
-import { ErrorBoundary } from "@/components/ui/error-boundary";
-import CookieBanner from "@/components/ui/cookie-banner";
 import Script from "next/script";
+import { Toaster } from "react-hot-toast";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,11 +23,11 @@ export const metadata: Metadata = {
   description: "Transform your architectural projects with AI-powered automation. Integrates with Revit, processes DWG/IFC/PDF files, and creates step-by-step project workflows using advanced AI models.",
   keywords: [
     "AI architecture",
-    "Revit automation", 
+    "Revit automation",
     "architectural design",
     "BIM modeling",
     "CAD processing",
-    "building design", 
+    "building design",
     "DWG processing",
     "IFC analysis",
     "PDF regulations",
@@ -37,7 +40,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "ArchBuilder.AI Team", url: "https://archbuilder.ai" }],
   creator: "ArchBuilder.AI",
-  publisher: "ArchBuilder.AI", 
+  publisher: "ArchBuilder.AI",
   applicationName: "ArchBuilder.AI",
   generator: "Next.js",
   referrer: "origin-when-cross-origin",
@@ -57,7 +60,7 @@ export const metadata: Metadata = {
     canonical: '/',
     languages: {
       'en-US': '/en',
-      'tr-TR': '/tr', 
+      'tr-TR': '/tr',
       'ru-RU': '/ru',
       'de-DE': '/de',
       'fr-FR': '/fr',
@@ -81,7 +84,7 @@ export const metadata: Metadata = {
         type: "image/png",
       },
       {
-        url: "/images/og-logo.png", 
+        url: "/images/og-logo.png",
         width: 512,
         height: 512,
         alt: "ArchBuilder.AI Logo",
@@ -119,7 +122,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="format-detection" content="telephone=no" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
-        
+
         {/* PWA Meta Tags */}
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#2563eb" />
@@ -128,7 +131,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="ArchBuilder.AI" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="application-name" content="ArchBuilder.AI" />
-        
+
         {/* Favicon */}
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
@@ -137,12 +140,12 @@ export default function RootLayout({
         <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2563eb" />
         <meta name="msapplication-TileColor" content="#2563eb" />
         <meta name="msapplication-config" content="/icons/browserconfig.xml" />
-        
+
         {/* Performance optimizations */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        
+
         {/* Security Headers */}
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
@@ -173,28 +176,34 @@ export default function RootLayout({
 
         <ErrorBoundary>
           <I18nProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="light"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <AnalyticsProvider>
-                {children}
-                <CookieBanner />
-                <Toaster
-                  position="top-right"
-                  toastOptions={{
-                    duration: 4000,
-                    style: {
-                      background: '#363636',
-                      color: '#fff',
-                    },
-                  }}
-                />
-                <AnalyticsDebug />
-              </AnalyticsProvider>
-            </ThemeProvider>
+            <AuthProvider>
+              <QueryProvider>
+                <WebRTCProvider>
+                  <ThemeProvider
+                    attribute="class"
+                    defaultTheme="light"
+                    enableSystem
+                    disableTransitionOnChange
+                  >
+                    <AnalyticsProvider>
+                      {children}
+                      <CookieBanner />
+                      <Toaster
+                        position="top-right"
+                        toastOptions={{
+                          duration: 4000,
+                          style: {
+                            background: '#363636',
+                            color: '#fff',
+                          },
+                        }}
+                      />
+                      <AnalyticsDebug />
+                    </AnalyticsProvider>
+                  </ThemeProvider>
+                </WebRTCProvider>
+              </QueryProvider>
+            </AuthProvider>
           </I18nProvider>
         </ErrorBoundary>
       </body>

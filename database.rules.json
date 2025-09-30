@@ -1,0 +1,58 @@
+{
+    "rules": {
+        ".read": false,
+        ".write": false,
+        "signaling": {
+            "$sessionId": {
+                ".read": "auth != null && (root.child('sessions').child($sessionId).child('userId').val() == auth.uid || root.child('sessions').child($sessionId).child('participants').child(auth.uid).exists())",
+                ".write": "auth != null && (root.child('sessions').child($sessionId).child('userId').val() == auth.uid || root.child('sessions').child($sessionId).child('participants').child(auth.uid).exists())",
+                ".validate": "newData.hasChildren(['type', 'data', 'timestamp', 'sender'])",
+                "offers": {
+                    "$timestamp": {
+                        ".validate": "newData.hasChildren(['type', 'sdp', 'sender']) && newData.child('type').val() == 'offer'"
+                    }
+                },
+                "answers": {
+                    "$timestamp": {
+                        ".validate": "newData.hasChildren(['type', 'sdp', 'sender']) && newData.child('type').val() == 'answer'"
+                    }
+                },
+                "iceCandidates": {
+                    "$timestamp": {
+                        ".validate": "newData.hasChildren(['candidate', 'sender'])"
+                    }
+                }
+            }
+        },
+        "sessions": {
+            "$sessionId": {
+                ".read": "auth != null && (data.child('userId').val() == auth.uid || data.child('participants').child(auth.uid).exists())",
+                ".write": "auth != null && (data.child('userId').val() == auth.uid || (!data.exists() && newData.child('userId').val() == auth.uid))",
+                ".validate": "newData.hasChildren(['userId', 'projectId', 'status', 'createdAt'])",
+                "status": {
+                    ".validate": "newData.isString() && (newData.val() == 'pending' || newData.val() == 'active' || newData.val() == 'ended')"
+                },
+                "participants": {
+                    "$userId": {
+                        ".validate": "newData.isBoolean()"
+                    }
+                }
+            }
+        },
+        "presence": {
+            "$sessionId": {
+                "$userId": {
+                    ".read": "auth != null && (auth.uid == $userId || root.child('sessions').child($sessionId).child('userId').val() == auth.uid)",
+                    ".write": "auth != null && auth.uid == $userId",
+                    ".validate": "newData.hasChildren(['status', 'lastSeen'])",
+                    "status": {
+                        ".validate": "newData.isString() && (newData.val() == 'online' || newData.val() == 'offline')"
+                    },
+                    "lastSeen": {
+                        ".validate": "newData.isNumber()"
+                    }
+                }
+            }
+        }
+    }
+}

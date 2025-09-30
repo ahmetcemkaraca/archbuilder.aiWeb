@@ -6,46 +6,48 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  trailingSlash: true,
-  distDir: 'out',
-  generateEtags: false,
   poweredByHeader: false,
   compress: true,
-  
-  // Image optimization for static export
+  generateEtags: true,
+
   images: {
-    unoptimized: true,
     formats: ['image/webp', 'image/avif'],
     loader: 'custom',
     loaderFile: './src/lib/image-loader.ts',
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    domains: ['localhost', 'archbuilder.ai', 'cdn.archbuilder.ai'],
+    domains: [
+      'localhost',
+      'archbuilder.ai',
+      'cdn.archbuilder.ai',
+      'archbuilderai.web.app',
+      'archbuilderai.firebaseapp.com',
+    ],
   },
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-    NEXT_PUBLIC_DOMAIN: 'archbuilder.app',
+    NEXT_PUBLIC_DOMAIN: process.env.NEXT_PUBLIC_DOMAIN || 'https://archbuilder.ai',
+    NEXT_PUBLIC_FIREBASE_PROJECT_ID: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
-  
-  // Performance optimizations
+
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
     styledComponents: true,
   },
-  
-  // Experimental optimizations for static export
+
   experimental: {
     gzipSize: true,
+    serverComponentsExternalPackages: ['firebase-admin'],
   },
-  
+
   // Bundle optimizations
   webpack: (config, { isServer, dev }) => {
     // Client-side optimizations
@@ -59,7 +61,7 @@ const nextConfig: NextConfig = {
         tls: false,
       };
     }
-    
+
     // Production optimizations
     if (!dev) {
       // Tree shaking optimizations
@@ -68,15 +70,14 @@ const nextConfig: NextConfig = {
         usedExports: true,
         sideEffects: false,
       };
-      
+
       // Module concatenation for better compression
       config.optimization.concatenateModules = true;
     }
-    
+
     return config;
   },
-  
-  // Headers (for hosting provider reference - not applied in static export)
+
   async headers() {
     return [
       // Security headers for all pages
@@ -110,7 +111,7 @@ const nextConfig: NextConfig = {
         source: '/_next/static/(.*)',
         headers: [
           {
-            key: 'Cache-Control', 
+            key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
           },
         ],

@@ -3,25 +3,103 @@ rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
 
-    // --- KULLANICI PROFİL FOTOĞRAFLARI ---
-    // Kullanıcılar sadece kendi klasörlerine (kullanıcı ID'leri ile adlandırılmış) dosya yükleyebilir.
-    // Herkes profil fotoğraflarını okuyabilir (genellikle herkese açık olurlar).
-    // Kullanıcılar sadece kendi profil fotoğraflarını silebilir.
-    match /user_avatars/{userId}/{fileName} {
-      allow read: if true;
-      allow write: if request.auth != null && request.auth.uid == userId;
-      allow delete: if request.auth != null && request.auth.uid == userId;
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
     }
 
-    // --- GENEL İÇERİK DOSYALARI (ÖRNEK) ---
-    // 'public_content' gibi bir klasördeki dosyaların herkes tarafından okunmasına izin verilebilir.
-    // Yazma işlemi ise sadece yöneticilere (admin) özel kılınabilir.
-    // match /public_content/{allPaths=**} {
-    //   allow read: if true;
-    //   allow write: if request.auth != null && request.auth.token.admin == true;
-    // }
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
 
-    // Yukarıda belirtilenler dışındaki tüm erişimleri engelle.
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.admin == true;
+    }
+
+    function isProjectOwner(projectId) {
+      return isAuthenticated() &&
+        exists(/databases/$(database)/documents/projects/$(projectId)) &&
+        get(/databases/$(database)/documents/projects/$(projectId)).data.userId == request.auth.uid;
+    }
+
+    function isValidFileType() {
+      return resource.contentType.matches('image/.*') ||
+             resource.contentType.matches('application/pdf') ||
+             resource.contentType.matches('application/.*dwg.*') ||
+             resource.contentType.matches('application/.*ifc.*') ||
+             resource.contentType.matches('application/.*rvt.*') ||
+             resource.contentType.matches('application/zip') ||
+             resource.contentType.matches('application/json');
+    }
+
+    function isValidFileSize() {
+      return resource.size <= 500 * 1024 * 1024; // 500MB limit
+    }
+
+    // --- LEGACY RULES (KEEP FOR BACKWARDS COMPATIBILITY) ---
+    match /user_avatars/{userId}/{fileName} {
+      allow read: if true;
+      allow write: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
+    // --- NEW FIREBASE MIGRATION RULES ---
+    // Public assets (website images, logos, etc.)
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // User profile images (new path)
+    match /users/{userId}/profile/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) &&
+        isValidFileType() &&
+        resource.size <= 5 * 1024 * 1024; // 5MB limit for profile images
+    }
+
+    // User uploads (temporary storage)
+    match /uploads/{userId}/{fileName} {
+      allow read, write: if isOwner(userId) &&
+        isValidFileType() &&
+        isValidFileSize();
+      allow delete: if isOwner(userId);
+    }
+
+    // Project files
+    match /projects/{projectId}/{allPaths=**} {
+      allow read, write: if isAuthenticated() && isProjectOwner(projectId) &&
+        isValidFileType() &&
+        isValidFileSize();
+      allow delete: if isAuthenticated() && isProjectOwner(projectId);
+    }
+
+    // Project results and exports
+    match /results/{projectId}/{allPaths=**} {
+      allow read: if isAuthenticated() && isProjectOwner(projectId);
+      allow write: if false; // Only server-side functions can write results
+      allow delete: if isAuthenticated() && isProjectOwner(projectId);
+    }
+
+    // System backups and logs (admin only)
+    match /system/{allPaths=**} {
+      allow read, write: if isAdmin();
+    }
+
+    // Temporary files (auto-cleanup)
+    match /temp/{allPaths=**} {
+      allow read, write: if isAuthenticated() &&
+        isValidFileType() &&
+        resource.size <= 100 * 1024 * 1024; // 100MB limit for temp files
+    }
+
+    // AI processing cache
+    match /cache/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Only server-side functions can write cache
+    }
+
+    // Default deny all other access
     match /{allPaths=**} {
       allow read, write: if false;
     }
