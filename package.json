@@ -30,7 +30,7 @@
     "@hookform/resolvers": "^3.3.2",
     "@tanstack/react-query": "^5.62.8",
     "@tanstack/react-query-devtools": "^5.62.8",
-    "@stripe/stripe-js": "^2.1.11",
+    "@stripe/stripe-js": "^7.9.0",
     "axios": "^1.6.0",
     "clsx": "^2.1.1",
     "firebase": "^12.3.0",
